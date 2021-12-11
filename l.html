@@ -4,10 +4,77 @@
 </head>
 <body>
 	<pre>
-/(ab)uses eval, arithmetic primitives are + - * %
-P:{.";"/" "\x}
+/l.k, an interpreter for a limited subset of lisp
+/arithmetic primitives are + - * %
+
+P:.";"/" "\
 E:{$[x~*x;x;(o@*x)/o'1_x]}
 /E P"(* (+ 3 2) 4)"
+
+/context: shadow made a simple lisp in haskael, and told me to make one in K
+/{-# LANGUAGE LambdaCase #-}
+/
+/module Interpreter where
+/
+/import AST
+/
+/evalOp :: Operator -> Int -> Int -> Int
+/evalOp = \case
+/  Plus -> (+)
+/  Minus -> (-)
+/  Times -> (*)
+/  Divided -> div
+/
+/eval :: Expr -> Int
+/eval (Number n) = n
+/eval (Call op args) = foldl1 (evalOp op) (eval <$> args)
+/
+/module Parser where
+/
+/import AST
+/import Control.Applicative
+/import Data.Functor
+/import Text.Parsec (choice, ParseError, parse)
+/import Text.Parsec.Char
+/import Text.Parsec.Combinator (many1)
+/import Text.Parsec.String (Parser)
+/
+/lexeme :: Parser a -> Parser a
+/lexeme = (<* spaces)
+/
+/operator :: Parser Operator 
+/operator = choice [
+/  char '+' $> Plus,
+/  char '-' $> Minus,
+/  char '*' $> Times,
+/  char '/' $> Divided ]
+/
+/number :: Parser Expr
+/number = Number . read <$> many1 digit
+/
+/call :: Parser Expr
+/call = do
+/  lexeme $ char '('
+/  op <- lexeme operator
+/  args <- many1 $ lexeme expr
+/  lexeme $ char ')' 
+/  pure $ Call op args
+/
+/expr :: Parser Expr
+/expr = number <|> call
+/
+/parseExpr :: String -> Either ParseError Expr
+/parseExpr = parse expr ""
+
+/I think we can all see how much superior K is
+/"bUT yOU USeD evAL" suck it up no one said I couldn't
+
+/the topic of just compiling to K came up
+/what I made isn't a proper compiler to K, so here is one
+
+PC:P@,/{$[+/x="+-*%";"\"",x,"\"";x]}'
+C: {$[x~*x;$x;(o@*x),"[",(";"/o'1_x),"]"]}
+/C PC"(* (+ 3 2) 4)"
 	</pre>
 </body>
 

@@ -1,9 +1,3 @@
-<!DOCTYPE html>
-<head>
-  <title>Garklein's stuff</title>
-</head>
-<body>
-  <pre>
 /l.k, an interpreter for a limited subset of lisp
 /arithmetic primitives are + - * %
 
@@ -18,16 +12,16 @@ E:{$[x~*x;x;(o@*x)/o'1_x]}
 /
 /import AST
 /
-/evalOp :: Operator -&gt; Int -> Int -> Int
+/evalOp :: Operator -> Int -> Int -> Int
 /evalOp = \case
-/  Plus -&gt; (+)
-/  Minus -&gt; (-)
-/  Times -&gt; (*)
-/  Divided -&gt; div
+/  Plus -> (+)
+/  Minus -> (-)
+/  Times -> (*)
+/  Divided -> div
 /
-/eval :: Expr -&gt; Int
+/eval :: Expr -> Int
 /eval (Number n) = n
-/eval (Call op args) = foldl1 (evalOp op) (eval &lt;$&gt; args)
+/eval (Call op args) = foldl1 (evalOp op) (eval <$> args)
 /
 /module Parser where
 /
@@ -39,31 +33,31 @@ E:{$[x~*x;x;(o@*x)/o'1_x]}
 /import Text.Parsec.Combinator (many1)
 /import Text.Parsec.String (Parser)
 /
-/lexeme :: Parser a -&gt; Parser a
-/lexeme = (&lt;* spaces)
+/lexeme :: Parser a -> Parser a
+/lexeme = (<* spaces)
 /
 /operator :: Parser Operator 
 /operator = choice [
-/  char '+' $&gt; Plus,
-/  char '-' $&gt; Minus,
-/  char '*' $&gt; Times,
-/  char '/' $&gt; Divided ]
+/  char '+' $> Plus,
+/  char '-' $> Minus,
+/  char '*' $> Times,
+/  char '/' $> Divided ]
 /
 /number :: Parser Expr
-/number = Number . read &lt;$&gt; many1 digit
+/number = Number . read <$> many1 digit
 /
 /call :: Parser Expr
 /call = do
 /  lexeme $ char '('
-/  op &lt;- lexeme operator
-/  args &lt;- many1 $ lexeme expr
+/  op <- lexeme operator
+/  args <- many1 $ lexeme expr
 /  lexeme $ char ')' 
 /  pure $ Call op args
 /
 /expr :: Parser Expr
-/expr = number &lt;|&gt; call
+/expr = number <|> call
 /
-/parseExpr :: String -&gt; Either ParseError Expr
+/parseExpr :: String -> Either ParseError Expr
 /parseExpr = parse expr ""
 
 /I think we can all see how much superior K is
@@ -75,5 +69,3 @@ E:{$[x~*x;x;(o@*x)/o'1_x]}
 PC:P@,/{$[+/x="+-*%";"\"",x,"\"";x]}'
 C: {$[x~*x;$x;(*x),"[",(";"/o'1_x),"]"]}
 /C PC"(* (+ 3 2) 4)"
-  </pre>
-</body>

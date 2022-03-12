@@ -1,0 +1,15 @@
+Garklein's website
+
+fun code:
+ `l<golfed lisp>`l<./jslisp.html>`l
+ `l<ski combinator madness>`l<./ski.html>`l
+ `l<fact.k>`l<./fact.html>`l
+ `l<l.k>`l<./l.html>`l (dumb lisp)
+
+random stuff:
+ `l<about adding new K primitives>`l<./strength.html>`l
+
+`l<loads o' links>`l<./links.html>`l
+
+`l<snobol DSL that generates html for this site>`l<./wm.txt>`l `l<rationale>`l<./rationale.jpg>`l
+`l<source>`l<https://github.com/Garklein/garklein.github.io>`l

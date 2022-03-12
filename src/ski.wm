@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<head>
-  <title>Garklein's stuff</title>
-</head>
-<body>
-  <pre>
 who doesn't love combinatory logic?
 here are two implementations of the SKI calculus, as a repl (or at least the REP functions)
 first, in js:
 
- R=s=&gt;eval(`[${[...s].map(x=&gt;x=="("?"[":x==")"?"]":`"${x}"`)}]`)
- A=([t,x,y],n)=&gt;t=="I"?n:t=="K"&&x?x:t=="S"&&y?A(A(x,n),A(y,n)):[t,x,y,n].filter(x=&gt;x)
- E=t=&gt;t.map?t.map(E).reduce(A):[t]
- P=t=&gt;t.map(x=&gt;x[1]?`(${P(x)})`:x[0]).join``
- //while(s=require("readline-sync").question("&gt; "))console.log(P(E(R(s))))
+ R=s=>eval(`[${[...s].map(x=>x=="("?"[":x==")"?"]":`"${x}"`)}]`)
+ A=([t,x,y],n)=>t=="I"?n:t=="K"&&x?x:t=="S"&&y?A(A(x,n),A(y,n)):[t,x,y,n].filter(x=>x)
+ E=t=>t.map?t.map(E).reduce(A):[t]
+ P=t=>t.map(x=>x[1]?`(${P(x)})`:x[0]).join``
+ //while(s=require("readline-sync").question("> "))console.log(P(E(R(s))))
 
 A applies a function to an argument
 
@@ -23,5 +17,3 @@ so, here's a K version:
  A:{$["I"=*x;y;("K"=*x)&2=#x;*x;("S"=*x)&3=#x;o[o[x@1;y];o[x@2;y]];x,,y]}
  E:{$[@x;,x;A/o'x]}
  P:,/{$[1=#x;*x;"(",o x,")"]}'
-  </pre>
-</body>

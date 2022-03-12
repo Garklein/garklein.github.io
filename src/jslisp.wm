@@ -1,0 +1,11 @@
+a tiny lisp I made for fun
+supports variables (with the `set` function), numbers, addition, and lambdas
+
+ P=s=>eval(`[${s.replace(/[^()\s]+|\S/g,s=>s=="("?"[":s==")"?"],":`"${s}",`)}]`)[0];
+ L=(s,e)=>e.s[s]||e.p&&L(s,e.p);
+ E=(s,e)=>s.map
+  ?(s[0]==="set"?e.s[s[1]]=E(s[2],e)
+   :s[0]==="lambda"?(...a)=>{f={p:e,s:{}};s[1].map((x,i)=>f.s[x]=a[i]);return E(s[2],f)}
+   :E(s[0],e)(...s.slice(1).map(x=>E(x,e))))
+  :s==="+"?(...a)=>a.reduce((x,y)=>x+y):!isNaN(s)?+s:L(s,e);
+ rls=require("readline-sync");e={s:{}};while(s=rls.question("> "))console.log(E(P(s),e));

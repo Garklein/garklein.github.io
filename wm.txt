@@ -1,0 +1,19 @@
+     output = "<!DOCTYPE html>"
+     output = "<head>"
+     output = "  <title>Garklein's stuff</title>"
+     output = "</head>"
+     output = "<body>"
+     output = "  <pre>"
+
+loop line   = input :f(done)
+
+gt   line "<" = "&lt;" :s(gt)
+lt   line ">" = "&gt;" :s(lt)
+
+link line "`l&lt;" arb . name "&gt;`l&lt;" arb . link "&gt;`l" = "<a href='" link "'>" name "</a>" :s(link)
+
+     output = line :(loop)
+
+done output = "  </pre>"
+     output = "</body>"
+end

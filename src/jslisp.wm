@@ -11,3 +11,4 @@ E=(s,e)=>s.map
  :s==="+"?(...a)=>a.reduce((x,y)=>x+y):!isNaN(s)?+s:L(s,e);
 rls=require("readline-sync");e={s:{}};while(s=rls.question("> "))console.log(E(P(s),e));
 ```
+

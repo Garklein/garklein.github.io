@@ -24,5 +24,6 @@ E=(s,e)=&gt;s.map
   :E(s[0],e)(...s.slice(1).map(x=&gt;E(x,e))))
  :s==="+"?(...a)=&gt;a.reduce((x,y)=&gt;x+y):!isNaN(s)?+s:L(s,e);
 rls=require("readline-sync");e={s:{}};while(s=rls.question("&gt; "))console.log(E(P(s),e));
+</div>
   </pre>
 </body>

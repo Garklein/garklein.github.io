@@ -1,19 +1,37 @@
      output = "<!DOCTYPE html>"
      output = "<head>"
      output = "  <title>Garklein's stuff</title>"
+     output = "  <style>"
+     output = "div {"
+     output = "  padding-left: 3px;"
+     output = "}"
+     output = ".code {"
+     output = "  background-color: lightgray;"
+     output = "  color: darkslateblue;"
+     output = "}"
+     output = "  </style>"
      output = "</head>"
      output = "<body>"
      output = "  <pre>"
 
-loop line   = input :f(done)
+     nl = "*~3|a."
+     file = input
 
-gt   line "<" = "&lt;" :s(gt)
-lt   line ">" = "&gt;" :s(lt)
+in   file = file nl input :s(in)
+     file = file nl
 
-link line "`l&lt;" arb . name "&gt;`l&lt;" arb . link "&gt;`l" = "<a href='" link "'>" name "</a>" :s(link)
+gt   file "<" = "&lt;" :s(gt)
+lt   file ">" = "&gt;" :s(lt)
 
-     output = line :(loop)
+link file "`l&lt;" arb . name "&gt;`l&lt;" arb . link "&gt;`l" = "<a href='" link "'>" name "</a>" :s(link)
 
-done output = "  </pre>"
+cd1  file "`c&lt;" = "<span class='code'>" :s(cd1)
+cd2  file "&gt;`c" = "</span>" :s(cd2)
+
+code file "```" nl arb . c "```" nl = "<div class='code'>" c "</div>" :s(code)
+
+out  file arb . output nl =  :s(out)
+
+     output = "  </pre>"
      output = "</body>"
 end

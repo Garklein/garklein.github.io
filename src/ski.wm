@@ -2,18 +2,90 @@ who doesn't love combinatory logic?
 here are two implementations of the SKI calculus, as a repl (or at least the REP functions)
 first, in js:
 
- R=s=>eval(`[${[...s].map(x=>x=="("?"[":x==")"?"]":`"${x}"`)}]`)
- A=([t,x,y],n)=>t=="I"?n:t=="K"&&x?x:t=="S"&&y?A(A(x,n),A(y,n)):[t,x,y,n].filter(x=>x)
- E=t=>t.map?t.map(E).reduce(A):[t]
- P=t=>t.map(x=>x[1]?`(${P(x)})`:x[0]).join``
- //while(s=require("readline-sync").question("> "))console.log(P(E(R(s))))
+```
+R=s=>eval(`[${[...s].map(x=>x=="("?"[":x==")"?"]":`"${x}"`)}]`)
+A=([t,x,y],n)=>t=="I"?n:t=="K"&&x?x:t=="S"&&y?A(A(x,n),A(y,n)):[t,x,y,n].filter(x=>x)
+E=t=>t.map?t.map(E).reduce(A):[t]
+P=t=>t.map(x=>x[1]?`(${P(x)})`:x[0]).join``
+//while(s=require("readline-sync").question("> "))console.log(P(E(R(s))))
+```
 
-A applies a function to an argument
+`c<A>`c applies a function to an argument
 
-now, this wasn't short enough to fit in the 180 discord about me
+now, this wasn't short enough to fit in the 180 character discord about me
 so, here's a K version:
 
- R:{.,/"(",({$[+/x="()";x;"\"",x,"\";"]}'$[@x;,x;x]),")"}
- A:{$["I"=*x;y;("K"=*x)&2=#x;*x;("S"=*x)&3=#x;o[o[x@1;y];o[x@2;y]];x,,y]}
- E:{$[@x;,x;A/o'x]}
- P:,/{$[1=#x;*x;"(",o x,")"]}'
+```
+R:{.,/"(",({$[+/x="()";x;"\"",x,"\";"]}'$[@x;,x;x]),")"}
+A:{$["I"=*x;y;("K"=*x)&2=#x;*x;("S"=*x)&3=#x;o[o[x@1;y];o[x@2;y]];x,,y]}
+E:{$[@x;,x;A/o'x]}
+P:,/{$[1=#x;*x;"(",o x,")"]}'
+```
+
+and to round it off, here's a haskell one:
+
+```
+module Main where
+
+import System.IO
+import Text.Megaparsec
+import Data.Void (Void)
+import Text.Megaparsec.Char
+import qualified Text.Megaparsec.Char.Lexer as L
+
+data F = C Char [F] -- function name, then params
+data P = One F | Mult [P] -- either a function, or multiple (from parsing inside parens)
+
+type Parser = Parsec Void String
+
+lexeme :: Parser a -> Parser a
+lexeme = L.lexeme space
+
+fun :: Parser P
+fun = do
+	f <- lexeme letterChar
+	pure $ One $ C f []
+
+group :: Parser P
+group = Mult <$> between (lexeme $ char '(') (lexeme $ char ')') exprSeq
+
+expr :: Parser P
+expr = fun <|> group
+
+exprSeq :: Parser [P]
+exprSeq = some expr
+
+skiParser :: String -> Either String [P]
+skiParser s = case parse (between space eof exprSeq) "" s of
+	Left err -> Left $ errorBundlePretty err
+	Right p  -> Right p
+
+apply :: F -> F -> F
+apply (C 'i' [])     x = x
+apply (C 'k' [a])    _ = a
+apply (C 's' [a, b]) c = apply (apply a c) (apply b c)
+apply (C f   a)      x = C f (a ++ [x])
+
+eval :: [P] -> F
+eval p = foldl apply (C 'i' []) (fmap eval' p)
+	where eval' (One f)   = f
+	      eval' (Mult fs) = eval fs
+
+instance Show F where
+	show (C f args) = f : foldMap show' args
+		where show' (C f []) = [f]
+		      show' c        = "(" ++ show c ++ ")"
+
+exec :: String -> String
+exec s = either id (show . eval) $ skiParser s
+
+main :: IO ()
+main = do
+	putStr "> "
+	hFlush stdout
+	getLine >>= (putStrLn . exec)
+	main
+```
+
+(with an actual io repl)
+ah, don't you just love haskell

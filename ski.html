@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <head>
   <title>Garklein's stuff</title>
+  <style>
+div {
+  padding-left: 3px;
+}
+.code {
+  background-color: lightgray;
+  color: darkslateblue;
+}
+  </style>
 </head>
 <body>
   <pre>
@@ -8,20 +17,86 @@ who doesn't love combinatory logic?
 here are two implementations of the SKI calculus, as a repl (or at least the REP functions)
 first, in js:
 
- R=s=&gt;eval(`[${[...s].map(x=&gt;x=="("?"[":x==")"?"]":`"${x}"`)}]`)
- A=([t,x,y],n)=&gt;t=="I"?n:t=="K"&&x?x:t=="S"&&y?A(A(x,n),A(y,n)):[t,x,y,n].filter(x=&gt;x)
- E=t=&gt;t.map?t.map(E).reduce(A):[t]
- P=t=&gt;t.map(x=&gt;x[1]?`(${P(x)})`:x[0]).join``
- //while(s=require("readline-sync").question("&gt; "))console.log(P(E(R(s))))
+<div class='code'>R=s=&gt;eval(`[${[...s].map(x=&gt;x=="("?"[":x==")"?"]":`"${x}"`)}]`)
+A=([t,x,y],n)=&gt;t=="I"?n:t=="K"&&x?x:t=="S"&&y?A(A(x,n),A(y,n)):[t,x,y,n].filter(x=&gt;x)
+E=t=&gt;t.map?t.map(E).reduce(A):[t]
+P=t=&gt;t.map(x=&gt;x[1]?`(${P(x)})`:x[0]).join``
+//while(s=require("readline-sync").question("&gt; "))console.log(P(E(R(s))))
+</div>
+<span class='code'>A</span> applies a function to an argument
 
-A applies a function to an argument
-
-now, this wasn't short enough to fit in the 180 discord about me
+now, this wasn't short enough to fit in the 180 character discord about me
 so, here's a K version:
 
- R:{.,/"(",({$[+/x="()";x;"\"",x,"\";"]}'$[@x;,x;x]),")"}
- A:{$["I"=*x;y;("K"=*x)&2=#x;*x;("S"=*x)&3=#x;o[o[x@1;y];o[x@2;y]];x,,y]}
- E:{$[@x;,x;A/o'x]}
- P:,/{$[1=#x;*x;"(",o x,")"]}'
+<div class='code'>R:{.,/"(",({$[+/x="()";x;"\"",x,"\";"]}'$[@x;,x;x]),")"}
+A:{$["I"=*x;y;("K"=*x)&2=#x;*x;("S"=*x)&3=#x;o[o[x@1;y];o[x@2;y]];x,,y]}
+E:{$[@x;,x;A/o'x]}
+P:,/{$[1=#x;*x;"(",o x,")"]}'
+</div>
+and to round it off, here's a haskell one:
+
+<div class='code'>module Main where
+
+import System.IO
+import Text.Megaparsec
+import Data.Void (Void)
+import Text.Megaparsec.Char
+import qualified Text.Megaparsec.Char.Lexer as L
+
+data F = C Char [F] -- function name, then params
+data P = One F | Mult [P] -- either a function, or multiple (from parsing inside parens)
+
+type Parser = Parsec Void String
+
+lexeme :: Parser a -&gt; Parser a
+lexeme = L.lexeme space
+
+fun :: Parser P
+fun = do
+	f &lt;- lexeme letterChar
+	pure $ One $ C f []
+
+group :: Parser P
+group = Mult &lt;$&gt; between (lexeme $ char '(') (lexeme $ char ')') exprSeq
+
+expr :: Parser P
+expr = fun &lt;|&gt; group
+
+exprSeq :: Parser [P]
+exprSeq = some expr
+
+skiParser :: String -&gt; Either String [P]
+skiParser s = case parse (between space eof exprSeq) "" s of
+	Left err -&gt; Left $ errorBundlePretty err
+	Right p  -&gt; Right p
+
+apply :: F -&gt; F -&gt; F
+apply (C 'i' [])     x = x
+apply (C 'k' [a])    _ = a
+apply (C 's' [a, b]) c = apply (apply a c) (apply b c)
+apply (C f   a)      x = C f (a ++ [x])
+
+eval :: [P] -&gt; F
+eval p = foldl apply (C 'i' []) (fmap eval' p)
+	where eval' (One f)   = f
+	      eval' (Mult fs) = eval fs
+
+instance Show F where
+	show (C f args) = f : foldMap show' args
+		where show' (C f []) = [f]
+		      show' c        = "(" ++ show c ++ ")"
+
+exec :: String -&gt; String
+exec s = either id (show . eval) $ skiParser s
+
+main :: IO ()
+main = do
+	putStr "&gt; "
+	hFlush stdout
+	getLine &gt;&gt;= (putStrLn . exec)
+	main
+</div>
+(with an actual io repl)
+ah, don't you just love haskell
   </pre>
 </body>

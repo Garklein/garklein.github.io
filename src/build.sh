@@ -1,4 +1,5 @@
-files="index links fact strength jslisp ski categories"
+files="index links fact strength jslisp ski l families"
+rm ../*.html
 for f in $files
 do
 	snobol4 ../wm.sno < $f.wm > ../$f.html

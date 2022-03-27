@@ -1,6 +1,15 @@
 <!DOCTYPE html>
 <head>
   <title>Garklein's stuff</title>
+  <style>
+div {
+  padding-left: 3px;
+}
+.code {
+  background-color: lightgray;
+  color: darkslateblue;
+}
+  </style>
 </head>
 <body>
   <pre>
@@ -18,7 +27,7 @@ E:{$[x~*x;x;(o@*x)/o'1_x]}
 /
 /import AST
 /
-/evalOp :: Operator -&gt; Int -> Int -> Int
+/evalOp :: Operator -&gt; Int -&gt; Int -&gt; Int
 /evalOp = \case
 /  Plus -&gt; (+)
 /  Minus -&gt; (-)

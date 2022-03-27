@@ -1,0 +1,14 @@
+language categories:
+
+array languages (APL, Nial, K, SETL, etc.)
+logic languages (Prolog)
+smalltalks
+lisps
+stack based/concatenative (Forth, Joy, Factor etc.)
+functional(esque)
+ - impure (OCaml etc.)
+ - pure (Haskell etc.)
+ - dependent types/theorem provers (Idris, Coq etc.)
+C/Algol style (C, Java, JS, Python, Fortran etc.)
+string manipulation (SNOBOL, TRAC, Icon etc.)
+asms

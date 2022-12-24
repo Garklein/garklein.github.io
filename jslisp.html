@@ -14,7 +14,8 @@ div {
 <body>
   <pre>
 a tiny lisp I made for fun
-supports variables (with the <span class='code'>set</span> function), numbers, addition, and lambdas (sorry, no quotes)
+supports variables (with the <span class='code'>set</span> function), numbers, addition, and lambdas
+probably will anger lisp purists if I call it a lisp because no quotes, eval/apply, or any of that truly lispy stuff
 
 <div class='code'>P=s=&gt;eval(`[${s.replace(/[^()\s]+|\S/g,s=&gt;s=="("?"[":s==")"?"],":`"${s}",`)}]`)[0];
 L=(s,e)=&gt;e.s[s]||e.p&&L(s,e.p);

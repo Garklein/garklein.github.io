@@ -1,6 +1,5 @@
-files="index links fact strength jslisp ski l families"
 rm ../*.html
-for f in $files
+for f in $(ls | sed /b\.sh/d | cut -d . -f 1)
 do
 	snobol4 ../wm.sno < $f.wm > ../$f.html
 done

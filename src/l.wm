@@ -1,3 +1,4 @@
+```
 /l.k, a limited sexpr interpreter
 /arithmetic primitives are + - * %
 
@@ -69,3 +70,4 @@ E:{$[x~*x;x;(o@*x)/o'1_x]}
 PC:P@,/{$[+/x="+-*%";"\"",x,"\"";x]}'
 C: {$[x~*x;$x;(*x),"[",(";"/o'1_x),"]"]}
 /C PC"(* (+ 3 2) 4)"
+```

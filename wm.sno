@@ -1,5 +1,5 @@
 * plain text stays as it is
-* `l<name>`l<url>`l is a link
+* <name>`l<url> is a link
 * `c<x>`c for `x` as inline code
 * ``` is multi-line code
 * `t<id>`t for a textarea
@@ -39,7 +39,7 @@ in   file = file nl input :s(in)
 gt   file "<" = "&lt;" :s(gt)
 lt   file ">" = "&gt;" :s(lt)
 
-link file "`l&lt;" arb . name "&gt;`l&lt;" arb . link "&gt;`l" = "<a href='" link "'>" name "</a>" :s(link)
+link file "&lt;" arb . name "&gt;`l&lt;" arb . link "&gt;" = "<a href='" link "'>" name "</a>" :s(link)
 
 inp  file "`t&lt;" arb . name "&gt;`t" = "<textarea id='" name "'></textarea>" :s(inp)
 div  file "`d&lt;" arb . name "&gt;`d" = "<div id='"      name "'></div>"      :s(div)

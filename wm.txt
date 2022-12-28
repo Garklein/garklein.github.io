@@ -2,8 +2,8 @@
 * <name>`l<url> is a link
 * `c<x>`c for `x` as inline code
 * ``` is multi-line code
-* `t<id>`t for a textarea
-* `c<id>`c for a div
+* `t<id> for a textarea
+* `c<id> for a div
 * `sc< and >`sc for javascript
 
      DEFINE("unesc(s)", "ugt") :(st)
@@ -41,8 +41,8 @@ lt   file ">" = "&gt;" :s(lt)
 
 link file "&lt;" arb . name "&gt;`l&lt;" arb . link "&gt;" = "<a href='" link "'>" name "</a>" :s(link)
 
-inp  file "`t&lt;" arb . name "&gt;`t" = "<textarea id='" name "'></textarea>" :s(inp)
-div  file "`d&lt;" arb . name "&gt;`d" = "<div id='"      name "'></div>"      :s(div)
+inp  file "`t&lt;" arb . id "&gt;" = "<textarea id='" id "'></textarea>" :s(inp)
+div  file "`d&lt;" arb . id "&gt;" = "<div id='"      id "'></div>"      :s(div)
 
 cd1  file "`c&lt;" = "<span class='code'>" :s(cd1)
 cd2  file "&gt;`c" = "</span>" :s(cd2)

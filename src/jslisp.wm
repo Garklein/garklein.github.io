@@ -13,11 +13,11 @@ E=(s,e)=>s.map
 //rls=require("readline-sync");e={s:{}};while(s=rls.question("> "))console.log(E(P(s),e));//for running with nodejs
 ```
 
-`t<I>`t
+`t<I>
 
 shift+enter to eval
 
-`d<O>`d
+`d<O>
 `sc<
 I=document.getElementById("I"),O=document.getElementById("O");I.style.width="calc(100% - 6px)";I.style.height="93px";sh=0,ent=0;
 fmt=s=>(typeof s=="function"?"<lambda>":s)+"\n";

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+pre {
+  white-space: pre-wrap;
+}
+@font-face {
+  font-family: 'Courier';
+  src: url('CourierPrime-Regular.ttf');
+}
+.code {
+  font-family: 'Courier';
+}
+  </style>
+</head>
+<body>
+  <pre>
+Solution to <a href='https://dmoj.ca/problem/ccc23s3'>CCC 23 Senior 3</a>:
+
+
+*==================================================*
+| The Adventure Commences: Placing the Palindromes |
+*==================================================*
+
+Let's start by noticing that the palindromes' placement matters. Consider the input 3 3 3 2. If the first two columns are palindromes, we get this:
+ ACE
+ BDF
+ ACG
+Where A-G are variables. When we make every row a palindrome,
+ ACA
+ BDB
+ ACA
+Hold up! We now have all 3 columns as palindromes, when we only want 2 of them! The solution here is to put the palindromes on the two outer columns:
+ ACF
+ BDG
+ AEF
+Folding in the rows, we get
+ ACA
+ BDB
+ AEA
+Moral: we want our palindrome placement to be as symmetrical as possible. In my code, the placePs function places palindromes, taking the length of the row/column and the number of palindromes. If we have to house an odd amount of palindromes inside an even length line--we can't do this symmetrically, it's the Mean Case: a bunion who begets impossible cases--we will put the extra palindrome in the first half.
+
+
+*=========================================*
+| Part the Second: Populating the Strings |
+*=========================================*
+
+Let's say we have a line of length 5:
+ VWXYZ
+How many positions does W interact with? If the line is a palindrome, then W must be the same as Y, which we'll call its sibling. If the line isn't a palindrome, one way to guarantee this is to make W different from Y. NONE OF THE OTHER POSITIONS MATTER TO W AND Y. V, X, and Z can be anything, and it won't impact W or Y. When we extend this to two dimensions, a letter will interact with at most three others.
+ -----
+ -W-X-
+ -----
+ -Y-Z-
+ -----
+W only interacts with its horizontal sibling (X), its vertical sibling (Y), and Z--X and Y's sibling; W's diagonal sibling. We will group each position with its vertical, horizontal, and diagonal sibling. Not every position has three unique siblings--the centre of the 5x5 has no siblings, and other positions on the centre row or column only have one sibling.
+
+Case 1: the position has no siblings
+Here, we can assign the position any letter.
+
+Case 2: the position has one sibling
+If the row/column is a palindrome, the position and its sibling should be given the same letter; else different ones.
+
+Case 3: the position has three siblings
+This is the case we see in the 5x5 diagram. Assign W any letter. If the top row is a palindrome, give X the same as W; otherwise give it something else. Ditto for the left column. If either the bottom row or the right column is a palindrome, give Z the corresponding letter. If neither are, make it different from both of them.
+
+But what if... [play Mozart's Dies Irae as you read this part for full effect] the top, left, and bottom lines are palindromes, but the right column isn't? A gasp of horror is audible from the crowd. W=X, W=Y, Y=Z, but Z!=X? Somewhere in Turin, a hand thrusts up through Peano's grave--out for blood. The Insatiable Case makes its grand entrance. If we follow the same rules from above, it will get the same value as Y, X, and W. Since the Mean Case is resolved by placing the extra in the first half, Z will always be the letter affected by the Insatiable Case.
+
+The question which springs to mind is "does the Insatiable Case mean that it's impossible to satisfy the input?" Since we gave it the same value as the other 3 letters, we're potentially making a non-palindrome line a palindrome. The key here is that to make a palindrome, EVERY SINGLE letter needs to be the same as its sibling; as long as there is at least one letter that is different from its sibling, another letter can be the same as its sibling without making the line a palindrome. This explains how the Insatiable Case makes some inputs--such as 2 2 2 1--impossible, while not forcing every unfortunate input that stumbles across it to be unsolvable.
+
+
+*=================================================*
+| The Endmost Calculation: Verifying the Solution |
+*=================================================*
+
+How do we handle the impossible cases? Loop through every row and column, and make sure each line we told to be a palindrome really is, while asserting that every non-palindrome isn't one. If we find any of these rule-breakers, the input is impossible. In my code, this is done with the checkSolution function.
+
+Apart from travelling from Mean to Insatiable to IMPOSSIBLE, the other way that impossible cases materialize is with inputs like 5 1 3 1. This step will also catch those cases.
+
+
+If there's anything I've explained poorly, don't hesitate to ask about it!
+
+
+<div class='code'>#include &lt;vector&gt;
+#include &lt;iostream&gt;
+using namespace std;
+
+#define PAIRS(l, r, max) for (int l = 0, r = max-1; l &lt;= r; l++, r--)
+
+vector&lt;bool&gt; placePs(int len, int n) {
+	vector&lt;bool&gt; vec(len);
+	if (n % 2) vec[(len-1) / 2] = true;
+	PAIRS(l, r, len) {
+		if (l == n/2) break;
+		vec[l] = vec[r] = true;
+	}
+	return vec;
+}
+
+// top means is the top row a palindrome? etc.
+void solve(vector&lt;string&gt; &b, int r1, int r2, int c1, int c2, bool top, bool bottom, bool left, bool right) {
+	b[r1][c1] = 'a';
+	if (c1 != c2) b[r1][c2] = 'a' + !top;
+	if (r1 != r2) b[r2][c1] = 'a' + !left;
+
+	if (c1 == c2 || r1 == r2) return;
+
+	b[r2][c2] = bottom ? b[r2][c1] : right ? b[r1][c2] : 'c';
+}
+
+#define CHECKDIR(len, strLen, spec, leftExpr, rightExpr) \
+	for (int i = 0; i &lt; len; i++) {                  \
+		bool palindrome = true;                  \
+		PAIRS(l, r, strLen) {                    \
+			if (leftExpr != rightExpr) {     \
+				palindrome = false;      \
+				break;                   \
+			}                                \
+		}                                        \
+		if (palindrome != spec[i]) return false; \
+	}                                                \
+
+bool checkSolution(vector&lt;string&gt; &b, vector&lt;bool&gt; &pRows, vector&lt;bool&gt; &pCols, int w, int h) {
+	CHECKDIR(h, w, pRows, b[i][l], b[i][r]); // check rows
+	CHECKDIR(w, h, pCols, b[l][i], b[r][i]); // check cols
+	return true;
+}
+
+int main() {
+	int h, w, r, c;
+	cin &gt;&gt; h &gt;&gt; w &gt;&gt; r &gt;&gt; c;
+
+	vector&lt;string&gt; b;
+	for (int i = 0; i &lt; h; i++) {
+		b.push_back(string(w, 0));
+	}
+
+	vector&lt;bool&gt; pRows = placePs(h, r); // boolean mask of row palindromes
+	vector&lt;bool&gt; pCols = placePs(w, c); // ditto
+
+	PAIRS(r1, r2, h) {
+		PAIRS(c1, c2, w) {
+			solve(b, r1, r2, c1, c2, pRows[r1], pRows[r2], pCols[c1], pCols[c2]);
+		}
+	}
+
+	if (!checkSolution(b, pRows, pCols, w, h)) cout &lt;&lt; "IMPOSSIBLE";
+	else for (string &s : b) cout &lt;&lt; s &lt;&lt; endl;
+}
+  </pre>
+</body>

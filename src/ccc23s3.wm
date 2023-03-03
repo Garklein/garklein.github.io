@@ -21,7 +21,7 @@ Folding in the rows, we get
  ACA
  BDB
  AEA
-Moral: we want our palindrome placement to be as symmetrical as possible. In my code, the `c<placePs>`c function places palindromes, taking the length of the row/column and the number of palindromes. If we have to house an odd amount of palindromes inside an even length line--we can't do this symmetrically, it's the Mean Case: a bunion who begets impossible cases--we will put the extra palindrome in the first half.
+Moral: we want our palindrome placement to be as symmetrical as possible. In my code, the placePs function places palindromes, taking the length of the row/column and the number of palindromes. If we have to house an odd amount of palindromes inside an even length line--we can't do this symmetrically, it's the Mean Case: a bunion who begets impossible cases--we will put the extra palindrome in the first half.
 
 
 *=========================================*
@@ -56,7 +56,7 @@ The question which springs to mind is "does the Insatiable Case mean that it's i
 | The Endmost Calculation: Verifying the Solution |
 *=================================================*
 
-How do we handle the impossible cases? Loop through every row and column, and make sure each line we told to be a palindrome really is, while asserting that every non-palindrome isn't one. If we find any of these rule-breakers, the input is impossible. In my code, this is done with the `c<checkSolution>`c function.
+How do we handle the impossible cases? Loop through every row and column, and make sure each line we told to be a palindrome really is, while asserting that every non-palindrome isn't one. If we find any of these rule-breakers, the input is impossible. In my code, this is done with the checkSolution function.
 
 Apart from travelling from Mean to Insatiable to IMPOSSIBLE, the other way that impossible cases materialize is with inputs like 5 1 3 1. This step will also catch those cases.
 

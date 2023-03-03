@@ -16,8 +16,6 @@ st   output = "<!DOCTYPE html>"
      output = "  <title>Garklein's stuff</title>"
      output = "  <style>"
      output = "pre:not(.code) { white-space: pre-wrap; max-width: 80ch; }"
-     output = "@font-face     { font-family: 'Courier'; src: url('CourierPrime-Regular.ttf'); }"
-     output = ".code          { font-family: 'Courier'; font-size: 15.5px; }"
      output = "  </style>"
      output = "</head>"
      output = "<body>"
@@ -36,9 +34,6 @@ link file "&lt;" arb . name "&gt;`l&lt;" arb . link "&gt;" = "<a href='" link "'
 
 inp  file "`t&lt;" arb . id "&gt;" = "<textarea id='" id "'></textarea>" :s(inp)
 div  file "`d&lt;" arb . id "&gt;" = "<div id='"      id "'></div>"      :s(div)
-
-cd1  file "`c&lt;" = "<span class='code'>" :s(cd1)
-cd2  file "&gt;`c" = "</span>" :s(cd2)
 
 code file "```"     nl arb . c "```"     nl = "</pre><pre class='code'>" c "</pre><pre>"     :s(code)
 scpt file "`sc&lt;" nl arb . c "&gt;`sc" nl = "<script>"     unesc(c) "</script>" :s(scpt)

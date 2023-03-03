@@ -1,5 +1,5 @@
 a tiny lisp I made for fun
-supports variables (with the `c<set>`c function), numbers, addition, and lambdas
+supports variables (with the set function), numbers, addition, and lambdas
 probably will anger lisp purists if I call it a lisp because no quotes, eval/apply, or any of that truly lispy stuff
 
 ```

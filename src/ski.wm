@@ -10,7 +10,7 @@ P=t=>t.map(x=>x[1]?`(${P(x)})`:x[0]).join``
 //while(s=require("readline-sync").question("> "))console.log(P(E(R(s))))
 ```
 
-`c<A>`c applies a function to an argument
+A applies a function to an argument
 
 now, this wasn't short enough to fit in the 180 character discord about me
 so, here's a K version:

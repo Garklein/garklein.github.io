@@ -1,7 +1,6 @@
-* plain text stays as it is
+* plain text stays as it is, with line wrapping
 * <name>`l<url> is a link
-* `c<x>`c for `x` as inline code
-* ``` is multi-line code
+* ``` is multi-line code (ie. don't wrap lines)
 * `t<id> for a textarea
 * `c<id> for a div
 * `sc< and >`sc for javascript

@@ -2,16 +2,9 @@
 <head>
   <title>Garklein's stuff</title>
   <style>
-pre {
-  white-space: pre-wrap;
-}
-@font-face {
-  font-family: 'Courier';
-  src: url('CourierPrime-Regular.ttf');
-}
-.code {
-  font-family: 'Courier';
-}
+pre:not(.code) { white-space: pre-wrap; max-width: 80ch; }
+@font-face     { font-family: 'Courier'; src: url('CourierPrime-Regular.ttf'); }
+.code          { font-family: 'Courier'; font-size: 15.5px; }
   </style>
 </head>
 <body>
@@ -20,25 +13,25 @@ who doesn't love combinatory logic?
 here are two implementations of the SKI calculus, as a repl (or at least the REP functions)
 first, in js:
 
-<div class='code'>R=s=&gt;eval(`[${[...s].map(x=&gt;x=="("?"[":x==")"?"]":`"${x}"`)}]`)
+</pre><pre class='code'>R=s=&gt;eval(`[${[...s].map(x=&gt;x=="("?"[":x==")"?"]":`"${x}"`)}]`)
 A=([t,x,y],n)=&gt;t=="I"?n:t=="K"&&x?x:t=="S"&&y?A(A(x,n),A(y,n)):[t,x,y,n].filter(x=&gt;x)
 E=t=&gt;t.map?t.map(E).reduce(A):[t]
 P=t=&gt;t.map(x=&gt;x[1]?`(${P(x)})`:x[0]).join``
 //while(s=require("readline-sync").question("&gt; "))console.log(P(E(R(s))))
-</div>
+</pre><pre>
 <span class='code'>A</span> applies a function to an argument
 
 now, this wasn't short enough to fit in the 180 character discord about me
 so, here's a K version:
 
-<div class='code'>R:{.,/"(",({$[+/x="()";x;"\"",x,"\";"]}'$[@x;,x;x]),")"}
+</pre><pre class='code'>R:{.,/"(",({$[+/x="()";x;"\"",x,"\";"]}'$[@x;,x;x]),")"}
 A:{$["I"=*x;y;("K"=*x)&2=#x;*x;("S"=*x)&3=#x;o[o[x@1;y];o[x@2;y]];x,,y]}
 E:{$[@x;,x;A/o'x]}
 P:,/{$[1=#x;*x;"(",o x,")"]}'
-</div>
+</pre><pre>
 and to round it off, here's a haskell one:
 
-<div class='code'>module Main where
+</pre><pre class='code'>module Main where
 
 import System.IO
 import Text.Megaparsec
@@ -98,7 +91,7 @@ main = do
 	hFlush stdout
 	getLine &gt;&gt;= (putStrLn . exec)
 	main
-</div>
+</pre><pre>
 (with an actual io repl)
 ah, don't you just love haskell
   </pre>

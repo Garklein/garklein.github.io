@@ -2,21 +2,14 @@
 <head>
   <title>Garklein's stuff</title>
   <style>
-pre {
-  white-space: pre-wrap;
-}
-@font-face {
-  font-family: 'Courier';
-  src: url('CourierPrime-Regular.ttf');
-}
-.code {
-  font-family: 'Courier';
-}
+pre:not(.code) { white-space: pre-wrap; max-width: 80ch; }
+@font-face     { font-family: 'Courier'; src: url('CourierPrime-Regular.ttf'); }
+.code          { font-family: 'Courier'; font-size: 15.5px; }
   </style>
 </head>
 <body>
   <pre>
-<div class='code'>fact:*/1+!:                                            /ok not bad, but we can do better
+</pre><pre class='code'>fact:*/1+!:                                            /ok not bad, but we can do better
 fact:{$[~x;1;x*fact x-1]}                              /that's more like it
 fact:{*/{{x[y y]z}[x]{x[y y]z}x}[{$[~y;();y,x y-1]}]x} /*you're scaring me*
 

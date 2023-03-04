@@ -1,77 +1,77 @@
 neat links:
 (these are the sites where I could kill hours without realizing)
- (Russ Cox's youtube channel)[https://www.youtube.com/@rscgolang]
-  (AoC 2021 Day 18 using Sed)[https://www.youtube.com/watch?v=cbpNdzKLg4c]
- (Joel on Software)[https://www.joelonsoftware.com/]
-  (Making Wrong Code Look Wrong)[./hungarian.html]
-  (Things You Should Never Do, Part I)[https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/]
- (Paul Graham's articles)[http://www.paulgraham.com/articles.html]
-  (Succinctness is Power)[http://www.paulgraham.com/power.html]
-  (What You Can't Say)[http://www.paulgraham.com/say.html]
- (awesome c preprocessor)[https://github.com/Hirrolot/awesome-c-preprocessor]
- (syntax across languages)[http://rigaux.org/language-study/syntax-across-languages/]
- (Hyperpolyglot)[https://hyperpolyglot.org/]
- (Nils M Holm's Ephemeralia)[http://t3x.org/index.html]
- (Online Historical Encyclopaedia of Programming Languages)[https://hopl.info/]
- (IOCCC winning entries)[https://www.ioccc.org/years.html]
- (The Retrocomputing Museum)[http://www.catb.org/~esr/retro/]
- (Matt Might's articles)[https://matt.might.net/articles/]
- (Programming Language Awareness Centre)[http://www.math.bas.bg/bantchev/place/]
- (The Programming Languages Zoo)[https://plzoo.andrej.com]
- (no stinking loops)[https://nsl.com]
- (The Power of Prolog)[https://www.metalevel.at/prolog] (youtube)[https://www.youtube.com/channel/UCFFeNyzCEQDS4KCecugmotg]
- (Thun)[https://joypy.osdn.io/index.html]
- (tons of Joy links)[https://hypercubed.github.io/joy/joy.html]
- (APL wiki)[https://aplwiki.com/]
- (Alex Shroyer's blog)[https://alexshroyer.com/]
- (Palaiologos's blog)[https://palaiologos.rocks/]
- (ngn's website)[https://ngn.codeberg.page]
- (kparc)[https://kparc.com]
+ [Russ Cox's youtube channel](https://www.youtube.com/@rscgolang)
+  [AoC 2021 Day 18 using Sed](https://www.youtube.com/watch?v=cbpNdzKLg4c)
+ [Joel on Software](https://www.joelonsoftware.com/)
+  [Making Wrong Code Look Wrong](./hungarian.html)
+  [Things You Should Never Do, Part I](https://www.joelonsoftware.com/2000/04/06/things-you-should-never-do-part-i/)
+ [Paul Graham's articles](http://www.paulgraham.com/articles.html)
+  [Succinctness is Power](http://www.paulgraham.com/power.html)
+  [What You Can't Say](http://www.paulgraham.com/say.html)
+ [awesome c preprocessor](https://github.com/Hirrolot/awesome-c-preprocessor)
+ [syntax across languages](http://rigaux.org/language-study/syntax-across-languages/)
+ [Hyperpolyglot](https://hyperpolyglot.org/)
+ [Nils M Holm's Ephemeralia](http://t3x.org/index.html)
+ [Online Historical Encyclopaedia of Programming Languages](https://hopl.info/)
+ [IOCCC winning entries](https://www.ioccc.org/years.html)
+ [The Retrocomputing Museum](http://www.catb.org/~esr/retro/)
+ [Matt Might's articles](https://matt.might.net/articles/)
+ [Programming Language Awareness Centre](http://www.math.bas.bg/bantchev/place/)
+ [The Programming Languages Zoo](https://plzoo.andrej.com)
+ [no stinking loops](https://nsl.com)
+ [The Power of Prolog](https://www.metalevel.at/prolog) [youtube](https://www.youtube.com/channel/UCFFeNyzCEQDS4KCecugmotg)
+ [Thun](https://joypy.osdn.io/index.html)
+ [tons of Joy links](https://hypercubed.github.io/joy/joy.html)
+ [APL wiki](https://aplwiki.com/)
+ [Alex Shroyer's blog](https://alexshroyer.com/)
+ [Palaiologos's blog](https://palaiologos.rocks/)
+ [ngn's website](https://ngn.codeberg.page)
+ [kparc](https://kparc.com)
 
 interesting lists of programming languages:
- (LTO list)[http://lambda-the-ultimate.org/node/4186]
- (Reddit list)[https://www.reddit.com/r/ProgrammingLanguages/comments/tsqamc/most_interesting_languages_to_learn_from/]
- (The seven programming ur-languages)[https://madhadron.com/posts/seven_languages.html]
- (Perlis Languages)[http://blog.fogus.me/2011/08/14/perlis-languages/]
- (Programming language development: the past 5 years)[http://blog.fogus.me/2011/10/18/programming-language-development-the-past-5-years/]
- (Six programming paradigms that will change how you think about coding)[https://www.ybrikman.com/writing/2014/04/09/six-programming-paradigms-that-will/]
+ [LTO list](http://lambda-the-ultimate.org/node/4186)
+ [Reddit list](https://www.reddit.com/r/ProgrammingLanguages/comments/tsqamc/most_interesting_languages_to_learn_from/)
+ [The seven programming ur-languages](https://madhadron.com/posts/seven_languages.html)
+ [Perlis Languages](http://blog.fogus.me/2011/08/14/perlis-languages/)
+ [Programming language development: the past 5 years](http://blog.fogus.me/2011/10/18/programming-language-development-the-past-5-years/)
+ [Six programming paradigms that will change how you think about coding](https://www.ybrikman.com/writing/2014/04/09/six-programming-paradigms-that-will/)
 
 cool shorter links:
- (remarks on style)[https://github.com/kparc/kcc#remarks-on-style]
- (K: Remarks on Style)[http://nsl.com/k/training/kstyle.pdf]
- (crab)[https://beyondloom.com/crab/index.html] (read the src)
- (What's so cool about Scheme?)[http://people.csail.mit.edu/gregs/ll1-discuss-archive-html/msg03277.html]
- (Interview Trolling)[https://aphyr.com/tags/interviews]
- (Cloak wiki)[https://github.com/pfultz2/Cloak/wiki]
- (Dan Friedman--Cool Ideas)[https://www.youtube.com/watch?v=IHP7P_HlcBk]
- (A Brief, Incomplete, and Mostly Wrong History of Programming Languages)[http://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html]
- (Neural Network on a Commodore 64)[https://www.fourmilab.ch/documents/commodore/BrainSim/]
- (History and comparison of programming languages)[https://www.gavilan.edu/csis/languages/history.html]
- (A Conversation with Arthur Whitney)[https://queue.acm.org/detail.cfm?id=1531242]
- (The J Incunabulum)[https://code.jsoftware.com/wiki/Essays/Incunabulum] (I strongly recommend that every programmer understand this, everyone will learn something)
-  (Resurrecting the spells of olde)[http://www.jsoftware.com/pipermail/chat/2020-March/008507.html]
- (Foundations of the gerku language)[https://hackmd.io/1qURQz3vTU-7w-Q08CV_sw]
- (jonesforth)[https://github.com/nornagon/jonesforth]
- (Layman's explanation of delimited continuations)[https://gist.github.com/sebfisch/2235780]
- (Algebraic Effects in JavaScript)[https://dev.to/yelouafi/algebraic-effects-in-javascript-part-1---continuations-and-control-transfer-3g88]
- (continuations-study-group)[https://github.com/rain-1/continuations-study-group/wiki]
+ [remarks on style](https://github.com/kparc/kcc#remarks-on-style)
+ [K: Remarks on Style](http://nsl.com/k/training/kstyle.pdf)
+ [crab](https://beyondloom.com/crab/index.html) (read the src)
+ [What's so cool about Scheme?](http://people.csail.mit.edu/gregs/ll1-discuss-archive-html/msg03277.html)
+ [Interview Trolling](https://aphyr.com/tags/interviews)
+ [Cloak wiki](https://github.com/pfultz2/Cloak/wiki)
+ [Dan Friedman--Cool Ideas](https://www.youtube.com/watch?v=IHP7P_HlcBk)
+ [A Brief, Incomplete, and Mostly Wrong History of Programming Languages](http://james-iry.blogspot.com/2009/05/brief-incomplete-and-mostly-wrong.html)
+ [Neural Network on a Commodore 64](https://www.fourmilab.ch/documents/commodore/BrainSim/)
+ [History and comparison of programming languages](https://www.gavilan.edu/csis/languages/history.html)
+ [A Conversation with Arthur Whitney](https://queue.acm.org/detail.cfm?id=1531242)
+ [The J Incunabulum](https://code.jsoftware.com/wiki/Essays/Incunabulum) (I strongly recommend that every programmer understand this, everyone will learn something)
+  [Resurrecting the spells of olde](http://www.jsoftware.com/pipermail/chat/2020-March/008507.html)
+ [Foundations of the gerku language](https://hackmd.io/1qURQz3vTU-7w-Q08CV_sw)
+ [jonesforth](https://github.com/nornagon/jonesforth)
+ [Layman's explanation of delimited continuations](https://gist.github.com/sebfisch/2235780)
+ [Algebraic Effects in JavaScript](https://dev.to/yelouafi/algebraic-effects-in-javascript-part-1---continuations-and-control-transfer-3g88)
+ [continuations-study-group](https://github.com/rain-1/continuations-study-group/wiki)
 
 interesting programming related discord servers:
- (concatenative programming and mlatu)[https://discord.com/invite/WHdnkktgKr]
- (The APL Farm)[https://discord.com/invite/SDTW36EhWF] (array language; APL, BQN, K, J, Nial)
- (Prolog)[https://discord.com/invite/cSGbjT4]
- (Forth 1)[https://discord.gg/TWSTYfwVHE] (Forth 2)[https://discord.gg/EV8zuG6fnB] (no clue why there are 2)
- (Factor)[https://discord.com/invite/myS3D6wFtg]
- (r/ProgrammingLanguages)[https://discord.com/invite/4Kjt3ZE] (programming language theory, design, and implementation)
- (Lisp)[https://discord.gg/hhk46CE]
- (Programming)[https://discord.gg/010z0Kw1A9ql5c1Qe] (general)
- (Functional Programming)[https://discord.gg/K6XHBSh] (lots of haskell)
- (Pharo)[https://discord.com/invite/QewZMZa] (smalltalk)
+ [concatenative programming and mlatu](https://discord.com/invite/WHdnkktgKr)
+ [The APL Farm](https://discord.com/invite/SDTW36EhWF) (array language; APL, BQN, K, J, Nial)
+ [Prolog](https://discord.com/invite/cSGbjT4)
+ [Forth 1](https://discord.gg/TWSTYfwVHE) [Forth 2](https://discord.gg/EV8zuG6fnB) (no clue why there are 2)
+ [Factor](https://discord.com/invite/myS3D6wFtg)
+ [r/ProgrammingLanguages](https://discord.com/invite/4Kjt3ZE) (programming language theory, design, and implementation)
+ [Lisp](https://discord.gg/hhk46CE)
+ [Programming](https://discord.gg/010z0Kw1A9ql5c1Qe) (general)
+ [Functional Programming](https://discord.gg/K6XHBSh) (lots of haskell)
+ [Pharo](https://discord.com/invite/QewZMZa) (smalltalk)
 
 array language content creators:
- (code_report)[https://www.youtube.com/c/codereport]
- (Rodrigo Girão Serrão)[https://www.youtube.com/channel/UCd_24S_cYacw6zrvws43AWg]
- (tangentstorm)[https://www.youtube.com/c/tangentstorm] (twitch)[https://www.twitch.tv/tangentstorm]
- (bob therriault)[https://www.youtube.com/user/bobtherriault/videos]
- (Asher Mancinelli)[https://www.youtube.com/channel/UCZ5sL4E662VP1ZwC4h85ttQ]
- (Adám's APL)[https://www.youtube.com/user/abrudz]
+ [code_report](https://www.youtube.com/c/codereport)
+ [Rodrigo Girão Serrão](https://www.youtube.com/channel/UCd_24S_cYacw6zrvws43AWg)
+ [tangentstorm](https://www.youtube.com/c/tangentstorm) [twitch](https://www.twitch.tv/tangentstorm)
+ [bob therriault](https://www.youtube.com/user/bobtherriault/videos)
+ [Asher Mancinelli](https://www.youtube.com/channel/UCZ5sL4E662VP1ZwC4h85ttQ)
+ [Adám's APL](https://www.youtube.com/user/abrudz)

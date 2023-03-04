@@ -1,18 +1,18 @@
 Garklein's website
 
-<Speeding up readable-mlatu by 3500x>`l<./optimize.html>
-<Justin and Nick discuss surviv.io>`l<./surviv.html>
-<Solution to CCC 23 S3>`l<./ccc23s3.html>
-<Hungarian Notation>`l<./hungarian.html>
-<how I see language families>`l<./families.html>
-<about adding new K primitives>`l<./strength.html>
-<tiny "lisp">`l<./jslisp.html>
-<ski combinator madness>`l<./ski.html>
-<fact.k>`l<./fact.html>
-<l.k>`l<./l.html> (dumb sexpr evaluator)
+(Speeding up readable-mlatu by 3500x)[./optimize.html]
+(Justin and Nick discuss surviv.io)[./surviv.html]
+(Solution to CCC 23 S3)[./ccc23s3.html]
+(Hungarian Notation)[./hungarian.html]
+(how I see language families)[./families.html]
+(about adding new K primitives)[./strength.html]
+(tiny "lisp")[./jslisp.html]
+(ski combinator madness)[./ski.html]
+(fact.k)[./fact.html]
+(l.k)[./l.html] (dumb sexpr evaluator)
 
-<loads o' links>`l<./links.html>
+(loads o' links)[./links.html]
 
-<snobol DSL that generates html for this site>`l<./wm.txt> <rationale>`l<./rationale.jpg>
-<source>`l<https://github.com/Garklein/garklein.github.io> (please open an issue if something is broken)
+(SNOBOL DSL that generates html for this site)[./wm.txt] (rationale)[./rationale.jpg]
+(source)[https://github.com/Garklein/garklein.github.io] (please open an issue if something is broken)
 garklein97@gmail.com

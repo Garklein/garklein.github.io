@@ -1,14 +1,20 @@
 * plain text stays as it is, with line wrapping
 * <name>`l<url> is a link
+* (name)[url] is a link
 * ``` is multi-line code (ie. don't wrap lines)
 * `t<id> for a textarea
 * `c<id> for a div
 * `sc< and >`sc for javascript
 
-     DEFINE("unesc(s)", "ugt") :(st)
+     DEFINE("unlink(s)", "ulk") :(unst)
+ulk  s "<a href='" arb . link "'>" arb . name "</a>" = "(" name ")[" link "]" :s(ulk)
+     unlink = s                                                               :(return)
+
+unst DEFINE("unesc(s)", "ugt") :(st)
 ugt  s "&lt;" = "<"            :s(ugt)
 ult  s "&gt;" = ">"            :s(ult)
-     unesc = s                 :(return)
+     unesc = unlink(s)         :(return)
+
 
 st   output = "<!DOCTYPE html>"
      output = "<head>"
@@ -29,13 +35,13 @@ in   file = file nl input :s(in)
 gt   file "<" = "&lt;" :s(gt)
 lt   file ">" = "&gt;" :s(lt)
 
-link file "&lt;" arb . name "&gt;`l&lt;" arb . link "&gt;" = "<a href='" link "'>" name "</a>" :s(link)
 
 inp  file "`t&lt;" arb . id "&gt;" = "<textarea id='" id "'></textarea>" :s(inp)
 div  file "`d&lt;" arb . id "&gt;" = "<div id='"      id "'></div>"      :s(div)
 
-code file "```"     nl arb . c "```"     nl = "</pre><pre class='code'>" c "</pre><pre>"     :s(code)
-scpt file "`sc&lt;" nl arb . c "&gt;`sc" nl = "<script>"     unesc(c) "</script>" :s(scpt)
+link file "(" break(")") . name ")[" break("]") . link "]" = "<a href='" link "'>" name "</a>" :s(link)
+code file "```"     nl arb . c "```"     nl = "</pre><pre class='code'>" unlink(c) "</pre><pre>" :s(code)
+scpt file "`sc&lt;" nl arb . c "&gt;`sc" nl = "<script>"                 unesc(c) "</script>"   :s(scpt)
 
 out  file arb . output nl =  :s(out)
 

@@ -3,7 +3,7 @@ Hungarian Notation
 
 When I was learning how to program, I would occasionally come across this arcane system called "Hungarian Notation". I was told to avoid it like the plague, and I didn't believe it contributed anything valuable.
 
-My view changed after reading a few old blog posts about it: <Making Wrong Code Look Wrong>`l<https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/> and <Hungarian notation - it's my turn now :)>`l<https://learn.microsoft.com/en-us/archive/blogs/larryosterman/hugarian-notation-its-my-turn-now>.
+My view changed after reading a few old blog posts about it: (Making Wrong Code Look Wrong)[https://www.joelonsoftware.com/2005/05/11/making-wrong-code-look-wrong/] and (Hungarian notation - it's my turn now)[https://learn.microsoft.com/en-us/archive/blogs/larryosterman/hugarian-notation-its-my-turn-now].
 
 It's not something I would use, but now I understand how it functions and why it existed.
 

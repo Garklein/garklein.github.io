@@ -7,7 +7,7 @@ monospace fonts for programing:
 [Hermit](https://pcaro.es/hermit/)
 [Monoid](https://larsenwork.com/monoid/)
 [OCR-A](https://fontsgeek.com/fonts/OCR-A-Std-Regular)
-[LispM](https://github.com/unjordy/LispM-Font) (doesn't work well at small sizes)
+[LispM](https://github.com/unjordy/LispM-Font) (lisp machine font; doesn't work well at small sizes)
 [Iosevka](https://typeof.net/Iosevka/)
 [Latin Modern Mono](https://www.fontsquirrel.com/fonts/latin-modern-mono)
 [Comic Mono](https://github.com/dtinth/comic-mono-font) (monospace comic sans)
@@ -17,4 +17,4 @@ monospace fonts for programing:
 
 other fonts:
 [Ubuntu](https://fonts.google.com/specimen/Ubuntu) (M28 font)
-[Clarendon](https://fontsgeek.com/fonts/Clarendon-Regular) (on the fortran and APL logos, used on IBM manual covers at the time)
+[Clarendon](https://fontsgeek.com/fonts/Clarendon-Regular) (on the fortran and APL logos - used on old IBM manual covers)

@@ -1,5 +1,4 @@
 * plain text stays as it is, with line wrapping
-* <name>`l<url> is a link
 * [name](url) is a link
 * ``` is multi-line code (ie. don't wrap lines)
 * `t<id> for a textarea

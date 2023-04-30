@@ -30,7 +30,7 @@ Folding in the rows, we get
  ACA
  BDB
  AEA
-Moral: we want our palindrome placement to be as symmetrical as possible. In my code, the placePs function places palindromes, taking the length of the row/column and the number of palindromes. If we have to house an odd amount of palindromes inside an even length line--we can't do this symmetrically, it's the Mean Case: a bunion who begets impossible cases--we will put the extra palindrome in the first half.
+Moral: we want our palindrome placement to be as symmetrical as possible. In my code, the placePs function places palindromes, taking the length of the row/column and the number of palindromes. If we have to house an odd amount of palindromes inside an even length line - we can't do this symmetrically, it's the Mean Case: a bunion who begets impossible cases - we will put the extra palindrome in the first half.
 
 
 *=========================================*
@@ -45,7 +45,7 @@ How many positions does W interact with? If the line is a palindrome, then W mus
  -----
  -Y-Z-
  -----
-W only interacts with its horizontal sibling (X), its vertical sibling (Y), and Z--X and Y's sibling; W's diagonal sibling. We will group each position with its vertical, horizontal, and diagonal sibling. Not every position has three unique siblings--the centre of the 5x5 has no siblings, and other positions on the centre row or column only have one sibling.
+W only interacts with its horizontal sibling (X), its vertical sibling (Y), and Z - X and Y's sibling; W's diagonal sibling. We will group each position with its vertical, horizontal, and diagonal sibling. Not every position has three unique siblings - the centre of the 5x5 has no siblings, and other positions on the centre row or column only have one sibling.
 
 Case 1: the position has no siblings
 Here, we can assign the position any letter.
@@ -56,9 +56,9 @@ If the row/column is a palindrome, the position and its sibling should be given 
 Case 3: the position has three siblings
 This is the case we see in the 5x5 diagram. Assign W any letter. If the top row is a palindrome, give X the same as W; otherwise give it something else. Ditto for the left column. If either the bottom row or the right column is a palindrome, give Z the corresponding letter. If neither are, make it different from both of them.
 
-But what if... [play Mozart's Dies Irae as you read this part for full effect] the top, left, and bottom lines are palindromes, but the right column isn't? A gasp of horror is audible from the crowd. W=X, W=Y, Y=Z, but Z!=X? Somewhere in Turin, a hand thrusts up through Peano's grave--out for blood. The Insatiable Case makes its grand entrance. If we follow the same rules from above, it will get the same value as Y, X, and W. Since the Mean Case is resolved by placing the extra in the first half, Z will always be the letter affected by the Insatiable Case.
+But what if... [play Mozart's Dies Irae as you read this part for full effect] the top, left, and bottom lines are palindromes, but the right column isn't? A gasp of horror is audible from the crowd. W=X, W=Y, Y=Z, but Z!=X? Somewhere in Turin, a hand thrusts up through Peano's grave - out for blood. The Insatiable Case makes its grand entrance. If we follow the same rules from above, it will get the same value as Y, X, and W. Since the Mean Case is resolved by placing the extra in the first half, Z will always be the letter affected by the Insatiable Case.
 
-The question which springs to mind is "does the Insatiable Case mean that it's impossible to satisfy the input?" Since we gave it the same value as the other 3 letters, we're potentially making a non-palindrome line a palindrome. The key here is that to make a palindrome, EVERY SINGLE letter needs to be the same as its sibling; as long as there is at least one letter that is different from its sibling, another letter can be the same as its sibling without making the line a palindrome. This explains how the Insatiable Case makes some inputs--such as 2 2 2 1--impossible, while not forcing every unfortunate input that stumbles across it to be unsolvable.
+The question which springs to mind is "does the Insatiable Case mean that it's impossible to satisfy the input?" Since we gave it the same value as the other 3 letters, we're potentially making a non-palindrome line a palindrome. The key here is that to make a palindrome, EVERY SINGLE letter needs to be the same as its sibling; as long as there is at least one letter that is different from its sibling, another letter can be the same as its sibling without making the line a palindrome. This explains how the Insatiable Case makes some inputs - such as 2 2 2 1 - impossible, while not forcing every unfortunate input that stumbles across it to be unsolvable.
 
 
 *=================================================*

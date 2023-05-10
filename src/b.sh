@@ -1,5 +1,5 @@
 rm ../*.html
-for f in $(ls | sed /b\.sh/d | cut -d . -f 1)
+for f in $(ls | grep \.wm$ | cut -d . -f 1)
 do
 	snobol4 ../wm.sno < $f.wm > ../$f.html
 done

@@ -15,12 +15,9 @@ Speeding up readable-mlatu by 3500x*
 
 P(cond,res) is panic: if cond, return res
 
-I used to check if I was at the end of the AST by looping through the linked list of terms to get the length, then seeing if the current index was at the end. Now, I just see if the next term is NULL. Apparently, unnecessarily looping through the AST 1.25 billion times* slows you down a lot. Who would've thunk it?
+I used to check if I was at the end of the AST by looping through the linked list of terms to get the length, then seeing if the current index was at the end. Now, I just see if the next term is NULL. Apparently, unnecessarily looping through the AST 1.25 billion times* slows you down a lot. Who woulda thunk it?
 
-+~-~-~-~-~-~-~-~-~-~-+
-| SIMPLER AND FASTER |
-+-~-~-~-~-~-~-~-~-~-~+
-
+simpler = faster!
 
 *benchmark from my test of computing 100*100 (32m 45s 400ms -&gt; 561ms)
   </pre>

@@ -1,0 +1,26 @@
+```
+// simplebf.c - a very simple bf interpreter
+// takes a line of stdin as input
+
+#include <stdio.h>
+#include <string.h>
+
+#define SIZE 30000
+
+char t[SIZE], *p;
+
+char *bf(char *s,int e) {
+	char c;
+	while (c=*s++) {
+		if (e) c=='+'?(*p)++:c=='-'?(*p)--:c=='<'?p--:c=='>'?p++:c=='.'?putchar(*p):c==','?*p=getchar():0;
+		if (c=='[') { while (*p) bf(s,1); s=bf(s,0); }
+		if (c==']') break;
+
+		if (p<t) p+=SIZE;
+		if (t+SIZE<=p) p-=SIZE;
+	}
+	return s;
+}
+
+int main() { char s[10000]; gets(s); p=memset(t,0,SIZE); bf(s,1); }
+```

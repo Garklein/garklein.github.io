@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+pre:not(.code) { white-space: pre-wrap; max-width: 80ch; }
+  </style>
+</head>
+<body>
+  <pre>
+</pre><pre class='code'>// simplebf.c - a very simple bf interpreter
+// takes a line of stdin as input
+
+#include &lt;stdio.h&gt;
+#include &lt;string.h&gt;
+
+#define SIZE 30000
+
+char t[SIZE], *p;
+
+char *bf(char *s,int e) {
+	char c;
+	while (c=*s++) {
+		if (e) c=='+'?(*p)++:c=='-'?(*p)--:c=='&lt;'?p--:c=='&gt;'?p++:c=='.'?putchar(*p):c==','?*p=getchar():0;
+		if (c=='[') { while (*p) bf(s,1); s=bf(s,0); }
+		if (c==']') break;
+
+		if (p&lt;t) p+=SIZE;
+		if (t+SIZE&lt;=p) p-=SIZE;
+	}
+	return s;
+}
+
+int main() { char s[10000]; gets(s); p=memset(t,0,SIZE); bf(s,1); }
+  </pre>
+</body>

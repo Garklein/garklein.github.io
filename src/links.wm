@@ -35,10 +35,10 @@ interesting lists of programming languages:
  [Six programming paradigms that will change how you think about coding](https://www.ybrikman.com/writing/2014/04/09/six-programming-paradigms-that-will/)
 
 cool shorter links:
+ [How to Fold a Julia Fractal](https://acko.net/blog/how-to-fold-a-julia-fractal/)
  [remarks on style](https://github.com/kparc/kcc#remarks-on-style)
  [K: Remarks on Style](http://nsl.com/k/training/kstyle.pdf)
  [crab](https://beyondloom.com/crab/index.html) (read the src)
- [What's so cool about Scheme?](http://people.csail.mit.edu/gregs/ll1-discuss-archive-html/msg03277.html)
  [Interview Trolling](https://aphyr.com/tags/interviews)
  [Cloak wiki](https://github.com/pfultz2/Cloak/wiki)
  [Dan Friedman--Cool Ideas](https://www.youtube.com/watch?v=IHP7P_HlcBk)
@@ -47,7 +47,6 @@ cool shorter links:
  [History and comparison of programming languages](https://www.gavilan.edu/csis/languages/history.html)
  [A Conversation with Arthur Whitney](https://queue.acm.org/detail.cfm?id=1531242)
  [The J Incunabulum](https://code.jsoftware.com/wiki/Essays/Incunabulum) (I strongly recommend that every programmer understand this, everyone will learn something)
-  [Resurrecting the spells of olde](http://www.jsoftware.com/pipermail/chat/2020-March/008507.html)
  [Foundations of the gerku language](https://hackmd.io/1qURQz3vTU-7w-Q08CV_sw)
  [jonesforth](https://github.com/nornagon/jonesforth)
  [Layman's explanation of delimited continuations](https://gist.github.com/sebfisch/2235780)

@@ -4,6 +4,7 @@
 * `t<id> for a textarea
 * `c<id> for a div
 * `sc< and >`sc for javascript
+* todo: fix newline whitespace on jslisp, ski.wm
 
      DEFINE("unlink(s)", "ulk") :(unst)
 ulk  s "<a href='" arb . link "'>" arb . name "</a>" = "[" name "](" link ")" :s(ulk)
@@ -19,7 +20,9 @@ st   output = "<!DOCTYPE html>"
      output = "<head>"
      output = "  <title>Garklein's stuff</title>"
      output = "  <style>"
-     output = "pre:not(.code) { white-space: pre-wrap; max-width: 80ch; }"
+     output = ":root          { display:flex; justify-content:center; }"
+     output = "pre            { margin:auto; }"
+     output = "pre:not(.code) { white-space:pre-wrap; max-width:80ch; }"
      output = "  </style>"
      output = "</head>"
      output = "<body>"
@@ -44,6 +47,7 @@ scpt file "`sc&lt;" nl arb . c "&gt;`sc" nl = "<script>"                 unesc(c
 
 out  file arb . output nl =  :s(out)
 
+     output = "<br><pre style='max-width:4ch'><a href='./index.html' >home</a></pre>"
      output = "  </pre>"
      output = "</body>"
 end

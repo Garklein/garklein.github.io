@@ -41,7 +41,7 @@ lt   file ">" = "&gt;" :s(lt)
 inp  file "`t&lt;" arb . id "&gt;" = "<textarea id='" id "'></textarea>" :s(inp)
 div  file "`d&lt;" arb . id "&gt;" = "<div id='"      id "'></div>"      :s(div)
 
-link file "[" break("]") . name "](" break(")") . link ")" = "<a href='" link "'>" name "</a>" :s(link)
+link file "[" break("[]") . name "](" break(")") . link ")" = "<a href='" link "'>" name "</a>" :s(link)
 code file "```"     nl arb . c "```"     nl = "</pre><pre class='code'>" unlink(c) "</pre><pre>" :s(code)
 scpt file "`sc&lt;" nl arb . c "&gt;`sc" nl = "<script>"                 unesc(c) "</script>"   :s(scpt)
 

@@ -12,6 +12,7 @@ An interesting comment on its history from the second post:
 ------------
 Scott Ludwig
 June 22, 2004
+
 "The first one, which is the one that most people know about, is “Systems Hungarian”.  System’s Hungarian is also “Hungarian-as-interpreted-by-Scott-Ludwig”.  In many ways, it’s a bastardization of “real” (or Apps) Hungarian as proposed by Charles Simonyi."
 
 Hi Larry. Now I'm famous :). The story is that the hungarian bastardization originally came from the documentation folks. In the systems group we originally produced raw documentation for them that had standard "apps like" hungarian. They decided it was too obtuse for documentation so they did some serious readability changes to it. They are not programmers so this wasn't a graceful operation. This had a *huge* secondary effect because new programmers in the systems group would read the documentation and "more or less" reproduce that "documentation group" style. Not to mention books were written about the api that referenced that style. Pretty soon we had more code in this "docs group" style than in any other style.
@@ -23,6 +24,7 @@ Good to hear you are still cranking away. I hope all is going well with you.
 --------------
 Larry Osterman
 June 22, 2004
+
 Wow! Thanks Scott for the clarification.
 
 I apologize for taking your name in vain, btw, I didn't have contact info for you so I didn't check it with you. I REALLY appreciate the clarification.

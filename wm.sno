@@ -4,7 +4,6 @@
 * `t<id> for a textarea
 * `c<id> for a div
 * `sc< and >`sc for javascript
-* todo: fix newline whitespace on jslisp, ski.wm
 
      DEFINE("unlink(s)", "ulk") :(unst)
 ulk  s "<a href='" arb . link "'>" arb . name "</a>" = "[" name "](" link ")" :s(ulk)

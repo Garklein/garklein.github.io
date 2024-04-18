@@ -10,7 +10,6 @@ P=t=>t.map(x=>x[1]?`(${P(x)})`:x[0]).join``
 //while(s=require("readline-sync").question("> "))console.log(P(E(R(s))))
 ```
 
-
 A applies a function to an argument
 
 now, this wasn't short enough to fit in the 180 character discord about me
@@ -22,7 +21,6 @@ A:{$["I"=*x;y;("K"=*x)&2=#x;*x;("S"=*x)&3=#x;o[o[x@1;y];o[x@2;y]];x,,y]}
 E:{$[@x;,x;A/o'x]}
 P:,/{$[1=#x;*x;"(",o x,")"]}'
 ```
-
 
 and to round it off, here's a haskell one:
 

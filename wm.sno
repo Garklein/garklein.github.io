@@ -16,12 +16,13 @@ ult  s "&gt;" = ">"            :s(ult)
 
 
 st   output = "<!DOCTYPE html>"
+     output = "<html>"
      output = "<head>"
      output = "  <title>Garklein's stuff</title>"
      output = "  <style>"
-     output = ":root          { display:flex; justify-content:center; font-size:14px; }"
      output = "pre            { margin:auto; }"
      output = "pre:not(.code) { white-space:pre-wrap; max-width:80ch; }"
+     output = "body           { display:flex; justify-content:center; align-items:center; min-height:100vh; font-size:1rem; }"
      output = "  </style>"
      output = "</head>"
      output = "<body>"
@@ -49,4 +50,5 @@ out  file arb . output nl =  :s(out)
      output = "<br><pre style='max-width:4ch'><a href='./index.html'>home</a></pre>"
      output = "  </pre>"
      output = "</body>"
+     output = "</html>"
 end

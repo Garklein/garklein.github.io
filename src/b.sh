@@ -1,3 +1,4 @@
+cd "${0%/*}"
 rm ../*.html
 for f in $(ls | grep \.wm$ | cut -d . -f 1)
 do

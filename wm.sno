@@ -20,12 +20,13 @@ st   output = "<!DOCTYPE html>"
      output = "<head>"
      output = "  <title>Garklein's stuff</title>"
      output = "  <style>"
+     output = "body           { display:flex; flex-direction:column; justify-content:center; min-height:100vh;"
+     output = "                 align-items:center; margin:0; font-size:1rem; }"
      output = "pre            { margin:auto; }"
      output = "pre:not(.code) { white-space:pre-wrap; max-width:80ch; }"
-     output = "body           { display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; flex-direction:column; font-size:1rem; }"
      output = "  </style>"
      output = "</head>"
-     output = "<body>"
+     output = "<body><div><br>"
 
      nl = "*~3|a."
      file = input
@@ -51,7 +52,7 @@ scpt file "`sc&lt;" nl arb . c "&gt;`sc" = "<script>"                 nl unesc(c
      file = file nl
 out  file arb . output nl =  :s(out)
 
-     output = "<pre style='max-width:4ch'><a href='./index.html'>home</a></pre>"
-     output = "</body>"
+     output = "<pre style='max-width:4ch'><br><a href='./index.html'>home</a></pre>"
+     output = "<br><br></div></body>"
      output = "</html>"
 end

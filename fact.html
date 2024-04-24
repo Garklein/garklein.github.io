@@ -3,12 +3,13 @@
 <head>
   <title>Garklein's stuff</title>
   <style>
+body           { display:flex; flex-direction:column; justify-content:center; min-height:100vh;
+                 align-items:center; margin:0; font-size:1rem; }
 pre            { margin:auto; }
 pre:not(.code) { white-space:pre-wrap; max-width:80ch; }
-body           { display:flex; justify-content:center; align-items:center; min-height:100vh; margin:0; flex-direction:column; font-size:1rem; }
   </style>
 </head>
-<body>
+<body><div><br>
 <pre class='code'>
 fact:*/1+!:                                            /ok not bad, but we can do better
 fact:{$[~x;1;x*fact x-1]}                              /that's more like it
@@ -18,6 +19,6 @@ fact:{*/{{x[y y]z}[x]{x[y y]z}x}[{$[~y;();y,x y-1]}]x} /*you're scaring me*
 range:{{x[y y]z}[x]{x[y y]z}x}[{$[=/0 1+y;();(*y),x@1 0+y]}]
 /range 5 10
 </pre>
-<pre style='max-width:4ch'><a href='./index.html'>home</a></pre>
-</body>
+<pre style='max-width:4ch'><br><a href='./index.html'>home</a></pre>
+<br><br></div></body>
 </html>

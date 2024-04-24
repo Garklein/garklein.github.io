@@ -44,12 +44,14 @@ link file "[" break("[]") . name "](" break(")") . link ")" = "<a href='" link "
 code file "```"     nl arb . c "```"     = "</pre><pre class='code'>" nl unlink(c) "</pre><pre>"   :s(code)
 scpt file "`sc&lt;" nl arb . c "&gt;`sc" = "<script>"                 nl unesc(c) "</script>"      :s(scpt)
 
-     file = "  <pre>" nl file
-* remove leading <pre></pre>
-     file "<pre>" pos(7) nl "</pre>" = ""
+     file = "<pre>" nl file
+     file = file "</pre>"
+     file pos(0) "<pre>" nl "</pre>" = ""
+     file        "<pre>" nl "</pre>"     rpos(0)         = ""
+     file = file nl
 out  file arb . output nl =  :s(out)
 
-     output = "<br><pre style='max-width:4ch'><a href='./index.html'>home</a></pre></pre>"
+     output = "<pre style='max-width:4ch'><a href='./index.html'>home</a></pre>"
      output = "</body>"
      output = "</html>"
 end

@@ -47,8 +47,8 @@ scpt file "`sc&lt;" nl arb . c "&gt;`sc" = "<script>"                 nl unesc(c
 
      file = "<pre>" nl file
      file = file "</pre>"
-     file pos(0) "<pre>" nl "</pre>" = ""
-     file        "<pre>" nl "</pre>"     rpos(0)         = ""
+     file pos(0) "<pre>" nl "</pre>"         = ""
+     file        "<pre>" nl "</pre>" rpos(0) = ""
      file = file nl
 out  file arb . output nl =  :s(out)
 

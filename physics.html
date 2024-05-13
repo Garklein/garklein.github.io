@@ -1,0 +1,24 @@
+<style>
+body { display:flex; flex-direction:column; align-items:center; font-size:1rem; }
+</style>
+
+<div><pre>
+Angle (degrees):              <input id=t  value=45><br>
+Vertical displacement (m):    <input id=dv value=0><br>
+Horizontal displacement (m):  <input id=dh value=3.96><br>
+Mass (kg):                    <input id=m  value=0.0138><br>
+Spring constant (N/m):        <input id=k  value=27.23><br>
+Vertical offset (m):          <input id=vo value=-0.1><br>
+<pre></div>
+<button onclick=run(t.value*Math.PI/180,+dv.value+(+vo.value),+dh.value,+m.value,+k.value)>go</button>
+<pre>naive | ideal</pre>
+
+<script>with(Math){
+fe=0.0155
+quad=(a,b,c)=>(-b+sqrt(b**2-4*a*c)) / (2*a)
+vv   =(t,dv,dh)    =>(4.9*dh**2) / (cos(t)**2*(dh*tan(t)-dv))
+naive=(t,dv,dh,m,k)=>sqrt(m*vv(t,dv,dh)/k)
+ideal=(t,dv,dh,m,k)=>quad(k/2,1.959-k*fe,k/2*fe**2-1.959*fe+0.0024064-m/2*vv(t,dv,dh))
+fmt=m=>{cm=m*100,mm=cm%1,cm-=mm,mm*=10;return`${cm} cm ${mm.toFixed(1)} mm`}
+run=(t,dv,dh,m,k)=>document.body.innerHTML+=`<pre>${fmt(naive(t,dv,dh,m,k))} | ${fmt(ideal(t,dv,dh,m,k))}</pre>`
+}</script>

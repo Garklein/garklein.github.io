@@ -14,7 +14,6 @@ ugt  s "&lt;" = "<"            :s(ugt)
 ult  s "&gt;" = ">"            :s(ult)
      unesc = unlink(s)         :(return)
 
-
 st   output = "<!DOCTYPE html>"
      output = "<html>"
      output = "<head>"
@@ -27,6 +26,8 @@ st   output = "<!DOCTYPE html>"
      output = "  </style>"
      output = "</head>"
      output = "<body><div><br>"
+
+     filename = input
 
      nl = "*~3|a."
      file = input
@@ -52,7 +53,16 @@ scpt file "`sc&lt;" nl arb . c "&gt;`sc" = "<script>"                 nl unesc(c
      file = file nl
 out  file arb . output nl =  :s(out)
 
-     output = "<pre style='max-width:4ch'><br><a href='./index.html'>home</a></pre>"
+*    todo: centre this stuff
+
+     filename break("/") . folder "/" break(".") . file ".wm"
+     home = "./index.html"
+der  filename "/" = "" :f(hm)
+     home = "../" home :(der)
+hm   links = "<pre style='max-width:1ch'><br><a href='" home "'>~</a>"
+     links = links "&nbsp;<a href='./" folder ".html'>" folder "</a>"
+     output = links "</pre>"
      output = "<br><br></div></body>"
+
      output = "</html>"
 end

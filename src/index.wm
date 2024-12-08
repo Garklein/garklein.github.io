@@ -12,11 +12,12 @@ Garklein's website
 [fact.k](./fact.html)
 [l.k](./l.html) (dumb sexpr evaluator)
 
-[.io games](./io.html)
+[.io games](./io/io.html)
 [loads o' links](./links.html)
 [cool fonts](./fonts.html)
-[my favourite bits of internet lore](./lore.html)
+[my favourite bits of internet lore](./lore/lore.html)
 
 [SNOBOL DSL that generates html for this site](./wm.txt) [rationale](./rationale.jpg)
 [source](https://github.com/Garklein/garklein.github.io) (please open an issue if something is broken)
+
 garklein97@gmail.com

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body           { display:flex; flex-direction:column; align-items:center;
+                 font-size:1rem; }
+pre            { margin:auto; }
+pre:not(.code) { white-space:pre-wrap; max-width:80ch; }
+  </style>
+</head>
+<body><div><br><br><br>
+<pre class='code'>
+i:0N 2#.'1:"i/9.in"
+a:(+/*'i)#,/&'i               / blocks that will be used, is it free?
++/(&*'i)*(&~a),|&a            / part 1: checksum: file ID * block position
+
+a:@[&+/'i;&,/&'i;:;0N]        / blocks, null for empty
+m:{                           / move[blocks, ID]
+ l:+/x=y                      / length of file
+ i:(*&x=y)&/&l&/':^x          / first available free space
+ @[@[x;&y=x;:;0N];i+!l;:;y]}  / move file to i
++/(f^0N)*&~^f:a m/|!#i        / part 2: move blocks in descending order, then checksum
+</pre><pre>
+
+Another lame imperative day...
+I have a feeling there's a more elegant way to express part 1, but I just can't grasp it.
+Part 2 can definitely be optimized, at the cost of clarity. For example, you only need to consider free blocks to the left of the file. I experimented with other methods of finding the first available free space, such as whiles and null scans, but stencil seemed to be the fastest.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='9.html'>9.html</a></pre>
+</div></body>
+</html>

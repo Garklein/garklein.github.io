@@ -5,7 +5,8 @@ These are some ngn/k idioms I've found helpful in solving this year's challenges
 
 Grouping Dictionary
 -------------------
-If we have keys k and values v, and we want to make a dictionary where all values with the same key are grouped, we can use =v!k. This works because the undocumented monad =d swaps keys and values (thanks [dzaima](https://github.com/dzaima?tab=repositories)!).
+If we have keys k and values v, and we want to make a dictionary where all values with the same key are grouped, we can use =v!k. This works because the monad = on a dictionary swaps keys and values (thanks [dzaima](https://github.com/dzaima?tab=repositories)!).
+bs
 
 ```
  k:`a`b`c`a

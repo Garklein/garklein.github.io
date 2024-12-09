@@ -3,3 +3,5 @@
 +/x|-x:-/{x@<x}'(l;r)  / part 1: sum of distances between sorted lists
 +/l*+/'l=\:r           / part 2: sum of elements in left * how often they occur in right
 ```
+
+Check out [shadow's solution](https://github.com/shadowninja55/advent-of-code/blob/main/2024/01/1.k) for some fun sneaky input abuse!

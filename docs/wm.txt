@@ -20,12 +20,12 @@ st   output = "<!DOCTYPE html>"
      output = "  <title>Garklein's stuff</title>"
      output = "  <style>"
      output = "body           { display:flex; flex-direction:column; align-items:center;"
-     output = "                  margin-top:10vh; font-size:1rem; }"
+     output = "                  font-size:1rem; }"
      output = "pre            { margin:auto; }"
      output = "pre:not(.code) { white-space:pre-wrap; max-width:80ch; }"
      output = "  </style>"
      output = "</head>"
-     output = "<body><div><br>"
+     output = "<body><div><br><br><br>"
 
      filename = input
 
@@ -42,7 +42,7 @@ lt   file ">" = "&gt;" :s(lt)
 inp  file "`t&lt;" arb . id "&gt;" = "<textarea id='" id "'></textarea>" :s(inp)
 div  file "`d&lt;" arb . id "&gt;" = "<div id='"      id "'></div>"      :s(div)
 
-link file "[" break("[]") . name "](" break(")") . link ")" = "<a href='" link "'>" name "</a>" :s(link)
+link file "[" break("[]") . name "](" break(")") . link ")" = "<a href='" link "'>" name "</a>"    :s(link)
 code file "```"     nl arb . c "```"     = "</pre><pre class='code'>" nl unlink(c) "</pre><pre>"   :s(code)
 scpt file "`sc&lt;" nl arb . c "&gt;`sc" = "<script>"                 nl unesc(c) "</script>"      :s(scpt)
 
@@ -53,16 +53,19 @@ scpt file "`sc&lt;" nl arb . c "&gt;`sc" = "<script>"                 nl unesc(c
      file = file nl
 out  file arb . output nl =  :s(out)
 
-*    todo: centre this stuff
+     output = "<br>"
 
-     filename break("/") . folder "/" break(".") . file ".wm"
-     home = "./index.html"
-der  filename "/" = "" :f(hm)
-     home = "../" home :(der)
-hm   links = "<pre style='width:100%;text-align:center'><br><a href='" home "'>~</a>"
-     links = links " <a href='./" folder ".html'>" folder "</a>"
-     output = links "</pre>"
-     output = "<br><br></div></body>"
+     filename break("/.") . file ".wm" =
+     path = "/<a href='" file ".html'>" file ".html</a>"
+     back = ""
+
+nst  filename break("/") . folder "/" rpos(0) = :f(home)
+     path = "/<a href='" back folder ".html'>" folder "</a>" path
+     back = back "../" :(nst)
+
+home path   = "<a href='" back "index.html'>~</a>" path
+     output = "<pre style='width:100%;text-align:center'><br>" path "</pre>"
+     output = "</div></body>"
 
      output = "</html>"
 end

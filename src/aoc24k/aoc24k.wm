@@ -3,15 +3,13 @@ Advent of Code 2024 in K
 
 This year, I'm doing Advent of Code in K ([ngn/k](https://codeberg.org/ngn/k)).
 
-I am also a fan of [shadow's elegant solutions](https://github.com/shadowninja55/advent-of-code/tree/main/2024) and [Rory Kemp's excellent writeups](https://q.kx.com/aoc24/) (though in Q).
+Near the beginning, my K was quite rusty and my solutions weren't the best; but my K-fu started coming back.
+
+I am also a fan of [shadow's elegant solutions](https://github.com/shadowninja55/advent-of-code/tree/main/2024) and [Rory Kemp's excellent (Q) writeups](https://q.kx.com/aoc24/).
 
 [Idiom list](idioms.html)
 
-
-                  *     *     *     *     *     *     *     *
-              WARNING: everything below this is the SPOILER ZONE!!
-              ----------------------------------------------------
-
 [Day 1](1.html)
+[Day 2](2.html)
 [Day 7](7.html)
 [Day 8](8.html)

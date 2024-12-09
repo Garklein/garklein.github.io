@@ -1,0 +1,6 @@
+```
+i:,/0:"i/3.in"
+m:+/*/'(2=#:')#(0^`I$","\*")"\)'"mul("\  / sum of product of valid (2-length) multiplications
+m i                                      / part 1: valid multiplications
+m@,/*'"don't()"\'"do()"\i                / part 2: cut out the parts between don't() and do()
+```

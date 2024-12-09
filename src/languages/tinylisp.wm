@@ -1,8 +1,8 @@
-a tiny "lisp" I made for fun
-==========================
+a tiny "lisp" i made for fun
+============================
 
 supports variables (with the set function), numbers, addition, and lambdas
-probably will anger lisp purists if I call it a lisp because no quotes, eval/apply, or any of that truly lispy stuff
+however, no quotes, eval/apply, or any of that truly lispy stuff
 
 
 ```

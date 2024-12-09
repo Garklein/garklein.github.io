@@ -1,17 +1,11 @@
 Garklein's website
 ==================
 
-[simplebf.c](./bf.html)
 [Speeding up readable-mlatu by 3500x](./optimize.html)
 [Solution to CCC 23 S3](./ccc23s3.html)
 [Hungarian Notation](./hungarian.html)
-[how I see language families](./families.html)
-[about adding new K primitives](./strength.html)
-[tiny "lisp"](./tinylisp.html)
-[ski combinator madness](./ski.html)
-[fact.k](./fact.html)
-[l.k](./l.html) (dumb sexpr evaluator)
 
+[programming language fun](./languages/languages.html)
 [.io games](./io/io.html)
 [loads o' links](./links.html)
 [cool fonts](./fonts.html)

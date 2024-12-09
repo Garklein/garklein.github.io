@@ -59,8 +59,8 @@ out  file arb . output nl =  :s(out)
      home = "./index.html"
 der  filename "/" = "" :f(hm)
      home = "../" home :(der)
-hm   links = "<pre style='max-width:1ch'><br><a href='" home "'>~</a>"
-     links = links "&nbsp;<a href='./" folder ".html'>" folder "</a>"
+hm   links = "<pre style='width:100%;text-align:center'><br><a href='" home "'>~</a>"
+     links = links " <a href='./" folder ".html'>" folder "</a>"
      output = links "</pre>"
      output = "<br><br></div></body>"
 

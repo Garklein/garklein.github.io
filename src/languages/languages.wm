@@ -1,0 +1,10 @@
+programming language fun
+========================
+
+[simplebf.c](./bf.html)
+[how I see language families](./families.html)
+[about adding new K primitives](./strength.html)
+[tiny "lisp"](./tinylisp.html)
+[ski combinator madness](./ski.html)
+[fact.k](./fact.html)
+[l.k](./l.html) (dumb sexpr evaluator)

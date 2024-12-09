@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body           { display:flex; flex-direction:column; align-items:center;
+                  font-size:1rem; }
+pre            { margin:auto; }
+pre:not(.code) { white-space:pre-wrap; max-width:80ch; }
+  </style>
+</head>
+<body><div><br><br><br>
+<pre class='code'>
+i:0:"i/8.in"
+p:,/{+x@&~=#x}'.=x!(i.)'x:+&"."&lt;i  / all pairs of antennae with the same frequency
+t:{-1_(~^i.)+[x-y;]\x}.'p          / list of antinodes produced by each pair
++/~^*'?*'1_'t                      / part 1: number of unique "first" antinodes
+#?,/t                              / part 2: number of unique antinodes
+</pre><pre>
+
+Today, part 1 was a bit annoying I have to get the second element of each antinode list. If the list only has one element, nulls start showing up, and the code to handle them gets clumsy.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='8.html'>8.html</a></pre>
+</div></body>
+</html>

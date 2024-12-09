@@ -1,0 +1,9 @@
+```
+i:0:"i/8.in"
+p:,/{+x@&~=#x}'.=x!(i.)'x:+&"."<i  / all pairs of antennae with the same frequency
+t:{-1_(~^i.)+[x-y;]\x}.'p          / list of antinodes produced by each pair
++/~^*'?*'1_'t                      / part 1: number of unique "first" antinodes
+#?,/t                              / part 2: number of unique antinodes
+```
+
+Today, part 1 was a bit annoying I have to get the second element of each antinode list. If the list only has one element, nulls start showing up, and the code to handle them gets clumsy.

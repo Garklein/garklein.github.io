@@ -1,0 +1,10 @@
+```
+i:.''":"\'0:"i/7.in"
+f:{+/{y*|/y={,/x.\:(y;z)}[x]/z}[x].'i}  / given a list of operators, how many equations can be solved?
+f(+;*)
+f(+;*;{y+x*/(#$y)#10})
+```
+
+Fun day! For part 2, I used a slightly odd concatenation function. This is because it works on a list x and scalar y, and not just scalar x and y. I found that by going from an explicit (previously, I was using eachright) to an implicit loop like this, I sped up my solution by a factor of ten.
+
+P.S. ngn/k is a beast for being able to brute force this (I'm not doing anything clever) in 100 ms

@@ -59,9 +59,9 @@ out  file arb . output nl =  :s(out)
      path = "/<a href='" file ".html'>" file ".html</a>"
      back = ""
 
-nst  filename break("/") . folder "/" rpos(0) = :f(home)
+fld  filename break("/") . folder "/" rpos(0) = :f(home)
      path = "/<a href='" back folder ".html'>" folder "</a>" path
-     back = back "../" :(nst)
+     back = back "../" :(fld)
 
 home path   = "<a href='" back "index.html'>~</a>" path
      output = "<pre style='width:100%;text-align:center'><br>" path "</pre>"

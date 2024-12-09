@@ -1,0 +1,5 @@
+```
+(l;r):+.'0:"i/1.in"
++/x|-x:-/{x@<x}'(l;r)  / part 1: sum of distances between sorted lists
++/l*+/'l=\:r           / part 2: sum of elements in left * how often they occur in right
+```

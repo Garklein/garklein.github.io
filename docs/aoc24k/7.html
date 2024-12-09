@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body           { display:flex; flex-direction:column; align-items:center;
+                  font-size:1rem; }
+pre            { margin:auto; }
+pre:not(.code) { white-space:pre-wrap; max-width:80ch; }
+  </style>
+</head>
+<body><div><br><br><br>
+<pre class='code'>
+i:.''":"\'0:"i/7.in"
+f:{+/{y*|/y={,/x.\:(y;z)}[x]/z}[x].'i}  / given a list of operators, how many equations can be solved?
+f(+;*)
+f(+;*;{y+x*/(#$y)#10})
+</pre><pre>
+
+Fun day! For part 2, I used a slightly odd concatenation function. This is because it works on a list x and scalar y, and not just scalar x and y. I found that by going from an explicit (previously, I was using eachright) to an implicit loop like this, I sped up my solution by a factor of ten.
+
+P.S. ngn/k is a beast for being able to brute force this (I'm not doing anything clever) in 100 ms
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='7.html'>7.html</a></pre>
+</div></body>
+</html>

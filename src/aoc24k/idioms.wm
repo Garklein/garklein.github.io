@@ -1,0 +1,44 @@
+K Idioms
+========
+
+These are some ngn/k idioms I've found helpful in solving this year's challenges.
+
+Grouping Dictionary
+-------------------
+If we have keys k and values v, and we want to make a dictionary where all values with the same key are grouped, we can use =v!k. This works because the undocumented monad =d swaps keys and values (thanks [dzaima](https://github.com/dzaima?tab=repositories)!).
+
+```
+ k:`a`b`c`a
+ v:9 2 8 3
+ =v!k
+`a`b`c!(9 3;,2;,8)
+```
+
+Seed Sowing
+-----------
+If we want to make sure f holds for x and g holds for all elements of y, our first instinct might be to use (f x)&&/g'y. However, we can use a seed to make this nicer: (f x)&/g'y. Of course, this also applies for other folds (|, *, etc).
+
+```
+ f:0<
+ g:~2!
+ (f 3)&/g 8 2 4
+1
+ (f 3)&/g 8 2 5
+0
+ (f -10)&/g 8 2 4
+0
+```
+
+Index in Range?
+---------------
+To check if an index x is the range of an input array i, we can use (~^i.)x. This indexes into the array, and makes sure it's not null (i.e. it is a valid index). However, it won't work if there are any nulls (probably spaces) in your array.
+
+```
+ i:("***";"*..";".*.")
+ x:2 1    / a valid index
+ (~^i.)x
+1
+ x:3 -4
+ (~^i.)x  / an invalid index
+0
+```

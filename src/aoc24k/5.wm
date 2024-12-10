@@ -5,4 +5,5 @@ g:{(!d)@>#'.d:=*'(|/'^x?)_r}'u            / part 1: correctly order each update 
 ```
 
 This orders pages by tracking "before" frequencies in all the applicable rules. The first page will have the most left hand side rule appearances, since the rules must place it before all the other pages, etc.
+
 I didn't know the [dict trick](idioms.html) at the time...

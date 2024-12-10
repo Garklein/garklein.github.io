@@ -6,6 +6,7 @@ d:{(,/x)@.=+/!2##x}                               / rotate matrix so the diagona
 ```
 
 Not my proudest day... like usual, check out [shadow's solution](https://github.com/shadowninja55/advent-of-code/blob/main/2024/04/4.k) for some quality code!
+
 For part 2, I use the addition to verify that each opposing corner is different:
  M.S
  .A.

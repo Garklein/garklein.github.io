@@ -1,0 +1,13 @@
+```
+i:0:"i/4.in"
+d:{(,/x)@.=+/!2##x}                               / rotate matrix so the diagonal is straight
+-1+#"XMAS"\" "/x,|'x:,/(i;+i;d i;d@|i)            / part 1: matches of XMAS in all flips, rotations
++/{("A"=x@4)&/160=+/x(0 2;8 6)}',/(,/'3':+)'3':i  / part 2: how many 3x3 windows are X-MASes
+```
+
+Not my proudest day... like usual, check out [shadow's solution](https://github.com/shadowninja55/advent-of-code/blob/main/2024/04/4.k) for some quality code!
+For part 2, I use the addition to verify that each opposing corner is different:
+ M.S
+ .A.
+ S.M
+isn't a valid X-MAS.

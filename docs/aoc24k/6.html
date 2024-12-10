@@ -25,9 +25,9 @@ lp:{m@*|ok(mv[b,,x].)/(!0;s)}   / obstacle here loops?
 +/lp'P                          / part 2: number of loops
 </pre><pre>
 
-An imperative day...
+A nasty imperative day...
 
-For some reason, I was dead set against using mutation for part 2, which means I inadvertantly ended up emulating a state monad in K. Do not do this. Just use state.
+For some reason, I was dead set against using mutation for part 2, which means I inadvertantly ended up emulating a state monad in K. Do not do this. <a href='https://github.com/shadowninja55/advent-of-code/blob/main/2024/06/6.k'>Just use state</a>.
 
 This can be sped up, for example by starting each loop check when the guard hits the obstacle, and not from the very state.
 </pre>

@@ -14,7 +14,45 @@ pre:not(.code) { white-space:pre-wrap; max-width:80ch; }
 K Idioms
 ========
 
-These are some ngn/k idioms I've found helpful in solving this year's challenges.
+These are some fun ngn/k tricks idioms and tricks I've found helpful in solving this year's challenges.
+
+Moving a Position
+-----------------
+If you store velocity and position as (vel;pos), you can do:
+
+</pre><pre class='code'>
+ x:2 10
+ +/x    / next position
+12
+ +\x    / next position with same velocity (so you can move again)
+2 12
+ -/|x   / previous position
+8
+ -':x   / previous position with same velocity
+2 8
+</pre><pre>
+
+Generating Direction Vectors
+----------------------------
+To generate a list of up, down, left, and right, we can use ,/-:\=2, which is the concatenation of I2 and its negation.
+To generate a list of these and diagonals, we can use (+1-!3 3)^,0 0. Often, you can eliminate the ()^,&2 by writing your function so that not moving doesn't do anything.
+
+</pre><pre class='code'>
+ ,/-:\=2
+(1 0
+ 0 1
+ -1 0
+ 0 -1)
+ (+1-!3 3)^,&2
+(1 1
+ 1 0
+ 1 -1
+ 0 1
+ 0 -1
+ -1 1
+ -1 0
+ -1 -1)
+</pre><pre>
 
 Grouping Dictionary
 -------------------

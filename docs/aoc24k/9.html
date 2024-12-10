@@ -16,7 +16,7 @@ a:(+/*'i)#,/&'i               / blocks that will be used, is it free?
 +/(&*'i)*(&~a),|&a            / part 1: checksum: file ID * block position
 
 a:@[&+/'i;&,/&'i;:;0N]        / blocks, null for empty
-m:{                           / move[blocks, ID]
+m:{                           / move[blocks;ID]
  l:+/x=y                      / length of file
  i:(x?y)&/&l&/':^x            / first available free space
  @[@[x;&y=x;:;0N];i+!l;:;y]}  / move file to i

@@ -1,25 +1,20 @@
 ```
 i:0:"i/6test.in"
 m:~^i.*|:                       / on map
-s:(-1 0;,/&"^"=i)               / starting (dir, pos)
+s:(-1 0;,/&"^"=i)               / starting (dir;pos)
 b:+&"#"=i                       / oBstructions
 w:{(@[y;0;|-1 1*];+\y)@^x?+/y}  / walk one step
 P:?*|+-1_m w[b]\s               / guard's path on the map (deduped)
 #P                              / part 1: length of the path
 
-tr:{(y,,z;w[x;z])}              / obstacles, trace, position
-ok:{(^x?y)&m y}.                / trace, position
+tr:{(y,,z;w[x;z])}              / move[obstacles;trace;position] -> (tr';pos')
+ok:{(^x?y)&m y}.                / ok[tr;pos] (on map and hasn't looped)
 lp:{m@*|ok(tr[b,,x].)/(!0;s)}   / obstacle here loops?
 +/lp'P                          / part 2: number of loops
 ```
 
 An imperative day...
-For some reason, I was dead set against using mutation today, which means I inadvertantly ended up emulating a state monad in K. Do not do this. Just use state.
+
+For some reason, I was dead set against using mutation for part 2, which means I inadvertantly ended up emulating a state monad in K. Do not do this. Just use state.
 
 This can be sped up, for example by starting each loop check when the guard hits the obstacle, and not from the very state.
-
-Fun tricks you can do when storing direction and position as (dir;pos):
- next position: +/x
- next position while keeping direction: +\x
- previous position: -/|x
- previous position while keeping direction: -':x

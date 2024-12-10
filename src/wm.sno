@@ -5,11 +5,11 @@
 * `c<id> for a div
 * `sc< and >`sc for javascript
 
-     DEFINE("unlink(s)", "ulk") :(unst)
+     define("unlink(s)", "ulk") :(unst)
 ulk  s "<a href='" arb . link "'>" arb . name "</a>" = "[" name "](" link ")" :s(ulk)
-     unlink = s                                                               :(return)
+     unlink = s  :(return)
 
-unst DEFINE("unesc(s)", "ugt") :(st)
+unst define("unesc(s)", "ugt") :(st)
 ugt  s "&lt;" = "<"            :s(ugt)
 ult  s "&gt;" = ">"            :s(ult)
      unesc = unlink(s)         :(return)
@@ -20,12 +20,12 @@ st   output = "<!DOCTYPE html>"
      output = "  <title>Garklein's stuff</title>"
      output = "  <style>"
      output = "body           { display:flex; flex-direction:column; align-items:center;"
-     output = "                 font-size:1rem; }"
-     output = "pre            { margin:auto; }"
-     output = "pre:not(.code) { white-space:pre-wrap; max-width:80ch; }"
+     output = "                 font-size:1rem; margin:min(10vw,100px) auto; }"
+     output = "pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }"
+     output = ".code          { max-width:80vw; word-break:break-all; }"
      output = "  </style>"
      output = "</head>"
-     output = "<body><div><br><br><br>"
+     output = "<body><div>"
 
      filename = input
 

@@ -7,9 +7,9 @@ w:{(@[y;0;|-1 1*];+\y)@^x?+/y}  / walk one step
 P:?*|+-1_m w[b]\s               / guard's path on the map (deduped)
 #P                              / part 1: length of the path
 
-tr:{(y,,z;w[x;z])}              / move[obstacles;trace;position] -> (tr';pos')
+mv:{(y,,z;w[x;z])}              / move[obstacles;trace;position] -> (tr';pos')
 ok:{(^x?y)&m y}.                / ok[tr;pos] (on map and hasn't looped)
-lp:{m@*|ok(tr[b,,x].)/(!0;s)}   / obstacle here loops?
+lp:{m@*|ok(mv[b,,x].)/(!0;s)}   / obstacle here loops?
 +/lp'P                          / part 2: number of loops
 ```
 

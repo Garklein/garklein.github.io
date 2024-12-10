@@ -6,7 +6,7 @@ a:(+/*'i)#,/&'i               / blocks that will be used, is it free?
 a:@[&+/'i;&,/&'i;:;0N]        / blocks, null for empty
 m:{                           / move[blocks, ID]
  l:+/x=y                      / length of file
- i:(x?y)&*&l&/':^x            / first available free space
+ i:(x?y)&/&l&/':^x            / first available free space
  @[@[x;&y=x;:;0N];i+!l;:;y]}  / move file to i
 +/(f^0N)*&~^f:a m/|!#i        / part 2: move blocks in descending order, then checksum
 ```

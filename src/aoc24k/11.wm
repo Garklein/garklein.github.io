@@ -1,0 +1,9 @@
+```
+i:#'=.1:"i/11.in"
+c:{$[~x;,1;2!#$x;,2024*x;.'2 0N#$x]}  / change a rock
+b:{+/'=!/+,/(.x),''c'!x}              / blink
++/25 b/i                              / part 1: 25 blinks
++/75 b/i                              / part 2: 75 blinks
+```
+
+Two easy days in a row? I'm scared for tomorrow...

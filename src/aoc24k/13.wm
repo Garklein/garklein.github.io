@@ -1,0 +1,10 @@
+```
+i:1:"i/13.in"
+a:0N 6#.i@&~2!" !0:"'i
+s:{[a;d;b;e;c;f]((c*e)-b*f;(f*a)-c*d)%(a*e)-b*d}.  / solve (x;y) in ax+by=c, dx+ey=f
+p:+//3 1*+_(&/'~1!)#s'                             / tokens needed to win all possible prizes
+p a                                                / part 1
+p@a+\:{4 2}#0 1e13                                 / part 2: add 1e13 to prize positions
+```
+
+I'm glad there were no collinear vectors or coefficients that were 0 today :D

@@ -12,8 +12,8 @@ pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 <body><div>
 <pre class='code'>
 (r;u):.''"\n"\'"\n\n"\" "/"|"\1:"i/5.in"  / rules, updates
-g:{(!d)@&gt;#'.d:=*'(|/'^x?)_r}'u            / part 1: correctly order each update (without the last element)
-+/'(g@'-2!#'g)*/:~:\g~'-1_'u              / part 2: sum the centre elements of the correct and corrected updates separately
+g:{(!d)@&gt;#'.d:=*'(|/'^x?)_r}'u            / correctly order each update (without the last element)
++/'(g@'-2!#'g)*/:~:\g~'-1_'u              / sum the centre elements of the correct and corrected updates separately
 </pre><pre>
 
 This orders pages by tracking "before" frequencies in all the applicable rules. The first page will have the most left hand side rule appearances, since the rules must place it before all the other pages, etc.

@@ -1,6 +1,5 @@
 ```
-i:1:"i/13.in"
-a:0N 6#.i@&~2!" !0:"'i
+i:0N 6#.(~2!" !0:"')#1:"i/13.in"
 s:{[a;d;b;e;c;f]((c*e)-b*f;(f*a)-c*d)%(a*e)-b*d}.  / solve (x;y) in ax+by=c, dx+ey=f
 p:+//3 1*+_(&/'~1!)#s'                             / tokens needed to win all possible prizes
 p a                                                / part 1

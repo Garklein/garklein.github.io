@@ -6,4 +6,4 @@ p a                                                / part 1
 p a+\:{4 2}#0 1e13                                 / part 2: add 1e13 to prize coordinates
 ```
 
-I'm glad there were no collinear vectors or coefficients that are 0 today :D
+I'm glad there were no linearly dependent vectors or coefficients that are 0 today :D

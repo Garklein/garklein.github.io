@@ -1,6 +1,6 @@
 ```
 (p;v):+(.'2_'" "\)'0:"i/14.in"
-b:101 103
+b:101 103                           / bounds
 s:(b!')'v+                          / step
 */#'=2/'0<(~*/')_(-2!b)-/:100 s/p   / part 1: shift so 0 0 is centre, binary decode on 0< to get quadrant
 #1_(~|/{20<+/1=-':x@<x}'.=!/+:)s\p  / part 2: find tree

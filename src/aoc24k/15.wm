@@ -1,6 +1,6 @@
 ```
-(i;j):"\n\n"\1:"i/15test.in"
-m:(2#a),,'2:a:+'&'"#@O"=\:"\n"\i  / 0 = wall id, 1 = robot id, 2... = block ids
+(i;j):"\n\n"\1:"i/15.in"
+m:(2#a),,'*|a:+'&'"#@O"=\:"\n"\i  / 0 = wall id, 1 = robot id, 2... = block ids
 d:(,/-:\=2)(^:)_"v>^<"?j          / directions
 s:{                               / step[map;dir] -> map
  p:&|/'~^x?\:y+/:,/x@             / ids -> pushed ids

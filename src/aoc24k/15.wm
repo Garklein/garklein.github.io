@@ -1,0 +1,15 @@
+```
+(i;j):"\n\n"\1:"i/15.in"
+(w;b;r):+'&'"#O@"=\:"\n"\i       / walls, blocks, robot
+m:(-1 0,1+!#b)!(w;r),,'b         / map -1 -> walls, 0 -> robot, 1..n -> blocks
+d:(,/-:\=2)(^:)_"v>^<"?j         / directions
+s:{                              / step[map;dir] -> map
+ p:!(&/'^:)_x?\:y+/:,/x@         / blocks -> pushed blocks
+ a:,/(~|/0>){(x y)^y}[p]\,0      / affected spaces
+ @[x;a;(y*~|/0>a)+/:]}           / update map if valid move
+p:+//100 1*+*'-1 0_s/[;d]@       / part: step through then score
+p m                              / part 1
+p @[{a,0 1+/:a:1 2*/:x}'m;0;1#]  / part 2: stretch 2x wider
+```
+
+Yikes... quite slow too.

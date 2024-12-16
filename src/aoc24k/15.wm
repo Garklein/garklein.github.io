@@ -11,4 +11,4 @@ p m                               / part 1
 p @[{a,0 1+/:a:1 2*/:x}'m;1;1#]   / part 2: stretch 2x wider
 ```
 
-Yikes... quite slow too.
+Yikes... quite slow too. The imperative threeven days strike again.

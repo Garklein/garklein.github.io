@@ -1,23 +1,20 @@
 ```
-(∧):{2/ &/+2\x,y}                   / bitwise and
 (⊻):{2/~=/+2\x,y}                   / bitwise xor
 (≫):{_x%*/y#2}                      / right shift
 
 (a;b;c;z;p):(.*|" "\)'0:"i/17.in"   / initial A, B, C, discard blank line, program
 c:{((!4),A,B,C)@x}                  / combo operand
-I :{A::A≫c x;1},{B::B⊻x  ;1}        / adv, bxl
-I,:{B::7∧c x;1},{        ;~A}       / bst, jnz
-I,:{B::B⊻C  ;1},{O,:7∧c x;1}        / bxc, out
-I,:{B::A≫c x;1},{C::A≫c x;1}        / bdv,cdv
+I :{A::A≫c x},{B::B⊻x}              / adv, bxl
+I,:{B::8!c x},{N*:~A}               / bst, jnz
+I,:{B::B⊻C}  ,{O,:8!c x}            / bxc, out
+I,:{B::A≫c x},{C::A≫c x}            / bdv,cdv
 r:{(A;B;C;O)::x,b,c,,!0;            / A, B, C, Output
- >[#p;]{(x+2)*I.2#x_p}/0;O}         / execute an opcode until out of program
+ >[#p;]{N::x+2;I.2#x_p;N}/0;O}      / N = index of next instruction
 
 `0:","/$r a                         / part 1: program's output
 &/(,0){(y=*'r')#,/(!8)+\:/:8*x}/|p  / part 2: minimum A that outputs the program
 ```
 
-Very imperative, but there's no way around it for this problem.
-
-I handle jumping by having every opcode function return 0/1 for jump/no jump. Perhaps not the most elegant, but it works in this simple case.
+Very imperative, but there's no way around it for this problem (you might even say that the imperative parts are... imperative).
 
 The part 2 solution assumes that the program loops until A is 0, and that every time it does, it shifts A 3 bits to the right.

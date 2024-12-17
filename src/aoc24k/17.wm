@@ -1,5 +1,5 @@
 ```
-(∧):{2/&/+2\x,y}                    / bitwise and
+(∧):{2/ &/+2\x,y}                    / bitwise and
 (⊻):{2/~=/+2\x,y}                   / bitwise xor
 (≫):{_x%*/y#2}                      / left shift
 

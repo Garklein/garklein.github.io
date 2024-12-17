@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body           { display:flex; flex-direction:column; align-items:center;
+                 font-size:1rem; margin:min(10vw,100px) auto; }
+pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code          { max-width:80vw; word-break:break-all; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+(∧):{2/&/+2\x,y}                    / bitwise and
+(⊻):{2/~=/+2\x,y}                   / bitwise xor
+(≫):{_x%*/y#2}                      / left shift
+
+(a;b;c;z;p):(.*|" "\)'0:"i/17.in"   / initial A, B, C, discard blank line, program
+c:{((!4),A,B,C)@x}                  / combo operand
+I :{A::A≫c x;1},{B::B⊻x  ;1}        / adv, bxl
+I,:{B::7∧c x;1},{        ;~A}       / bst, jnz
+I,:{B::B⊻C  ;1},{O,:7∧c x;1}        / bxc, out
+I,:{B::A≫c x;1},{C::A≫c x;1}        / bdv,cdv
+r:{(A;B;C;O)::x,b,c,,!0;            / A, B, C, Output
+ &gt;[#p;]{(x+2)*I.2#x_p}/0;O}         / execute an opcode until out of program
+
+`0:","/$r a                         / part 1: program's output
+&/(,0){(y=*'r')#,/(!8)+\:/:8*x}/|p  / part 2: minimum A that outputs the program
+</pre><pre>
+
+Very imperative, but there's no way around it for this problem.
+
+I handle jumping by having every opcode function return 0/1 for jump/no jump. Perhaps not the most elegant, but it works in this simple case.
+
+The part 2 solution assumes that the program loops until A is 0, and that every time it does, it shifts A 3 bits to the right.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='17.html'>17.html</a></pre>
+</div></body>
+</html>

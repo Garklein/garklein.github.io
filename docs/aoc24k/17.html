@@ -11,20 +11,20 @@ pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 </head>
 <body><div>
 <pre class='code'>
-(⊻):{2/~=/+2\x,y}                   / bitwise xor
-(≫):{_x%*/y#2}                      / right shift
+(⊻):{2/~=/+2\x,y}                  / bitwise xor
+(≫):{_x%*/y#2}                     / right shift
 
-(a;b;c;z;p):(.*|" "\)'0:"i/17.in"   / initial A, B, C, discard blank line, program
-c:{((!4),A,B,C)@x}                  / combo operand
-I :{A::A≫c x},{B::B⊻x}              / adv, bxl
-I,:{B::8!c x},{N*:~A}               / bst, jnz
-I,:{B::B⊻C}  ,{O,:8!c x}            / bxc, out
-I,:{B::A≫c x},{C::A≫c x}            / bdv, cdv
-r:{(A;B;C;O)::x,b,c,,!0;            / A, B, C, Output
- &gt;[#p;]{N::x+2;I.2#x_p;N}/0;O}      / N = index of next instruction
+(a;b;c;z;p):(.*|" "\)'0:"i/17.in"  / initial A, B, C, discard blank line, program
+c:{((!4),A,B,C)@x}                 / combo operand
+I :{A::A≫c x},{B::B⊻x}             / adv, bxl
+I,:{B::8!c x},{N*:~A}              / bst, jnz
+I,:{B::B⊻C}  ,{O,:8!c x}           / bxc, out
+I,:{B::A≫c x},{C::A≫c x}           / bdv, cdv
+r:{(A;B;C;O)::x,b,c,,!0;           / A, B, C, Output
+ &gt;[#p;]{N::x+2;I.2#x_p;N}/0;O}     / N = index of next instruction
 
-`0:","/$r a                         / part 1: program's output
-&/(,0){(y=*'r')#,/(!8)+\:/:8*x}/|p  / part 2: minimum A that outputs the program
+`0:","/$r a                        / part 1: program's output
+&/0{(y=*'r')#,/(!8)+\:/:8*x}/|p    / part 2: minimum A that outputs the program
 </pre><pre>
 
 Very imperative, but there's no way around it for this problem (you might even say that the imperative parts are... imperative).

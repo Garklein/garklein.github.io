@@ -19,7 +19,7 @@ c:{((!4),A,B,C)@x}                  / combo operand
 I :{A::A≫c x},{B::B⊻x}              / adv, bxl
 I,:{B::8!c x},{N*:~A}               / bst, jnz
 I,:{B::B⊻C}  ,{O,:8!c x}            / bxc, out
-I,:{B::A≫c x},{C::A≫c x}            / bdv,cdv
+I,:{B::A≫c x},{C::A≫c x}            / bdv, cdv
 r:{(A;B;C;O)::x,b,c,,!0;            / A, B, C, Output
  &gt;[#p;]{N::x+2;I.2#x_p;N}/0;O}      / N = index of next instruction
 

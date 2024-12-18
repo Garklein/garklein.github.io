@@ -1,5 +1,5 @@
-Speeding up readable-mlatu by 3500x*
-====================================
+Making readable-mlatu 3500x faster*
+===================================
 
 - while (1) { I l=0; MAP(oT,l++); P(i>l-2,stp+n);
 + while (1) { P(!t->n,stp+n);

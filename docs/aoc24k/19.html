@@ -11,11 +11,11 @@ pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 </head>
 <body><div>
 <pre class='code'>
-(t;d):(", "\*:;2_)@\:0:"i/19.in"        / towels, designs
-s:{y~*|(#y)':x}                         / is y a suffix of x
-p:(0/(,1){x,+/x(#y)-#'(s[y]')#t}/,\)'d  / number of ways to make each design
-+/~~p                                   / part 1: number of creatable designs
-+/p                                     / part 2: number of different ways to make each design
+(t;d):(", "\*:;2_)@\:0:"i/19.in"       / towels, designs
+s:{y~*|(#y)':x}                        / is y a suffix of x
+p:(0/(,1){x,+/x(#y)-#'s/:[y]#t}/,\)'d  / number of ways to make each design
++/~~p                                  / part 1: number of creatable designs
++/p                                    / part 2: number of different ways to make each design
 </pre><pre>
 
 Basically stole this solution from <a href='https://github.com/shadowninja55/advent-of-code/blob/main/2024/19/19.k'>shadow</a>, as per usual :P

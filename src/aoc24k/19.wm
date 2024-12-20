@@ -1,0 +1,9 @@
+```
+(t;d):(", "\*:;2_)@\:0:"i/19.in"        / towels, designs
+s:{y~*|(#y)':x}                         / is y a suffix of x
+p:(0/(,1){x,+/x(#y)-#'(s[y]')#t}/,\)'d  / number of ways to make each design
++/~~p                                   / part 1: number of creatable designs
++/p                                     / part 2: number of different ways to make each design
+```
+
+Basically stole this solution from [shadow](https://github.com/shadowninja55/advent-of-code/blob/main/2024/19/19.k), as per usual :P

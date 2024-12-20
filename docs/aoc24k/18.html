@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body           { display:flex; flex-direction:column; align-items:center;
+                 font-size:1rem; margin:min(10vw,100px) auto; }
+pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code          { max-width:80vw; word-break:break-all; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+i:(w:71)/'.'0:"i/18.in"         / input, width
+a:0,1_S#S:w*w                   / initial array of S = maxes
+d:(-w;1;w;-1)+\:!S              / directions (^&gt;v&lt;)
+p:{                             / attempt to find path to end
+ c:1+S*((w;0;w;w-1)=w!d)|~^x?d  / change: add 1 to neighbours, masking out obstacles/wraparound
+ *|{y&/x+S^y@d}[c]/a}           / iterate until convergence
+p 1024#i                        / part 1: distance after 1kB has fallen
+`0:","/$w\i@#(S=p@)(-1_)/i      / part 2: first byte that fully blocks the path
+</pre><pre>
+
+I think I finally got the hang of the cellular automata fixpoint technique!
+
+For part 2, I just brute forced from the end. Since the path is blocked, it converges quickly, making this feasable. Brute forcing from the beginning is much slower, since the path is open and thus the grid takes longer to converge.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='18.html'>18.html</a></pre>
+</div></body>
+</html>

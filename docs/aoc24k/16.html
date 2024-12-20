@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body           { display:flex; flex-direction:column; align-items:center;
+                 font-size:1rem; margin:min(10vw,100px) auto; }
+pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code          { max-width:80vw; word-break:break-all; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+w:_%#i:,/0:"i/16.in"             / width, input
+(s;e):,/&'"SE"=\:i               / start, end
+S:999999                         / "infinity"
+m:S*"#"=i                        / mask for walls
+d:((-w;w);(1;-1))+\:\:!u:w*w     / directions
+c:{m|/:x&(1000+|x)&&/'1+S^x@'d}  / change
+p:{&/c/@[;x;:;]'[2#,u#S;y]}      / path[starting pos;direction]
+:p1:(f:p[s;1000 0])@e            / part 1: lowest score a reindeer could get
++//~^-1000 0?f-p1-p[e;0 0]       / part 2: number of tiles the shortest distance from both endpoints
+</pre><pre>
+
+I am slowly learning from <a href='https://q.kx.com/aoc24/16.html'>master rak</a>... maybe someday I will write an elegant cellular automata solution. But not today.
+
+For part 2, I get around reversing the directions by checking if the distance relative to the p1 answer is 0 or -1000. If it's 0, that means they meet in a straight line; if it's -1000, it means that one side has turned and the other hasn't (so hasn't added those 1000 points yet).
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='16.html'>16.html</a></pre>
+</div></body>
+</html>

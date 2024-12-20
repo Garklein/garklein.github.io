@@ -1,0 +1,14 @@
+```
+i:(w:71)/'.'0:"i/18.in"         / input, width
+a:0,1_S#S:w*w                   / initial array of S = maxes
+d:(-w;1;w;-1)+\:!S              / directions (^>v<)
+p:{                             / attempt to find path to end
+ c:1+S*((w;0;w;w-1)=w!d)|~^x?d  / change: add 1 to neighbours, masking out obstacles/wraparound
+ *|{y&/x+S^y@d}[c]/a}           / iterate until convergence
+p 1024#i                        / part 1: distance after 1kB has fallen
+`0:","/$w\i@#(S=p@)(-1_)/i      / part 2: first byte that fully blocks the path
+```
+
+I think I finally got the hang of the cellular automata fixpoint technique!
+
+For part 2, I just brute forced from the end. Since the path is blocked, it converges quickly, making this feasable. Brute forcing from the beginning is much slower, since the path is open and thus the grid takes longer to converge.

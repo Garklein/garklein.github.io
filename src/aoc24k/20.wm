@@ -1,0 +1,13 @@
+```
+i:0:"i/20.in"
+d:,/-:\=2                                / directions
+t:{x,("#"=i./:)_(d+\:*|x)^-2#x}/+&"S"=i  / path
+m:{?x,/d+\:/:x}/[;,&2]                   / manhattan distance
+g:((2##i)#t?+&i=i)./:                    / t?x
+c:{-/(g(x;y)),|/-:\x-y}                  / cheatSave[start;end]
+p:{+/99<,/{c[y]'(^g@)_x+\:y}[m x]'t}     / part[manhattan radius]
+p 2                                      / part 1: cheats can last up to 2 seconds
+p 20                                     / part 2: cheats can last up to 20 seconds
+```
+
+The cheat calculations are really messy, but I can't think of a way to clean it up that doesn't just rip off someone else's solution :P

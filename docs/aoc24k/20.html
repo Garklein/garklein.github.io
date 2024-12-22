@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body           { display:flex; flex-direction:column; align-items:center;
+                 font-size:1rem; margin:min(10vw,100px) auto; }
+pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code          { max-width:80vw; word-break:break-all; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+i:0:"i/20.in"
+d:,/-:\=2                                / directions
+t:{x,("#"=i./:)_(d+\:*|x)^-2#x}/+&"S"=i  / path
+m:{?x,/d+\:/:x}/[;,&2]                   / manhattan distance
+g:((2##i)#t?+&i=i)./:                    / t?x
+c:{-/(g(x;y)),|/-:\x-y}                  / cheatSave[start;end]
+p:{+/99&lt;,/{c[y]'(^g@)_x+\:y}[m x]'t}     / part[manhattan radius]
+p 2                                      / part 1: cheats can last up to 2 seconds
+p 20                                     / part 2: cheats can last up to 20 seconds
+</pre><pre>
+
+The cheat calculations are really messy, but I can't think of a way to clean it up that doesn't just rip off someone else's solution :P
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='20.html'>20.html</a></pre>
+</div></body>
+</html>

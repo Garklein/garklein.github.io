@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body           { display:flex; flex-direction:column; align-items:center;
+                 font-size:1rem; margin:min(10vw,100px) auto; }
+pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code          { max-width:80vw; word-break:break-all; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+i:3#'0:"i/21.in"                        / each code is 3 digits, then A (enter)
+n:4 3#"789456123 0A"                    / numeric pad
+d:2 3#" ^A&lt;v&gt;"                          / direction pad
+s:{,//x#'\:("vvv^^^";"&gt;&gt;&lt;&lt;")}           / stringify direction vectors
+e:{x@*&lt;"&lt;v^&gt;"?*'x}@s'                   / most efficient route
+u:{^(x.)y+*z}                           / unrecoverable route
+t:{e(u[x;*y]')_|:\(=2)*-/|y:(,/&x=)'y}  / shortest path[start;end]
+g:{#'=2':t[x;y]/"AA"}                   / group[pad;input]
+c:k!g[d]'k:(,/d)@+!6 6                  / cache
+l:{+/x{+/(.x)*c@!x}/+/2g[n]':y/"AA"}    / length[robots;target]
+p:{+/(l[x]'i)*.'i}                      / part[robots using direction pads]
+p 2                                     / part 1: 2 robots using direction pads
+p 25                                    / part 2: 25 robots using direction pads
+</pre><pre>
+
+Whew!
+
+In part 1, what is a shortest path? Well, we want to group identical movements, so &lt;&lt;vv is preferred to &lt;v&lt;v. This still leaves us with two options: &lt;&lt;vv and vv&lt;&lt;. In the case where one of the sequences makes the robot panic, it's clear which to pick; but if we're left with the choice, we want to do lefts first, then downs, then ups, then rights.
+
+For part 2, I used a cache that maps pairs to their expansion. For example, it would map the pair "A&lt;" to the optimal moves needed to go from A to &lt;.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='21.html'>21.html</a></pre>
+</div></body>
+</html>

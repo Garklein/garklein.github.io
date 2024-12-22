@@ -1,0 +1,21 @@
+```
+i:3#'0:"i/21.in"                        / each code is 3 digits, then A (enter)
+n:4 3#"789456123 0A"                    / numeric pad
+d:2 3#" ^A<v>"                          / direction pad
+s:{,//x#'\:("vvv^^^";">><<")}           / stringify direction vectors
+e:{x@*<"<v^>"?*'x}@s'                   / most efficient route
+u:{^(x.)y+*z}                           / unrecoverable route
+t:{e(u[x;*y]')_|:\(=2)*-/|y:(,/&x=)'y}  / shortest path[start;end]
+g:{#'=2':t[x;y]/"AA"}                   / group[pad;input]
+c:k!g[d]'k:(,/d)@+!6 6                  / cache
+l:{+/x{+/(.x)*c@!x}/+/2g[n]':y/"AA"}    / length[robots;target]
+p:{+/(l[x]'i)*.'i}                      / part[robots using direction pads]
+p 2                                     / part 1: 2 robots using direction pads
+p 25                                    / part 2: 25 robots using direction pads
+```
+
+Whew!
+
+In part 1, what is a shortest path? Well, we want to group identical movements, so <<vv is preferred to <v<v. This still leaves us with two options: <<vv and vv<<. In the case where one of the sequences makes the robot panic, it's clear which to pick; but if we're left with the choice, we want to do lefts first, then downs, then ups, then rights.
+
+For part 2, I used a cache that maps pairs to their expansion. For example, it maps the pair A< to the optimal moves needed to go from A to <.

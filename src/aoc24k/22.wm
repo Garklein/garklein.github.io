@@ -1,0 +1,12 @@
+```
+i:.'0:"i/22.in"
+(⊻):{2/~=/+2\(x;y)}                     / vectorized bitwise xor
+s:{16777216!x⊻_y*x}/[;(64;1%32;2048)]   / next secret number
++/*|p:2000s\i                           / part 1: sum of every buyer's 2000th secret number
+k:+4(19/)':9+1_-':p:10!p                / hash each sequence of four price changes
+|/+/k{@[&*/4#19;|x;:;|y]}'+4_p          / part 2: most bananas you can buy
+```
+
+For part 2, I ended up implementing a hashtable... I wish dicts were hashtables.
+
+xor implementation stolen from [shadow](https://github.com/shadowninja55/advent-of-code/blob/main/2024/22/22.k) of course!

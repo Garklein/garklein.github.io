@@ -5,7 +5,7 @@ d:2 3#" ^A<v>"                          / direction pad
 s:{,//x#'\:("vvv^^^";">><<")}           / stringify direction vectors
 e:{x@*<"<v^>"?*'x}@s'                   / most efficient route
 u:{^(x.)y+*z}                           / unrecoverable route
-t:{e(u[x;*y]')_|:\(=2)*-/|y:(,/&x=)'y}  / shortest path[start;end]
+t:{e(u[x;*y]')_|:\(=2)*-/|y:(,/&x=)'y}  / shortest path[pad;start,end]
 g:{#'=2':t[x;y]/"AA"}                   / group[pad;input]
 c:k!g[d]'k:(,/d)@+!6 6                  / cache
 l:{+/x{+/(.x)*c@!x}/+/2g[n]':y/"AA"}    / length[robots;target]

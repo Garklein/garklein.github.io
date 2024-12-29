@@ -21,7 +21,7 @@ c:n@(,!0){s@x,y,'(|/'y=a@)#'x}/!#n          / cliques
 
 Graph theory, my favourite...
 
-Part 1 is a bit messy. I have a list of all cliques, but then I need to find all cliques of size 3. I couldn't think of a better way of doing this than generating all size 3 subsets of each clique, then sorting and deduping.
+Part 1 is a bit messy. I have a list of all cliques, but then I need to find all cliques of size 3. I couldn't think of a better way of doing this than generating all size 3 subsets of each clique, then deduping.
 
 The clique finding can be made about 10x faster by using something like
 c:n@(,!0){((&/'|/''y=a@)_x),y,'s(|/'y=a@)#'x}/!#n

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body           { display:flex; flex-direction:column; align-items:center;
+                 font-size:1rem; margin:min(10vw,100px) auto; }
+pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code          { max-width:80vw; word-break:break-all; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+(i;j):": "(\)''"\n"\'"\n\n"\1:"i/24.in"
+n:*'i,|'j                                       / wire names
+g:((#i)#"A"),*'j@'1                             / gates
+p:(,'!#i),n?/:j@\:0 2                           / gate parents/inputs
+f:(&/;|/;~=/)"AOX"?g                            / functions
+w:{f@'x@p}/(.'*|+i),&#j                         / wires
+2/w(+/"z"=*'n)#&gt;n                               / part 1: output in decimal
+
+c:(+/~^p?\:)'!#n                                / number of children
+xy:&gt;[#i;]                                       / device inputs (x or y)
+and:{((~*'p x)|1=c x)&  "A"=g x}                / and gates should have only one child, or have x00 as a parent
+z: {(&/(~c x;"z"=*'n x; "X"=g x))|"z45"~/:n x}  / device outputs (z) should be xor and have no children, or be z45
+xor:{&/(&/'xy p x;2=c x;"X"=g x)}               / xors that are not z should have xy as inputs and have 2 outputs
+or: {&/(  2=#'p x;2=c x;"O"=g x)}               / ors should have two inputs and two outputs
+`0:","/s@&lt;s:n@or_xor_z_and_xy_!#n               / part 2: incorrect gates
+</pre><pre>
+
+I initially did part 2 by hand, which let me verify my suspicion that each swap is within an adder. The part 2 works by filtering out gates that are correct. This is one place that showcases K's power: the English commentary is less precise and more unwieldy than the K counterpart.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='24.html'>24.html</a></pre>
+</div></body>
+</html>

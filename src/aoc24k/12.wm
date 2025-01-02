@@ -11,6 +11,8 @@ c:c,|c:0 1 1 0 1 0 2 1          / binary square -> # of corners
 +/A*{+/c@2/0^x s}'r             / part 2: areas * corners
 ```
 
+I am sensing a pattern: annoying days (12, 9, 6) after 2 easy ones.
+
 For some reason, I found this to be the hardest day in all of AoC. I initially finished it at 10:00 pm with horrible code that would make ngn cry. Later, after AoC, I revisited it and wrote this.
 
 [Shadow](https://github.com/shadowninja55/advent-of-code/blob/main/2024/12/12.k) and [rak](https://q.kx.com/aoc24/12.html) bothave clean solutions, stop reading my atrocious code and look there instead!

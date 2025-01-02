@@ -7,30 +7,30 @@ Near the beginning, my K was quite rusty and my solutions weren't the best; but 
 
 I am also a fan of [shadow's elegant solutions](https://github.com/shadowninja55/advent-of-code/tree/main/2024) and [Rory Kemp's excellent (Q) writeups](https://q.kx.com/aoc24/).
 
-[Idiom list](idioms.html)
-
-[1.k](1.html)
-[2.k](2.html)
-[3.k](3.html)
-[4.k](4.html)
-[5.k](5.html)
-[6.k](6.html)
-[7.k](7.html)
-[8.k](8.html)
-[9.k](9.html)
-[10.k](10.html)
-[11.k](11.html)
-[12.k](12.html)
-[13.k](13.html)
-[14.k](14.html)
-[15.k](15.html)
-[16.k](16.html)
-[17.k](17.html)
-[18.k](18.html)
-[19.k](19.html)
-[20.k](20.html)
-[21.k](21.html)
-[22.k](22.html)
-[23.k](23.html)
-[24.k](24.html)
-[25.k](25.html)
+ day          ms   loc           
+----   ---------   --------------
+ [1.k]( 1.html)          20   ***           
+ [2.k]( 2.html)          34   ****          
+ [3.k]( 3.html)           4   ****          
+ [4.k]( 4.html)          21   ******        
+ [5.k]( 5.html)          34   ***           
+ [6.k]( 6.html)   1,556,014   ************  
+ [7.k]( 7.html)          41   ****          
+ [8.k]( 8.html)           5   *****         
+ [9.k]( 9.html)      46,522   *********     
+[10.k](10.html)          12   ******        
+[11.k](11.html)         209   *****         
+[12.k](12.html)         243   **********    
+[13.k](13.html)          17   *****         
+[14.k](14.html)       1,715   ******        
+[15.k](15.html)       8,254   **********    
+[16.k](16.html)           6   *********     
+[17.k](17.html)          24   ************  
+[18.k](18.html)       7,364   ********      
+[19.k](19.html)       8,137   *****         
+[20.k](20.html)       6,048   *********     
+[21.k](21.html)          20   ************* 
+[22.k](22.html)       6,687   ******        
+[23.k](23.html)       5,882   *******       
+[24.k](24.html)           8   **************
+[25.k](25.html)         230   **            

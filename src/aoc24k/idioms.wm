@@ -4,6 +4,71 @@ K Idioms
 These are some fun ngn/k tricks idioms and tricks I've found helpful in solving this year's challenges.
 
 
+Grade? What's that?
+-------------------
+When first learning an array language, grade might seem odd. What use could knowing the indices to sort an array be? But this turns out to be a superpower: you can pre-process the array first.
+
+For example:
+
+```
+ a:("crocodile";"alligator";"mouse";"bear";"squid")  / animals
+
+ a@<a          / sort normally
+("alligator"
+ "bear"
+ "crocodile"
+ "mouse"
+ "squid")
+ a@<#'a        / sort by length
+("bear"
+ "mouse"
+ "squid"
+ "crocodile"
+ "alligator")
+ a@<a@\:1      / sort by second letter
+("bear"
+ "alligator"
+ "mouse"
+ "squid"
+ "crocodile")
+
+ l:a!8 2 7 10 3  / how much i like each animal
+ a@>l a          / most liked to least liked animals
+("bear"
+ "crocodile"
+ "mouse"
+ "squid"
+ "alligator")
+```
+
+
+Group it!
+---------
+Similarly to grade, group acts as a group-by:
+
+```
+ a@=#'a  / group animals by word length
+!/+((9;("crocodile";"alligator"))
+    (5;("mouse";"squid"))
+    (4;,"bear"))
+```
+
+Let's say you have an array of keys and an array of values, and you want a dict that associates the each key to all its values. Here are two ways to do it:
+
+```
+ k:`a`b`c`a
+ v:9 2 8 3
+ v@=k
+!/+((`a;9 3)
+    (`b;,2)
+    (`c;,8))
+ =v!k
+!/+((`a;9 3)
+    (`b;,2)
+    (`c;,8))
+```
+
+
 Fixpoint Fun
 ------------
 Many things defined by fixpoints can be implemented with converge.
@@ -23,11 +88,12 @@ We can use this to calculate the golden ratio:
 1.618033988749895
 ```
 
-Another use for converge is any sort of shortest path/floodfill situation.
 
 Say we have a grid, and we want to know the shortest distance from the start to all squares. This solution is the fixpoint to the function where every square's value is the minimum of itself and 1 + its neighbours, since to go from a neighbour to yourself is an increase of one step.
 
-You can see an implementation of this in [day 18](18.html), and also in days [12](12.html), [16](16.html) and [24](24.html).
+This can be used anywhere you need a floodfill/dijkstra's, though it is much less efficient than the traditional imperative way.
+
+A clean implementation of this in [day 18](18.html), and I also use it in days [12](12.html), [16](16.html) and [24](24.html).
 
 
 Moving a Position
@@ -67,18 +133,6 @@ To generate a list of these and diagonals, we can use (+1-!3 3)^,&2. Often, you 
  -1 1
  -1 0
  -1 -1)
-```
-
-
-Grouping Dictionary
--------------------
-If we have keys k and values v, and we want to make a dictionary where all values with the same key are grouped, we can use =v!k. This works because the monad = on a dictionary swaps keys and values (thanks [dzaima](https://github.com/dzaima?tab=repositories)!).
-
-```
- k:`a`b`c`a
- v:9 2 8 3
- =v!k
-`a`b`c!(9 3;,2;,8)
 ```
 
 

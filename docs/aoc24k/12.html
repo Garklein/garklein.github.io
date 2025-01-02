@@ -10,10 +10,22 @@ pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
   </style>
 </head>
 <body><div>
-<pre>
-I am ashamed of my code, I'll put it here when I clean it up.
+<pre class='code'>
+i:(1:"i/12.in"),"\n"
+n:(!#i)+/:d:(-1;-w;1;w:1+_%#i)  / neighbours
+m:99999*~i=/:i@n                / mask out different groups
+g:{x&/m+0^x@n}/!#i              / groups
+r:g=/:("\n"=i@)_?g              / regions
+A:+/'r                          / areas
++/A*{+//x&/:1&gt;x n}'r            / part 1: areas * perimeters
+s:(0;1;w;w+1)+\:(-w+1)+!w*w     / all squares
+c:c,|c:0 1 1 0 1 0 2 1          / binary square -&gt; # of corners
++/A*{+/c@2/0^x s}'r             / part 2: areas * corners
+</pre><pre>
 
-I am sensing a pattern: annoying days (12, 9, 6) after 2 easy ones.
+For some reason, I found this to be the hardest day in all of AoC. I initially finished it at 10:00 pm with horrible code that would make ngn cry. Later, after AoC, I revisited it and wrote this.
+
+<a href='https://github.com/shadowninja55/advent-of-code/blob/main/2024/12/12.k'>Shadow</a> and <a href='https://q.kx.com/aoc24/12.html'>rak</a> bothave clean solutions, stop reading my atrocious code and look there instead!
 </pre>
 <br>
 <pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='aoc24k.html'>aoc24k</a>/<a href='12.html'>12.html</a></pre>

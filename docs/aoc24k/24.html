@@ -23,8 +23,8 @@ c:(+/~^p?\:)'!#n                                / number of children
 xy:&gt;[#i;]                                       / device inputs (x or y)
 and:{((~*'p x)|1=c x)&  "A"=g x}                / and gates should have only one child, or have x00 as a parent
 z: {(&/(~c x;"z"=*'n x; "X"=g x))|"z45"~/:n x}  / device outputs (z) should be xor and have no children, or be z45
-xor:{&/(&/'xy p x;2=c x;"X"=g x)}               / xors that are not z should have xy as inputs and have 2 outputs
-or: {&/(  2=#'p x;2=c x;"O"=g x)}               / ors should have two inputs and two outputs
+xor:{&/(&/' xy p x;2=c x;"X"=g x)}              / xors that are not outputs should have xy as inputs and have 2 outputs
+or: {&/(&/'~xy p x;2=c x;"O"=g x)}              / ors should have non xy inputs and 2 outputs
 `0:","/s@&lt;s:n@or_xor_z_and_xy_!#n               / part 2: incorrect gates
 </pre><pre>
 

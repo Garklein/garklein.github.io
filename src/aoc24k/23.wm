@@ -14,3 +14,5 @@ Part 1 is a bit messy. I have a list of all cliques, but then I need to find all
 The clique finding can be made about 10x faster by using something like
 c:n@(,!0){((&/'|/''y=a@)_x),y,'s(|/'y=a@)#'x}/!#n
 but it's a lot nastier and just manually expanding out what's happening.
+
+[ovs](https://codeberg.org/ovs/aoc2024/src/branch/main/s/23.k) uses similar logic to me, but executes it much better.

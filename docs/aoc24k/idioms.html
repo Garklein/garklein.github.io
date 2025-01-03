@@ -81,6 +81,25 @@ Let's say you have an array of keys and an array of values, and you want a dict 
     (`c;,8))
 </pre><pre>
 
+Suppose you are on Halloween, taking candy orders. You have two lists: one of kids, and another of their preferred candies. However, some naughty kids request multiple candies, and they are only allowed one! We want to take only the first request of each kid.
+
+</pre><pre class='code'>
+ k:`dan`bob`alex`dan`martha`john`martha
+ c:`smarties`mnm`reeses`caramel`reeses`lollipop`toffee
+ c@=k
+!/+((`dan   ;`smarties`caramel)
+    (`bob   ;,`mnm)
+    (`alex  ;,`reeses)
+    (`martha;`reeses`toffee)
+    (`john  ;,`lollipop))
+ *'c@=k
+!/+((`dan   ;`smarties)
+    (`bob   ;`mnm)
+    (`alex  ;`reeses)
+    (`martha;`reeses)
+    (`john  ;`lollipop))
+</pre><pre>
+
 
 Fixpoint Fun
 ------------

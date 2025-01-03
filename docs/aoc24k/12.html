@@ -13,8 +13,8 @@ pre            { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 <pre class='code'>
 i:(1:"i/12.in"),"\n"
 n:(!#i)+/:d:(-1;-w;1;w:1+_%#i)  / neighbours
-m:99999*~i=/:i@n                / mask out different groups
-g:{x&/m+0^x@n}/!#i              / groups
+m:i=/:i@n                       / mask out different groups
+g:{x|/m*x@n}/!#i                / groups
 r:g=/:("\n"=i@)_?g              / regions
 A:+/'r                          / areas
 +/A*{+//x&/:1&gt;x n}'r            / part 1: areas * perimeters

@@ -32,8 +32,10 @@ For example:
  "squid"
  "crocodile")
 
- l:a!8 2 7 10 3  / how much i like each animal
- a@>l a          / most liked to least liked animals
+ :l:a!8 2 7 10 3  / how much i like each animal
+("crocodile";"alligator";"mouse";"bear";"squid")!8 2 7 10 3
+
+ a@>l a           / most liked to least liked animals
 ("bear"
  "crocodile"
  "mouse"

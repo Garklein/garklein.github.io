@@ -19,7 +19,7 @@ For example:
  "crocodile"
  "mouse"
  "squid")
- #'a           / length of each animal
+ #'a           / length of each animal's name
 9 9 5 4 5
  a@<#'a        / sort by length
 ("bear"

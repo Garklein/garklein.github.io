@@ -9,6 +9,7 @@ I am also a fan of [shadow's elegant solutions](https://github.com/shadowninja55
 
 [Idiom list](idioms.html)
 
+
  day          ms   loc           
 ----   ---------   --------------
  [1.k]( 1.html)          20   ***           
@@ -36,3 +37,6 @@ I am also a fan of [shadow's elegant solutions](https://github.com/shadowninja55
 [23.k](23.html)       5,882   *******       
 [24.k](24.html)           8   **************
 [25.k](25.html)         230   **            
+avg*       2,250   *******       
+
+*2 biggest, 2 smallest dropped, otherwise day 6 balloons avg time to >1 minute

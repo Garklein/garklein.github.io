@@ -125,8 +125,10 @@ If you store velocity and position as (vel;pos), you can do:
 
 ```
  x:2 10
- +/x    / next position
+ +/x    / next position (1 step)
 12
+ 14/x   / 14 steps
+38
  +\x    / next position with same velocity (so you can move again)
 2 12
  -/|x   / previous position

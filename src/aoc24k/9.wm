@@ -1,14 +1,14 @@
 ```
 i:0N 2#.'1:"i/9.in"
-a:(+/*'i)#,/&'i               / blocks that will be used, is it free?
-+/(&*'i)*(&~a),|&a            / part 1: checksum: file ID * block position
+a:(+/*'i)#,/&'i          / blocks that will be used, is it free?
++/(&*'i)*(&~a),|&a       / checksum: file ID * block position
 
-a:@[&+/'i;&,/&'i;:;0N]        / blocks, null for empty
-m:{                           / move[blocks;ID]
- l:+/x=y                      / length of file
- i:(x?y)&/&l&/':^x            / first available free space
- @[@[x;&y=x;:;0N];i+!l;:;y]}  / move file to i
-+/(f^0N)*&~^f:a m/|!#i        / part 2: move blocks in descending order, then checksum
+a:@[&+/'i;&,/&'i;:;0N]   / blocks, null for empty
+m:{                      / move[blocks, ID]
+ l:+/x=y                 / length of file
+ i:(*&x=y)&/&l&/':^x     / first available free space
+ @[x(y=x)'0N;i+!l;:;y]}  / move file to i
++/(f^0N)*&~^f:a m/|!#i   / move blocks in descending order, then checksum
 ```
 
 Another lame imperative day...

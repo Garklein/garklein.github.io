@@ -6,11 +6,11 @@ cd src
 for f in $(find *)
 do
     case $f in
-	*wm )
+	*.wm )
 	    mkdir -p ../docs/$(dirname $f)
 	    echo $f | cat - $f | snobol4 wm.sno > ../docs/${f%.wm}.html
 	    ;;
-	*jpg )
+	*.html | *.jpg )
 	    cp $f ../docs/$f
 	    ;;
 	*.sno )

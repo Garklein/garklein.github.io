@@ -1,7 +1,11 @@
-colorForth notes
+:<cf> notes
 ================
 
-[colorForth resources](cfresources.html)
+[:<cf> Language Documentation](cfdocs.html)
+
+[Looping](looping.html)
+
+[:<cf> resources](cfresources.html)
 
 [project euler solutions](euler.html)
 

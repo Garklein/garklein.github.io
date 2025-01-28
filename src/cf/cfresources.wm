@@ -1,12 +1,13 @@
-colorForth resources
+:<cf> resources
 ====================
 
-Here are all the colorForth resources I've found:
+Here are all the :<cf> resources I've found:
 
 [arrayForth download + manual](https://www.greenarraychips.com/home/support/index.php#software)
 [introduction to arrayForth](https://www.greenarraychips.com/home/documents/greg/cf-intro.htm)
 [colorforthplayground](https://colorforthplayground.wordpress.com/)
 [cf2023](https://www.inventio.co.uk/cf2023/index.html)
-[primary colorForth](http://primarycolorforth.blogspot.com/)
-[You should care about colorForth!](https://www.youtube.com/watch?v=4ZMPDNJzl9E)
+[primary :<cf>](http://primarycolorforth.blogspot.com/)
+[You should care about :<cf>!](https://www.youtube.com/watch?v=4ZMPDNJzl9E)
 [old colorforth.com website mirror](https://colorforth.github.io/)
+[Article on :<cf>](http://forth-ig.nl/html/arrayForth_Cursus_v2.1/arrayForth_Cursus_v2.1EN.html)

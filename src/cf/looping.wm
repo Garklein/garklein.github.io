@@ -1,0 +1,12 @@
+Looping
+=======
+
+:g<for ... next> will loop from n to 1.
+
+If you need to loop to something that isn't one, upwards, or with a step, recursion or a while loop is often easier and clearer:
+
+:g<10 for i negate 11 + 3 * 1 + foo next>
+
+:g<4 begin dup foo 3 + 35 less drop while end then>
+
+:g<4>:b<*>:r<f> :g<dup foo 3 + 35 less drop if f ; then drop>

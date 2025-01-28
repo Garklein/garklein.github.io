@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#009900; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+<span class=red>color</span><span class=green>Forth</span> Language Documentation
+=================================
+
+There isn't much existing <span class=red>color</span><span class=green>Forth</span> documentation, so this is my attempt to fill in the gaps.
+
+Table of Contents
+------------------
+Internals
+ Reading the Machine Code
+ Reading Shadow Block Comments
+ Addressing
+Words
+ Kernel Words
+ 20 list
+
+
+
+Internals
+=========
+
+<span class=red>color</span><span class=green>Forth</span> runs with 32 bit words.
+
+eax stores the top element of the stack. esi points to the second element of the stack, which grows downwards. This is an elegant design which allows convenient manipulation of the top element, as many instructions modify eax. It was motivated by <span class=green>drop</span> becoming simply a lodsd. It also allows words that operate below the top element, such as <span class=green>nip</span>, to be implemented easily.
+
+-----
+|eax|
+-----
+
+-----
+|   | &lt;- esi
+-----
+|   |
+-----
+ ...
+
+(but the stack is actually hanging from the ceiling, dangling down)
+
+
+Reading the Machine Code
+------------------------
+There is a lot of inline machine code throughout <span class=red>color</span><span class=green>Forth</span>, so it's good to know the basics of reading it.
+
+First of all, when comma-ing bytes, it does it in reverse order (is this because the stack grows downwards? research). This means that an instruction like c28b0689 should be read backwards, like 89 06 8b c2.
+
+Another thing to note is that all hex literals are 4 bytes. This means that 74 is really 00000074, and <span class=green>74 2,</span> will comma in 74 00.
+
+x86 machine code is generally in the form opcode modr/m. The opcode byte specifies which operation to perform, while the modr/m byte specifies its arguments.
+
+The modr/m format, in bits, is:
+
+ mode mode r r r r/m r/m r/m
+
+where the first two bits specify the mode, the next three specify a register, and the final three specify another register.
+
+Depending on the mode, the second register (r/m) will either be used directly, or its contents will be used as a pointer.
+
+Modes are:
+ 00 - treat r/m as a pointer
+ 01 - treat r/m as a pointer, and an 8-bit offset value will follow
+ 10 - treat r/m as a pointer, and a 16-bit offset value will follow
+ 11 - treat them both as registers
+
+For example, consider 8b16. If we <a href='http://ref.x86asm.net/coder32.html#x8B'>look up the opcode 8b</a>, we find that it's a mov that takes r as the first argument and r/m as the second argument. 16 = 00010110 = 00 010 110. So, the mode is 00 (treat r/m as a pointer), r is edl, and r/m is esi. That means that these bytes translate to mov edl, [esi], or edl = *esi;
+
+Further information can be found on the <a href='https://wiki.osdev.org/X86-64_Instruction_Encoding#ModR/M'>osdev wiki</a>.
+
+Important registers:
+eax: 0 (000)
+edl: 2 (010)
+esi: 6 (110)
+
+
+Reading Shadow Block Comments
+-----------------------------
+Registers are often referred to by their above numbers in comments.
+
+Comments with pseudo-assembly have order dst src op (the same order as !).
+
+For example, <span class=green>a</span>'s comment of 2 0 mov can be read as mov eax, edl
+
+
+Addressing
+----------
+There are two types of addressing in <span class=red>color</span><span class=green>Forth</span>: byte addressing, and word addressing. There are four byte address in the space of a word address. The words <span class=green>a-b</span> and <span class=green>b-a</span> convert from word to byte address, and byte to word address, respectively. This conversion is basically a multiplication/division by four. Most user-facing words, such as <span class=green>@</span> and <span class=green>!</span>, use word addessing.
+
+
+
+Words
+=====
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='cf.html'>cf</a>/<a href='cfdocs.html'>cfdocs.html</a></pre>
+</div></body>
+</html>

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#009900; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+Looping
+=======
+
+<span class=green>for ... next</span> will loop from n to 1.
+
+If you need to loop to something that isn't one, upwards, or with a step, recursion or a while loop is often easier and clearer:
+
+<span class=green>10 for i negate 11 + 3 * 1 + foo next</span>
+
+<span class=green>4 begin dup foo 3 + 35 less drop while end then</span>
+
+<span class=green>4</span><span class=blue>*</span><span class=red>f</span> <span class=green>dup foo 3 + 35 less drop if f ; then drop</span>
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='cf.html'>cf</a>/<a href='looping.html'>looping.html</a></pre>
+</div></body>
+</html>

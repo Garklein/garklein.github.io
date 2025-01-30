@@ -1,0 +1,68 @@
+:<cf> Internals
+===============
+
+:<cf> runs with 32 bit words.
+
+eax stores the top element of the stack. esi points to the second element of the stack.
+The stack stores its elements little-endian and grows downwards. This is an elegant design which allows convenient manipulation of the top element, as many instructions modify eax. It was motivated by :g<drop> becoming simply a lodsd. It also allows words that operate below the top element, such as :g<nip>, to be implemented easily.
+
+-----
+|eax|
+-----
+
+-----
+|   | <- esi
+-----
+|   |
+-----
+ ...
+
+(but the stack is actually hanging from the ceiling, dangling down)
+
+
+Reading the Machine Code
+------------------------
+There is a lot of inline machine code throughout :<cf>, so it's good to know the basics of reading it.
+
+First of all, when comma-ing bytes, they are inscribed in the dictionary in reverse order. This is probably because the stack is little-endian, and I suspect it also makes :g<1,>, :g<2,>, and :g<3,> easier to implement. This means that an instruction like c28b0689 should be read backwards, like 89 06 8b c2.
+
+Another thing to note is that all hex literals are 4 bytes. This means that 74 is really 00000074, and :g<74 2,> will comma in 74 00.
+
+x86 machine code is generally in the form opcode modr/m. The opcode byte specifies which operation to perform, while the modr/m byte specifies its arguments.
+
+The modr/m format, in bits, is:
+
+ mode mode r r r r/m r/m r/m
+
+where the first two bits specify the mode, the next three specify a register, and the final three specify another register.
+
+Depending on the mode, the second register (r/m) will either be used directly, or its contents will be used as a pointer.
+
+Modes are:
+ 00 - treat r/m as a pointer
+ 01 - treat r/m as a pointer, and an 8-bit offset value will follow
+ 10 - treat r/m as a pointer, and a 16-bit offset value will follow
+ 11 - treat them both as registers
+
+For example, consider 8b16. If we [look up the opcode 8b](http://ref.x86asm.net/coder32.html#x8B), we find that it's a mov that takes r as the first argument and r/m as the second argument. 16 = 00010110 = 00 010 110. So, the mode is 00 (treat r/m as a pointer), r is edl, and r/m is esi. That means that these bytes translate to mov edl, [esi], or edl = *esi;
+
+Further information can be found on the [osdev wiki](https://wiki.osdev.org/X86-64_Instruction_Encoding#ModR/M).
+
+Important registers:
+eax: 0 (000)
+edl: 2 (010)
+esi: 6 (110)
+
+
+Reading Shadow Block Comments
+-----------------------------
+Registers are often referred to by their above numbers in comments.
+
+Comments with pseudo-assembly have order dst src op (the same order as !).
+
+For example, :g<a>'s comment of :w<2 0 mov> can be read as mov eax, edl
+
+
+Addressing
+----------
+There are two types of addressing in :<cf>: byte addressing, and word addressing. There are four byte address in the space of a word address. The words :g<a-b> and :g<b-a> convert from word to byte address, and byte to word address, respectively. This conversion is basically a multiplication/division by four. Most user-facing words, such as :g<@> and :g<!>, use word addessing.

@@ -18,95 +18,30 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 </head>
 <body><div>
 <pre>
-<span class=red>color</span><span class=green>Forth</span> Language Documentation
-=================================
+<span class=red>color</span><span class=green>Forth</span> Word Documentation
+========================
 
-There isn't much existing <span class=red>color</span><span class=green>Forth</span> documentation, so this is my attempt to fill in the gaps.
-
-Table of Contents
-------------------
-Internals
- Reading the Machine Code
- Reading Shadow Block Comments
- Addressing
-Words
- Kernel Words
- 20 list
+There isn't much existing documentation for <span class=red>color</span><span class=green>Forth</span> words, so this is my attempt to fill in the gaps.
 
 
+Kernel Words
+============
 
-Internals
-=========
+These words are defined in the kernel, not in Forth. As such, I need to guess as to what some of them do.
 
-<span class=red>color</span><span class=green>Forth</span> runs with 32 bit words.
+<span class=green>1,</span> <span class=green>2,</span> <span class=green>3,</span> <span class=green>,</span>
+These words insert ("comma in") 1, 2, 3, and 4 bytes into the dictionary respectively, from the stack. The bytes are inserted in reverse order, so something like <span class=green>74 2,</span> will insert 74 00 into the dictionary.
 
-eax stores the top element of the stack. esi points to the second element of the stack, which grows downwards. This is an elegant design which allows convenient manipulation of the top element, as many instructions modify eax. It was motivated by <span class=green>drop</span> becoming simply a lodsd. It also allows words that operate below the top element, such as <span class=green>nip</span>, to be implemented easily.
+<span class=green>macro</span> <span class=green>forth</span>
+Switch to the macro/forth word list. This means that all future definitions, until the next <span class=green>forth</span>/<span class=green>macro</span>, will be inserted into that word list.
 
------
-|eax|
------
+<span class=green>;</span>
+End a word. todo: look more into this, sometimes it's a ret, sometimes does tco
 
------
-|   | &lt;- esi
------
-|   |
------
- ...
-
-(but the stack is actually hanging from the ceiling, dangling down)
-
-
-Reading the Machine Code
-------------------------
-There is a lot of inline machine code throughout <span class=red>color</span><span class=green>Forth</span>, so it's good to know the basics of reading it.
-
-First of all, when comma-ing bytes, it does it in reverse order (is this because the stack grows downwards? research). This means that an instruction like c28b0689 should be read backwards, like 89 06 8b c2.
-
-Another thing to note is that all hex literals are 4 bytes. This means that 74 is really 00000074, and <span class=green>74 2,</span> will comma in 74 00.
-
-x86 machine code is generally in the form opcode modr/m. The opcode byte specifies which operation to perform, while the modr/m byte specifies its arguments.
-
-The modr/m format, in bits, is:
-
- mode mode r r r r/m r/m r/m
-
-where the first two bits specify the mode, the next three specify a register, and the final three specify another register.
-
-Depending on the mode, the second register (r/m) will either be used directly, or its contents will be used as a pointer.
-
-Modes are:
- 00 - treat r/m as a pointer
- 01 - treat r/m as a pointer, and an 8-bit offset value will follow
- 10 - treat r/m as a pointer, and a 16-bit offset value will follow
- 11 - treat them both as registers
-
-For example, consider 8b16. If we <a href='http://ref.x86asm.net/coder32.html#x8B'>look up the opcode 8b</a>, we find that it's a mov that takes r as the first argument and r/m as the second argument. 16 = 00010110 = 00 010 110. So, the mode is 00 (treat r/m as a pointer), r is edl, and r/m is esi. That means that these bytes translate to mov edl, [esi], or edl = *esi;
-
-Further information can be found on the <a href='https://wiki.osdev.org/X86-64_Instruction_Encoding#ModR/M'>osdev wiki</a>.
-
-Important registers:
-eax: 0 (000)
-edl: 2 (010)
-esi: 6 (110)
-
-
-Reading Shadow Block Comments
------------------------------
-Registers are often referred to by their above numbers in comments.
-
-Comments with pseudo-assembly have order dst src op (the same order as !).
-
-For example, <span class=green>a</span>'s comment of 2 0 mov can be read as mov eax, edl
-
-
-Addressing
-----------
-There are two types of addressing in <span class=red>color</span><span class=green>Forth</span>: byte addressing, and word addressing. There are four byte address in the space of a word address. The words <span class=green>a-b</span> and <span class=green>b-a</span> convert from word to byte address, and byte to word address, respectively. This conversion is basically a multiplication/division by four. Most user-facing words, such as <span class=green>@</span> and <span class=green>!</span>, use word addessing.
-
-
-
-Words
-=====
+<span class=green>?dup</span>
+<span class=green>?dup</span> is used at a very low level when we want to push something new onto the stack. It duplicates the top element, allowing us to overwrite the new top element to "push".
+However, if the last compile instruction was a <span class=green>drop</span>, <span class=green>?dup</span> will instead just uncompile the <span class=green>drop</span>. In this case, we again have something to overwrite, and we have saved instructions!
+The question mark in its name comes from the fact that it will sometimes dup, and sometimes uncompile a <span class=green>drop</span>. It is not related to the classic forth <a href='https://forth-standard.org/standard/core/qDUP'>?dup</a>, which confused me a lot until I figured out what it did.
 </pre>
 <br>
 <pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='cf.html'>cf</a>/<a href='cfdocs.html'>cfdocs.html</a></pre>

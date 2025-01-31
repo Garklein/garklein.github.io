@@ -1,7 +1,7 @@
 :<cf> Internals
 ===============
 
-:<cf> runs with 32 bit words.
+:<cf> runs with 32-bit x86.
 
 eax stores the top element of the stack. esi points to the second element of the stack.
 The stack stores its elements little-endian and grows downwards. This is an elegant design which allows convenient manipulation of the top element, as many instructions modify eax. It was motivated by :g<drop> becoming simply a lodsd. It also allows words that operate below the top element, such as :g<nip>, to be implemented easily.

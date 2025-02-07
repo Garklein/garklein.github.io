@@ -1,0 +1,13 @@
+Project Euler Solutions
+=======================
+
+As I was looking for something to program in :<cf>, I decided to try solving the first 100 [Project Euler](https://projecteuler.net/) problems. Since I want to learn :<cf> and not normal Forth, I'm attempting to keep as many of the :<cf> quirks as I can. For example, I'm trying to only use assembly flags for conditionals, and not booleans on the stack.
+
+Status:
+
+Almost finished the first 10!
+- 3 works, but it's not guarenteed to. To check if a double is 1, it only checks if the lower byte is 1. This should be done using :g<dless>.
+- 8 almost works, but needs :g<dless>
+- 9 needs to be implemented
+
+[code](pe.html)

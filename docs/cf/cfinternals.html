@@ -39,6 +39,13 @@ The stack stores its elements little-endian and grows downwards. This is an eleg
 
 (but the stack is actually hanging from the ceiling, dangling down)
 
+The return stack is pointed to by esp, and uses byte addressing.
+
+
+Addressing
+----------
+There are two types of addressing in <span class=red>color</span><span class=green>Forth</span>: byte addressing, and word addressing. There are four byte address in the space of a word address. The words <span class=green>a-b</span> and <span class=green>b-a</span> convert from word to byte address, and byte to word address, respectively. This conversion is basically a multiplication/division by four. Most user-facing words, such as <span class=green>@</span> and <span class=green>!</span>, use word addessing.
+
 
 Reading the Machine Code
 ------------------------
@@ -68,10 +75,16 @@ For example, consider 8b16. If we <a href='http://ref.x86asm.net/coder32.html#x8
 
 Further information can be found on the <a href='https://wiki.osdev.org/X86-64_Instruction_Encoding#ModR/M'>osdev wiki</a>.
 
-Important registers:
-eax: 0 (000)
-edl: 2 (010)
-esi: 6 (110)
+
+Registers
+------------
+eax: 0 (000)  top stack element
+ecx: 1 (001)  general register
+eds: 2 (010)  address register, also used to to extend precision to 64 bits with edx:eax, or as a general register
+ebx: 3 (011)  used for parsing words
+esp: 4 (100)  pointer to the return stack
+esi: 6 (110)  pointer to the second stack element
+edi: 7 (111)  pointer to the next word to be interpreted when interpreting
 
 
 Reading Shadow Block Comments
@@ -81,11 +94,6 @@ Registers are often referred to by their above numbers in comments.
 Comments with pseudo-assembly have order dst src op (the same order as !).
 
 For example, <span class=green>a</span>'s comment of <span class=white>2 0 mov</span> can be read as mov eax, edl
-
-
-Addressing
-----------
-There are two types of addressing in <span class=red>color</span><span class=green>Forth</span>: byte addressing, and word addressing. There are four byte address in the space of a word address. The words <span class=green>a-b</span> and <span class=green>b-a</span> convert from word to byte address, and byte to word address, respectively. This conversion is basically a multiplication/division by four. Most user-facing words, such as <span class=green>@</span> and <span class=green>!</span>, use word addessing.
 </pre>
 <br>
 <pre style='width:100%;text-align:center'><br><a href='../index.html'>~</a>/<a href='cf.html'>cf</a>/<a href='cfinternals.html'>cfinternals.html</a></pre>

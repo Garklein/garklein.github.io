@@ -22,6 +22,7 @@ Memory layout and register usage
 ================================
 
 eax stores the top element of the stack. esi points to the second element of the stack.
+
 The stack stores its elements little-endian and grows downwards. This is an elegant design which allows convenient manipulation of the top element, as many instructions modify eax. It was motivated by <span class=green>drop</span> becoming simply a lodsd. It also allows words that operate below the top element, such as <span class=green>nip</span>, to be implemented easily.
 
 -----

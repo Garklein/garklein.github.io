@@ -1,0 +1,30 @@
+Memory layout and register usage
+================================
+
+eax stores the top element of the stack. esi points to the second element of the stack.
+The stack stores its elements little-endian and grows downwards. This is an elegant design which allows convenient manipulation of the top element, as many instructions modify eax. It was motivated by :g<drop> becoming simply a lodsd. It also allows words that operate below the top element, such as :g<nip>, to be implemented easily.
+
+-----
+|eax|
+-----
+
+-----
+|   | <- esi
+-----
+|   |
+-----
+ ...
+
+(but the stack is actually hanging from the ceiling, dangling down)
+
+The return stack is pointed to by esp, and uses [byte addressing](addressing.html).
+
+Registers
+---------
+eax: 0 (000)  top stack element
+ecx: 1 (001)
+eds: 2 (010)  address register, also used to to extend precision to 64 bits with edx:eax
+ebx: 3 (011)
+esp: 4 (100)  pointer to the return stack
+esi: 6 (110)  pointer to the second stack element
+edi: 7 (111)  pointer to the next word to be interpreted when interpreting

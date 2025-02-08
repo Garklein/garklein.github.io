@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#009900; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+Memory layout and register usage
+================================
+
+eax stores the top element of the stack. esi points to the second element of the stack.
+The stack stores its elements little-endian and grows downwards. This is an elegant design which allows convenient manipulation of the top element, as many instructions modify eax. It was motivated by <span class=green>drop</span> becoming simply a lodsd. It also allows words that operate below the top element, such as <span class=green>nip</span>, to be implemented easily.
+
+-----
+|eax|
+-----
+
+-----
+|   | &lt;- esi
+-----
+|   |
+-----
+ ...
+
+(but the stack is actually hanging from the ceiling, dangling down)
+
+The return stack is pointed to by esp, and uses <a href='addressing.html'>byte addressing</a>.
+
+Registers
+---------
+eax: 0 (000)  top stack element
+ecx: 1 (001)
+eds: 2 (010)  address register, also used to to extend precision to 64 bits with edx:eax
+ebx: 3 (011)
+esp: 4 (100)  pointer to the return stack
+esi: 6 (110)  pointer to the second stack element
+edi: 7 (111)  pointer to the next word to be interpreted when interpreting
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../../index.html'>~</a>/<a href='../cf.html'>cf</a>/<a href='internals.html'>internals</a>/<a href='mem.html'>mem.html</a></pre>
+</div></body>
+</html>

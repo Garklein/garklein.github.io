@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#009900; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+Reading shadow block comments
+=============================
+
+Registers are often referred to by their <a href='mem.html'>numbers</a> in comments.
+
+Comments with pseudo-assembly have order dst src op (the same order as <span class=green>!</span>).
+
+For example, <span class=green>a</span>'s comment of <span class=white>2 0 mov</span> can be read as mov eax, edl
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='../../index.html'>~</a>/<a href='../cf.html'>cf</a>/<a href='internals.html'>internals</a>/<a href='comments.html'>comments.html</a></pre>
+</div></body>
+</html>

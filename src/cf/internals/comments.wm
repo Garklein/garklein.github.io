@@ -1,0 +1,8 @@
+Reading shadow block comments
+=============================
+
+Registers are often referred to by their [numbers](mem.html) in comments.
+
+Comments with pseudo-assembly have order dst src op (the same order as :g<!>).
+
+For example, :g<a>'s comment of :w<2 0 mov> can be read as mov eax, edl

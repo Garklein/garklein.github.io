@@ -1,7 +1,7 @@
 :<cf> Internals
 ===============
 
-:<cf> is x86, and runs with 32-bit ints.
+:<cf> uses 32-bit x86.
 
 [Memory layout and register usage](mem.html)
 [Addressing](addressing.html)

@@ -23,11 +23,11 @@ Reading the machine code
 
 There is a lot of inline machine code throughout <span class=red>color</span><span class=green>Forth</span>, so it's good to know the basics of reading it.
 
-First of all, when comma-ing bytes, they are inscribed in the dictionary in reverse order. This is probably because the stack is little-endian, and I suspect it also makes <span class=green>1,</span>, <span class=green>2,</span>, and <span class=green>3,</span> easier to implement. This means that an instruction like c28b0689 should be read backwards, like 89 06 8b c2.
+First of all, when comma-ing bytes, they are inscribed in the dictionary in reverse order. In other words, an instruction such as c28b0689 should be read backwards, like 89 06 8b c2. This is probably because the stack is little-endian while the dictionary grows upwards, and I suspect it also makes <span class=green>1,</span>, <span class=green>2,</span>, and <span class=green>3,</span> easier to implement.
 
 Another thing to note is that all hex literals are 4 bytes. This means that 74 is really 00000074, and <span class=green>74 2,</span> will comma in 74 00.
 
-x86 machine code is generally in the form opcode modr/m. The opcode byte specifies which operation to perform, while the modr/m byte specifies its arguments.
+x86 machine code generally in the form opcode modr/m. The opcode byte specifies which function to call, while the modr/m byte specifies its arguments.
 
 The modr/m format, in bits, is:
 
@@ -39,11 +39,61 @@ Depending on the mode, the second register (r/m) will either be used directly, o
 
 Modes are:
  00 - treat r/m as a pointer
- 01 - treat r/m as a pointer, and an 8-bit offset value will follow
- 10 - treat r/m as a pointer, and a 16-bit offset value will follow
+ 01 - treat r/m as a pointer, and add an 8-bit offset which will follow
+ 10 - treat r/m as a pointer, and add a 32-bit offset which will follow
  11 - treat them both as registers
 
-For example, consider 8b16. If we <a href='http://ref.x86asm.net/coder32.html#x8B'>look up the opcode 8b</a>, we find that it's a mov that takes r as the first argument and r/m as the second argument. 16 = 00010110 = 00 010 110. So, the mode is 00 (treat r/m as a pointer), r is edl, and r/m is esi. That means that these bytes translate to mov edl, [esi], or edl = *esi;
+For example, consider 8b16. If we <a href='http://ref.x86asm.net/coder32.html#x8B'>look up the opcode 8b</a>, we find that it's a mov that takes r as the first argument and r/m as the second argument. 16 = 00 010 110. So, the mode is 00 (treat r/m as a pointer), r is edl, and r/m is esi. That means that these bytes translate to edl = *esi;
+
+But wait! This is too easy! Of course, there are some special cases.
+
+
+Special case 1: mod = 0, r/m = 5
+--------------------------------
+When the mod is 0 and r/m is 5, that means that a 32-bit pointer will follow. This address will be used as the r/m argument.
+
+For example, let's take the case of <span class=green>@</span> when its argument is a literal. We're at compile time, and setup has been done to put the address we want to fetch from on the stack. The next code run is <span class=green>58b 2, a,</span>. This commas in the two bytes 8b 05, and then the address on the stack.
+
+8b is the mov from earlier. 05 = 00 000 101. Don't waste your time trying to figure out what register 5, ebp, is doing here, as I may or may not have done -- this is the special case! What this really means is "move the value at the 32-bit address in the next four bytes to eax".
+
+Since we comma in the address (<span class=green>a,</span>) after this, when executed, the code fetches the value at the address and puts it on <a href='mem.html'>top of the stack</a>.
+
+
+Special case 2: r/m = 4
+-----------------------
+When r/m is 4, that means an SIB byte follows, and is used in place of the r/m register. Hooray! More arcane bytes!
+
+SIB, scale-index-base is how complex pointers are encoded. These bytes take the form
+
+     S S I I I B B B
+
+Generally, this is interpreted as (index * scale) + base, where scale and base are registers. The scaling value is interpreted as 2^(the s bits). So, if the s bits are 10, the scale would be 2^2 = 4.
+
+
+What's better than machine code? Recursion! That's right, we have special cases within special cases.
+
+
+Special case 2-and-a-half: mod = 0, b = 5
+-----------------------------------------
+In this case, the base will be a 32-bit address that follows.
+
+Let's take the other branch of <span class=green>@</span>, when the address isn't known at compile time. In that case, we want to do eax = 4 * (*eax). We need to multiply the address by four because <span class=green>@</span> uses <a href='addressing.html'>word addressing</a>.
+
+The code run is <span class=green>85048b 3, 0 ,</span>. 8b = mov, 04 = SIB to eax. Now for the SIB byte: 85 = 10 000 101. The scale is 10, so it will be interpreted as 2^2 = 4. The register to get the index from is eax, and a 32-bit offset will follow. <span class=green>0 ,</span> commas in 4 null bytes: the offset is 0. So, this will fetch from the address 4*eax + 0.
+
+Of course, this could also be done with an explicit multiplication, but I assume that that uses unnecessary instructions Chuck Moore can't afford to waste!
+
+
+Special case 2-and-three-quarters: i = 4
+----------------------------------------
+This indicates a base index of 0.
+
+For example, let's look at the implementation of <span class=green>i</span>, which pushes the loop index onto the stack. The loop index is stored on the <a href='mem.html'>return stack</a>, so after running a <span class=cyan>?dup</span> to increase the stack size, we would like to execute eax = *esp.
+
+Here's the code: <span class=green>24048b 3,</span>. 8b we're familiar with. 04 = 00 000 100 says to use eax as the destination and the SIB byte as the source address. The SIB byte is 24 = 00 100 100. i = 4 indicates that there is no base index, and 100 means to use esp as the base, so this translates to the pointer 0*0 + esp.
+
+You may wonder why an SIB byte is needed at all here, and why esp couldn't have been directly encoded in r/m. Well, if you'll recall, an r/m of 4 is the special case that indicates an SIB byte, so a bit of dancing around is required to use the address in esp.
+
 
 Further information can be found on the <a href='https://wiki.osdev.org/X86-64_Instruction_Encoding#ModR/M'>osdev wiki</a>.
 </pre>

@@ -18,7 +18,7 @@ The stack stores its elements little-endian and grows downwards. This is an eleg
 
 (but the stack is actually hanging from the ceiling, dangling down)
 
-The return stack is pointed to by esp, and uses [byte addressing](addressing.html).
+The return stack is pointed to by esp, grows downwards, and uses [byte addressing](addressing.html).
 
 Registers
 ---------

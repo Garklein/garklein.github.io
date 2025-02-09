@@ -19,20 +19,20 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 <body><div>
 <pre class='code'>
 (i;j):": "(\)''"\n"\'"\n\n"\1:"i/24.in"
-n:*'i,|'j                                        / wire names
-g:((#i)#"A"),*'j@'1                              / gates
-p:(,'!#i),n?/:j@\:0 2                            / gate parents/inputs
-f:(&/;|/;~=/)"AOX"?g                             / functions
-w:{f@'x@p}/(.'*|+i),&#j                          / wires
-2/w(+/"z"=*'n)#&gt;n                                / part 1: output in decimal
+n:*'i,|'j                                         / wire names
+g:((#i)#"A"),*'j@'1                               / gates
+p:(,'!#i),n?/:j@\:0 2                             / gate parents/inputs
+f:(&/;|/;~=/)"AOX"?g                              / functions
+w:{f@'x@p}/(.'*|+i),&#j                           / wires
+2/w(+/"z"=*'n)#&gt;n                                 / part 1: output in decimal
 
-c:(+/~^p?\:)'!#n                                 / number of children
-xy:&gt;[#i;]                                        / device inputs (x or y)
-and:{((~*'p x)|1=c x)&  "A"=g x}                 / and gates should have only one child, or have x00 as a parent
-z:  {(&/("z"=*'n x; ~c x;"X"=g x))|"z45"~/:n x}  / device outputs (z) should be xor and have no children, or be z45
-xor:{&/(&/' xy p x;2=c x;"X"=g x)}               / xors that are not outputs should have xy as inputs and have 2 outputs
-or: {&/(&/'~xy p x;2=c x;"O"=g x)}               / ors should have non xy inputs and 2 outputs
-`0:","/s@&lt;s:n@or_xor_z_and_xy_!#n                / part 2: incorrect gates
+c:(+/~^p?\:)'!#n                                  / number of children
+xy:&gt;[#i;]                                         / device inputs (x or y)
+and:{((~*'p x)|1=c x)&  "A"=g x}                  / and gates should have only one child, or have x00 as a parent
+z:  {(&/("z"=*'n x;  ~c x;"X"=g x))|"z45"~/:n x}  / device outputs (z) should be xor and have no children, or be z45
+xor: {&/(&/' xy p x;2=c x;"X"=g x)}               / xors that are not outputs should have xy as inputs and have 2 outputs
+or:  {&/(&/'~xy p x;2=c x;"O"=g x)}               / ors should have non xy inputs and 2 outputs
+`0:","/s@&lt;s:n@or_xor_z_and_xy_!#n                 / part 2: incorrect gates
 </pre><pre>
 
 I initially did part 2 by hand, which let me verify my suspicion that each swap is within an adder. The part 2 works by filtering out gates that are correct. This is one place that showcases K's power: the English commentary is less precise and more unwieldy than the K counterpart.

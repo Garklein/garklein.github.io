@@ -25,7 +25,7 @@ There is a lot of inline machine code throughout <span class=red>color</span><sp
 
 First of all, when comma-ing bytes, they are inscribed in the dictionary in reverse order. In other words, an instruction such as c28b0689 should be read backwards, like 89 06 8b c2. This is probably because the stack is little-endian while the dictionary grows upwards, and I suspect it also makes <span class=green>1,</span>, <span class=green>2,</span>, and <span class=green>3,</span> easier to implement.
 
-Another thing to note is that all hex literals are 4 bytes. This means that 74 is really 00000074, and <span class=green>74 2,</span> will comma in 74 00.
+Another thing to note is that all hex literals are 4 bytes. This means that 74 is really 00000074. Combined with <span class=green>,</span> working backwards, <span class=green>74 2,</span> will comma in 74 00.
 
 x86 machine code generally in the form opcode modr/m. The opcode byte specifies which function to call, while the modr/m byte specifies its arguments.
 
@@ -52,7 +52,7 @@ Special case 1: mod = 0, r/m = 5
 --------------------------------
 When the mod is 0 and r/m is 5, that means that a 32-bit pointer will follow. This address will be used as the r/m argument.
 
-For example, let's take the case of <span class=green>@</span> when its argument is a literal. We're at compile time, and setup has been done to put the address we want to fetch from on the stack. The next code run is <span class=green>58b 2, a,</span>. This commas in the two bytes 8b 05, and then the address on the stack.
+For example, let's take the case of <span class=green>@</span> when its argument is a literal. We're at compile time, and setup has been done to convert the address from a word address to a byte address, and put it on the stack. The next code run is <span class=green>58b 2, a,</span>. This commas in the two bytes 8b 05, and then the address on the stack.
 
 8b is the mov from earlier. 05 = 00 000 101. Don't waste your time trying to figure out what register 5, ebp, is doing here, as I may or may not have done -- this is the special case! What this really means is "move the value at the 32-bit address in the next four bytes to eax".
 

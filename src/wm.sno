@@ -66,7 +66,7 @@ lt   file ">" = "&gt;" :s(lt)
      file = colTag(file, "magenta")
 
      cf = colTag(":r&lt;color&gt;", "red") colTag(":g&lt;Forth&gt;", "green")
-cfr  file ":&lt;cf&gt;" = cf :s(cfr)
+cfr  file ":&lt;clrfrth&gt;" = cf :s(cfr)
 
      file = tag(file, "`t", "<textarea id='" , "'></textarea>")
      file = tag(file, "`d", "<div id='",       "'></div>")

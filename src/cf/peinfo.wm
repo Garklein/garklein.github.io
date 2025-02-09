@@ -1,7 +1,7 @@
 Project Euler Solutions
 =======================
 
-As I was looking for something to program in :<cf>, I decided to try solving the first 100 [Project Euler](https://projecteuler.net/) problems. Since I want to learn :<cf> and not normal Forth, I'm attempting to keep as many of the :<cf> quirks as I can. For example, I'm trying to only use assembly flags for conditionals, and not booleans on the stack.
+As I was looking for something to program in :<clrfrth>, I decided to try solving the first 100 [Project Euler](https://projecteuler.net/) problems. Since I want to learn :<clrfrth> and not normal Forth, I'm attempting to keep as many of the :<clrfrth> quirks as I can. For example, I'm trying to only use assembly flags for conditionals, and not booleans on the stack.
 
 Status:
 

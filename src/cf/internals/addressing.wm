@@ -1,6 +1,6 @@
 Addressing
 ==========
 
-There are two types of addressing in :<cf>: byte addressing, and word addressing. There are four byte address in the space of a word address.
+There are two types of addressing in :<clrfrth>: byte addressing, and word addressing. There are four byte address in the space of a word address.
 
 The words :g<a-b> and :g<b-a> convert from word to byte address, and byte to word address, respectively. This conversion is basically a multiplication/division by four. Most user-facing words, such as :g<@> and :g<!>, use word addessing.

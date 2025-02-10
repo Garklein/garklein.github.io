@@ -24,7 +24,7 @@ Registers
 ---------
 eax: 0 (000)  top stack element
 ecx: 1 (001)
-eds: 2 (010)  address register, also used to to extend precision to 64 bits with edx:eax
+edx: 2 (010)  address register, also used to to extend precision to 64 bits with edx:eax
 ebx: 3 (011)
 esp: 4 (100)  pointer to the return stack
 esi: 6 (110)  pointer to the second stack element

@@ -7,10 +7,20 @@ Since I want to learn :<clrfrth> and not normal Forth, I'm attempting to keep as
 
 Status:
 
-First 10 complete! Onto 11-20.
+First 10 complete!
+
+problem to-dos:
+- 11
+- clean up 12
+- 13
+- 15
+- 16
+- 17
+- 18
+- 19
+- 20
 
 to-dos:
 - make 64 bit division work with negatives
-- clean up 9
 
 [code](pe.html)

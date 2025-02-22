@@ -5,10 +5,10 @@ As I was looking for something to program in :<clrfrth>, I decided to try solvin
 
 Status:
 
-Almost finished the first 10! Only need to do 9 still.
+First 10 complete! Onto 11-20.
 
-Other to-dos:
+to-dos:
 - make 64 bit division work with negatives
-- make :g<dless> work when the high bytes are equal but negative
+- clean up 9
 
 [code](pe.html)

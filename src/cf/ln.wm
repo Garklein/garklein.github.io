@@ -18,7 +18,7 @@ Now, we're faced with an issue: how do we compute ln(x) in :<clrfrth>.
 
 Fixed point arithmetic
 ----------------------
-For that matter, how can we represent non-whole numbers at all? There are no floats in :<clrfrth>; all we have to work with are 32-bit ints.
+For that matter, how can we represent decimal numbers at all? There are no floats in :<clrfrth>; all we have to work with are 32-bit ints.
 
 For a bit of background, Forths traditionally have no floating point. Instead, they use *Fixed Point*.
 
@@ -135,9 +135,74 @@ Now, we can finally estimate ln(x) around a = 3/2! I'll call this function :g<ln
 :r<ln'> :w<n-n> :g<3/2 swap tayl> :y<1 3/2 tayl> :g<+ ;>
 
 
+It's all coming together
+------------------------
+If you remember from above, for a number x in the form 2^k * m, ln(x) = k ln(2) + ln(m). We have all the parts, so now we just need to put them together.
+
+We can obtain k from finding the most significant bit. Then, m is x/2^k. Since finding the highest set bit and raising 2 to the n are clunky and inefficient in :<clrfrth>, we'll implement them in [machine code](internals/machinecode.html).
+
+To find the highest set bit, we can use [bsr](https://www.felixcloutier.com/x86/bsr), which has opcode :hex<0f bd>. We want to find the most significant bit of the top of the stack, which is in eax. This result should go back onto the top of the stack, so our modr/m byte will be 11 (both operands are registers) 000 (eax) 000 (eax), or :hex<c0>.
+
+:y<macro>:b<*>:r<bsr> :w<n-n> :hex<c0bd0f> :g<3, ;> :y<forth>
+
+This word calculates floor(log2(x)) for an integer, but our number is in fixed point, so we need to divide by :g<1> first. I will call it :g<log2'>, since :g<floorlog2> is quite long.
+
+:r<log2'> :w<n-n> :g<1 / bsr ;>
+
+To compute 2^n, we can start with 0, then use [bts](https://www.felixcloutier.com/x86/bts) to set the desired bit. Since we'll be zeroing eax, we need to first save its value into another register. :hex<8b> for mov, then 11 001 (ecx) 000 (eax) is :hex<c8>.
+
+Next, we need to zero eax, which we can do by xoring it with itself. :hex<31> (xor) 11 000 000 = :hex<c0>.
+
+Finally, we use bts (:hex<0f ab>). It takes the destination as the r/m operand and the bit to set as the r operand, so our modr/m byte will be 11 001 000 = :hex<c8>.
+
+:y<macro>:b<*>:r<2**> :w<n-n> :hex<c031c88b> :g<,> :hex<c8ab0f> :g<3, ;> :y<forth>
+
+We calculate the decimal part of ln(x) with ln(m). m = x/2^k, so this word will need to take both x and k from the stack.
+
+:r<decimal> :w<nn-n> :g<2** *1 *1/ ln' ;>
+
+The whole part is k ln 2, so this only needs k from the stack.
+
+:r<whole> :w<n-n> :y<2 *1 ln'> :g<+ ;>
+
+Now, we just need to calculate k, call :g<decimal> and :g<whole>, and add them together.
+
+:r<ln> :w<n-n> :g<dup ln2' push i decimal pop whole + ;>
+
+k is needed by both functions. For clarity, I :g<push> it to the return stack. The first time we need k, I use :g<i>; for the second and final time, I :g<pop> it.
+
+Time to try it out! Let's try ln(12345/42): :y<12345 1 42 */ ln>
+
+:<clrfrth> responds with :y<2979694>.
+
+ln(12345/42) = ~5.6833369
+2979694/2^19 = ~5.6833153
+
+Not bad! 2^19 * ln(12345/42) rounds to 279705, so we're only off by 9 * 2^-19.
+
+
 Our code isn't divine enough!
 ----------------------------
+If you remember the original equation, we need ln(φ). A trick I learned from K is that φ can be approximated by repeated iteration of f(x) = 1 + 1/x. If you're curious why this works, 3b1b has a [great video](https://www.youtube.com/watch?v=CfW845LNObM).
+
+:r<phi> :w<-n> :g<1 16 for 1 swap *1/ 1 + next ;>
+
 
 The results
 -----------
-Of course, this code could be made more accurate by precomputing :g<ln3/2> and :g<ln2> then using those values; but I wanted to do everything from scratch. After all, if you're precomputing any values at all, why not just skip straight to precomputing the final answer?
+Our final calculation is
+
+:r<pe25> :g<5 *1 ln 2 / 10 *1 ln 999 * + phi:b<,>
+:b<..>ln / 1 + ;>
+
+which gives the right answer!
+
+If we remove the division and rounding, we get that our final fraction is 1206428689/252292, which is ~0.015 off from the correct answer.
+
+The multiplication by 999 really compounds the error from the ln(10). Our estimation for ln(10^999) is 1206006786, while the true answer is ~1206010516: a difference of ~3730 * 2^19.
+
+Also, since the numerator is so much higher than the denominator, even adding 1 to the ln(phi) approximation (= changing it by 2^-19) changes the final answer by ~0.015.
+
+Of course, this code could be made more accurate by precomputing :g<ln3/2> and :g<ln2>, then using those values; but I wanted to do everything from scratch. After all, if you're precomputing any values at all, why not just skip straight to precomputing the final answer?
+
+The full code can be found on block 908 of my [Project Euler solutions](pe.html).

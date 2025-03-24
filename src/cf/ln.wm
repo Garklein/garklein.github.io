@@ -1,0 +1,143 @@
+Estimating ln(x) in :<clrfrth> (without floats)
+===============================================
+
+Motivation [skip to avoid a Project Euler spoiler]
+--------------------------------------------------
+You can solve [Project Euler 25](https://projecteuler.net/problem=25) in 2 ways. The most obvious way is to use bignums to generate Fibonacci numbers until you've found the first with over 1000 digits. But I wanted to get a little spicier.
+
+It turns out, the answer to this problem is
+
+          ln(5)/2 + 999 ln(10)
+1 + floor --------------------
+                 ln(φ)
+
+The reasoning is left as an exercise to the reader ;)
+
+Now, we're faced with an issue: how do we compute ln(x) in :<clrfrth>.
+
+
+Fixed point arithmetic
+----------------------
+For that matter, how can we represent non-whole numbers at all? There are no floats in :<clrfrth>; all we have to work with are 32-bit ints.
+
+For a bit of background, Forths traditionally have no floating point. Instead, they use *Fixed Point*.
+
+In fixed point arithmetic, we treat each number as if it has an implicit denominator. For example, we might say that :g<1> represents 1/100, :g<2> represents 2/100, :g<500> represents 500/100 = 5, etc.
+
+With this representation, we get addition and subtraction for free - to add/subtract fractions with like denominators, you just add/subtract the numerators. Multiplication and division require a bit more thought.
+
+Suppose we have two fixed point numbers, x and y, and we want to compute their product. x represents x/100 and y represents y/100, so the actual value of their product is xy/10000. To get this actual value back into our fixed point representation, we want it to have a denominator of 100.
+
+ x * y      x*y/100
+-------  =  -------,
+100*100       100
+
+so the fixed point representation of the product is xy/100.
+
+Now, the especially clear-seeing ones among you might spot an issue. For sufficiantly large x and y, computing their product will overflow. To resolve this, :<clrfrth> provides a special word: :g<*/>.
+
+:g<x y z */> computes xy/z (I like to read it as multiplying by a fraction: x * y/z), but uses a 64-bit intermediate result for the product. This greatly reduces the chance of overflow.
+
+With 100 as our fixed point denominator, multiplication is :g<x y 100 */>. Similarly, division is :g<x 100 y */>.
+
+Let's put this into practice with some :<clrfrth> code. I'll be using an arbitrary power of two, say 2^19. We can get a bit cheeky here when defining our denominator. Our denominator is our way to represent 1, so we can call the word :g<1>.
+
+:r<1> :w<-n> :hex<80000> :g<;>
+
+When defining a number as a word, we need to use its text representation, which is typed with a backtick before the number. Visually, our :g<1> is identical to the number :g<1>, and it only differs in its internal representation and how we type it. Being unable to tell whether a stray :g<1> is 1 or 2^19 is perhaps a bad idea, but we roll with it.
+
+To convert :g<x> to fixed point, we use :g<x 1 *>. To multiply or divide :g<x> and :g<y>, we use :g<x y 1 */> and :g<x 1 y */> respectively. Here, the fraction view is helpful: multiplying is x * y/1 and dividing is x * 1/y - exactly like you'd expect!
+
+Here are some helpers to convert a number to fixed point, and to do fixed point division.
+
+:r<*1> :w<n-n> :g<1 * ;>
+:r<*1/> :w<nn-n> :g<1 swap */ ;>
+
+
+Logging time!
+-------------
+Now that we've got fractions, we can get to the ln part.
+
+There *is* one "log" that is very easy to compute - floor(log2(x)). This is just the index of the highest set bit.
+
+From here, it's clear that we can represent any number x as 2^k * m, where k is a natural number (the floor(log2(x)) from earlier) and m is in the real interval [1, 2).
+
+ln(x)
+= ln(2^k * m)
+= ln(2^k) + ln(m)
+= k ln(2) + ln(m)
+
+Now, we just need to be able to compute ln(x) over the interval [1, 2], and we can do just that with a [Taylor series](https://www.youtube.com/watch?v=3d6DsjIBzJ4)!
+
+Working out the Taylor series for ln(x) around x=a gives us
+
+                 ∞                      n
+                \--    n+1   -n  (x - a)
+ln(x) = ln(a) +  >  (-1)  * a  * -------
+                /--                 n
+               n = 1
+
+Time to implement this in :<clrfrth>!
+
+I decided to use a main word, :g<tayl>, to compute the sum. This word will take a and x from the stack.
+
+This word will use a :g<for> loop to calculate each term. We need some set up for this loop. There needs to be an accumulator somewhere, to hold the sum so far. Since stack manipulation gets messy, we want to minimize manipulation inside the loop. The variable a is never needed on its own, only x - a, so we can pre-compute that.
+
+This word rearranges the stack to 0 (the accumulator), then x - a, then a.
+
+:r<0,x-a,a> :w<ax-cya> :g<0 -rot swap dup negate u+ ;>
+
+Inside the loop, it will be useful to be able to get n from a nested word. Inside the for loop, the index will be on the return stack. When we call a word (that, say, computes one part of the term), this pushes onto the return stack. When this word calls :g<n>, that will push again onto the return stack. So, :g<n> needs to pick the 3rd element from the return stack.
+
+:r<n> :w<-n> :g<2pop i -rot 2push ;>
+
+:g<2pop> pops the two addresses off the return stack, :g<i> copies the index, :g<-rot> buries it under the two addresses, and :g<2push> pushes the addresses back on.
+
+There are two terms which need to be raised to the power of n, so let's make a helper that does that.
+
+:r<**n> :w<n-n> :g<1 n for over 1 */ next nip ;>
+
+This word takes in the base that should be raised to the power of n. It starts with (our) :g<1>, then :g<n> times, it multiplies it by the base. Finally, it :g<nip>s the base off the stack. Since the :<clrfrth> :j<for> loop bricks when looping 0 times, this will fail when n = 0. Luckily, we sum starting at n = 1.
+
+Now, let's look at the parts of the sum. First, we multiply by (x - a)^n. We might be tempted to calculate (x - a)/a, or x-a - 1, then raise *that* to the n, but I fear we would lose precision. Because of our setup, x - a will be below the top, so we can :g<over **n> for this part.
+
+Next, we divide by a^n. With (x - a)^n now the top of the stack, now a is second from the top. a :g<over **n *1/> will raise it to the power and divide.
+
+Now, we need to divide by n, a simple :g<i />. Here, since our divisor is a whole number and not fixed point, we can use normal division.
+
+Finally, we need to fix the sign. This term should be added if n is odd, and subtracted if n is even.
+
+:r<sign> :w<n-n> :g<n 1 ? drop if ; then negate ;>
+
+:g<1 ?> tests n to see if the lowest bit is set. If it is, n is odd, and we just return. Otherwise, n is even, and we negate the number.
+
+At the end of each loop iteration, we need to add this to the accumulator, which is now under our term, a, and x - a.
+
+:r<acc> :w<cnn-cnn> :g<push rot pop + -rot ;>
+
+We will use :g<16 for> ... :g<next> to loop from 16 to 1.
+
+After the loop, all that's next is to discard x - a and a. Putting it all together gives
+
+:r<tayl> :w<xa-n> :g<0,x-a,a 16 for>:b<,>
+:b<..>:g<over **n over **n *1/ i / sign acc next>:b<,>
+:b<..>:g<2drop ;>
+
+Our final Taylor series will be used on the interval [1, 2]; so I think picking a = 3/2 makes sense.
+
+To compute the Taylor series of ln(x) around a = 3/2, we first need to compute ln(3/2). We can use the the Taylor series of ln(x) around a = 1 for this. We know that ln(1) = 0, so we won't need to add anything to our result from :g<tayl>. This means that ln(3/2) is simply :g<1 3/2 tayl>.
+
+Since this value is used a lot, I'll compute it at compile time and embed it into the word. In :<clrfrth>, at compile time, a transition from yellow to green takes the top stack element and compiles it as a literal. In other words, it saves the top compile time stack element, and pushes it onto the stack at run time.
+
+Now, we can finally estimate ln(x) around a = 3/2! I'll call this function :g<ln'>.
+
+:r<3/2> :g<3 *1 2 / ;>
+:r<ln'> :w<n-n> :g<3/2 swap tayl> :y<1 3/2 tayl> :g<+ ;>
+
+
+Our code isn't divine enough!
+----------------------------
+
+The results
+-----------
+Of course, this code could be made more accurate by precomputing :g<ln3/2> and :g<ln2> then using those values; but I wanted to do everything from scratch. After all, if you're precomputing any values at all, why not just skip straight to precomputing the final answer?

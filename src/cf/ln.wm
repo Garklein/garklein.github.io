@@ -5,7 +5,7 @@ Motivation [skip to avoid a Project Euler spoiler]
 --------------------------------------------------
 You can solve [Project Euler 25](https://projecteuler.net/problem=25) in 2 ways. The most obvious way is to use bignums to generate Fibonacci numbers until you've found the first with over 1000 digits. But I wanted to get a little spicier.
 
-It turns out, the answer to this problem is
+As it turns out, the answer to this problem is
 
           ln(5)/2 + 999 ln(10)
 1 + floor --------------------
@@ -13,7 +13,7 @@ It turns out, the answer to this problem is
 
 The reasoning is left as an exercise to the reader ;)
 
-Now, we're faced with an issue: how do we compute ln(x) in :<clrfrth>.
+Now, we're faced with an issue: how do we compute ln(x) in :<clrfrth>?
 
 
 Fixed point arithmetic
@@ -22,31 +22,33 @@ For that matter, how can we represent decimal numbers at all? There are no float
 
 For a bit of background, Forths traditionally have no floating point. Instead, they use *Fixed Point*.
 
-In fixed point arithmetic, we treat each number as if it has an implicit denominator. For example, we might say that :g<1> represents 1/100, :g<2> represents 2/100, :g<500> represents 500/100 = 5, etc.
+In fixed point arithmetic, we treat each number as if it has an implicit denominator. For example, we might say that :g<1> represents 1/100, :g<2> represents 2/100, :g<500> represents 500/100 (aka 5), etc.
 
 With this representation, we get addition and subtraction for free - to add/subtract fractions with like denominators, you just add/subtract the numerators. Multiplication and division require a bit more thought.
 
-Suppose we have two fixed point numbers, x and y, and we want to compute their product. x represents x/100 and y represents y/100, so the actual value of their product is xy/10000. To get this actual value back into our fixed point representation, we want it to have a denominator of 100.
+Suppose we have two fixed point numbers x and y, and we want to compute their product. x represents x'/100 and y represents y'/100. The actual value of their product is x'y', which means that our desired fixed point representation is x'y'/100.
 
- x * y      x*y/100
--------  =  -------,
-100*100       100
+If we solve for x' and y', we get that x' = 100x and y' = 100y. Subbing this into x'y'/100 gives us
 
-so the fixed point representation of the product is xy/100.
+100x * 100y
+-----------,
+    100
 
-Now, the especially clear-seeing ones among you might spot an issue. For sufficiantly large x and y, computing their product will overflow. To resolve this, :<clrfrth> provides a special word: :g<*/>.
+or simply xy/100.
+
+Now, the especially astute ones among you might spot an issue. For large x and y, computing their product will overflow a mere 32-bit integer. To resolve this, :<clrfrth> provides a special word: :g<*/>.
 
 :g<x y z */> computes xy/z (I like to read it as multiplying by a fraction: x * y/z), but uses a 64-bit intermediate result for the product. This greatly reduces the chance of overflow.
 
 With 100 as our fixed point denominator, multiplication is :g<x y 100 */>. Similarly, division is :g<x 100 y */>.
 
-Let's put this into practice with some :<clrfrth> code. I'll be using an arbitrary power of two, say 2^19. We can get a bit cheeky here when defining our denominator. Our denominator is our way to represent 1, so we can call the word :g<1>.
+Let's put this into practice with some :<clrfrth> code. I'll be using an arbitrary power of two as my denominator, say, 2^19. We can get a bit cheeky here when defining it. Our denominator is our way to represent 1, so we can call the word :g<1>.
 
 :r<1> :w<-n> :hex<80000> :g<;>
 
-When defining a number as a word, we need to use its text representation, which is typed with a backtick before the number. Visually, our :g<1> is identical to the number :g<1>, and it only differs in its internal representation and how we type it. Being unable to tell whether a stray :g<1> is 1 or 2^19 is perhaps a bad idea, but we roll with it.
+When defining a number as a word, we need to use its text representation, which is typed with a backtick before the number. Visually, our :g<1> is identical to the number :g<1>; and it only differs in its internal representation and how we type it. Being unable to tell whether a stray :g<1> in source code means 1 or 2^19 is perhaps a bad idea, but we roll with it.
 
-To convert :g<x> to fixed point, we use :g<x 1 *>. To multiply or divide :g<x> and :g<y>, we use :g<x y 1 */> and :g<x 1 y */> respectively. Here, the fraction view is helpful: multiplying is x * y/1 and dividing is x * 1/y - exactly like you'd expect!
+To convert :g<x> to fixed point, we use :g<x 1 *>. To multiply or divide fixed point :g<x> and :g<y>, we use :g<x y 1 */> and :g<x 1 y */> respectively. Here, the fraction view is helpful: multiplying is x * y/1 and dividing is x * 1/y - exactly like you'd expect!
 
 Here are some helpers to convert a number to fixed point, and to do fixed point division.
 
@@ -67,7 +69,7 @@ ln(x)
 = ln(2^k) + ln(m)
 = k ln(2) + ln(m)
 
-Now, we just need to be able to compute ln(x) over the interval [1, 2], and we can do just that with a [Taylor series](https://www.youtube.com/watch?v=3d6DsjIBzJ4)!
+Now, we just need to be able to compute ln(x) over the interval [1, 2], and we can do just that with a [Taylor series](https://www.youtube.com/watch?v=3d6DsjIBzJ4).
 
 Working out the Taylor series for ln(x) around x=a gives us
 
@@ -79,31 +81,31 @@ ln(x) = ln(a) +  >  (-1)  * a  * -------
 
 Time to implement this in :<clrfrth>!
 
-I decided to use a main word, :g<tayl>, to compute the sum. This word will take a and x from the stack.
+I decided to use a word :g<tayl> to compute the sum, which will take a and x from the stack.
 
-This word will use a :g<for> loop to calculate each term. We need some set up for this loop. There needs to be an accumulator somewhere, to hold the sum so far. Since stack manipulation gets messy, we want to minimize manipulation inside the loop. The variable a is never needed on its own, only x - a, so we can pre-compute that.
+:g<tayl> will use a :g<for> loop to calculate each term, with the loop's index being n. We need some set up for this loop. There needs to be an accumulator somewhere, to hold the sum so far. Since stack manipulation gets messy, we want to minimize manipulation inside the loop. The variable a is never needed on its own, only x - a, so we can pre-compute that.
 
 This word rearranges the stack to 0 (the accumulator), then x - a, then a.
 
 :r<0,x-a,a> :w<ax-cya> :g<0 -rot swap dup negate u+ ;>
 
-Inside the loop, it will be useful to be able to get n from a nested word. Inside the for loop, the index will be on the return stack. When we call a word (that, say, computes one part of the term), this pushes onto the return stack. When this word calls :g<n>, that will push again onto the return stack. So, :g<n> needs to pick the 3rd element from the return stack.
+Inside the loop, it will be useful to be able to get n from a nested word. Inside the for loop, the index will be on the return stack. When we call a word (that, say, computes one part of the term), this pushes an address onto the return stack. When that word calls :g<n>, it will push again onto the return stack. So, :g<n> needs to pick the 3rd element from the return stack.
 
 :r<n> :w<-n> :g<2pop i -rot 2push ;>
 
 :g<2pop> pops the two addresses off the return stack, :g<i> copies the index, :g<-rot> buries it under the two addresses, and :g<2push> pushes the addresses back on.
 
-There are two terms which need to be raised to the power of n, so let's make a helper that does that.
+There are two terms which each need to be raised to the power of n, so let's make a helper for that.
 
 :r<**n> :w<n-n> :g<1 n for over 1 */ next nip ;>
 
-This word takes in the base that should be raised to the power of n. It starts with (our) :g<1>, then :g<n> times, it multiplies it by the base. Finally, it :g<nip>s the base off the stack. Since the :<clrfrth> :j<for> loop bricks when looping 0 times, this will fail when n = 0. Luckily, we sum starting at n = 1.
+This word takes in the base that should be raised to the power of n. It starts with (our) :g<1>, then multiplies it by the base :g<n> times. Finally, it :g<nip>s the base off the stack. Since the :<clrfrth> :j<for> loop bricks when looping 0 times, this will fail when n = 0. Luckily, we sum starting at n = 1.
 
-Now, let's look at the parts of the sum. First, we multiply by (x - a)^n. We might be tempted to calculate (x - a)/a, or x-a - 1, then raise *that* to the n, but I fear we would lose precision. Because of our setup, x - a will be below the top, so we can :g<over **n> for this part.
+Now, let's look at the sum itself. We might be tempted to first calculate (x - a)/a (or x/a - 1), then raise that to the n, but I fear we would lose precision. Instead, I will calculate (x - a)^n and a^n separately, then divide them.
 
-Next, we divide by a^n. With (x - a)^n now the top of the stack, now a is second from the top. a :g<over **n *1/> will raise it to the power and divide.
+After our :g<0,x-a,a> setup, x - a will be below the top; so we can :g<over **n> to compute (x - a)^n. Our a value now is second from the top. :g<over **n *1/> will raise it to the power and divide.
 
-Now, we need to divide by n, a simple :g<i />. Here, since our divisor is a whole number and not fixed point, we can use normal division.
+Next, we need to divide by n -- a simple :g<i />. Since our divisor is a whole number and not fixed point, we can use normal division.
 
 Finally, we need to fix the sign. This term should be added if n is odd, and subtracted if n is even.
 
@@ -111,13 +113,13 @@ Finally, we need to fix the sign. This term should be added if n is odd, and sub
 
 :g<1 ?> tests n to see if the lowest bit is set. If it is, n is odd, and we just return. Otherwise, n is even, and we negate the number.
 
-At the end of each loop iteration, we need to add this to the accumulator, which is now under our term, a, and x - a.
+At the end of each loop iteration, we need to add this to the accumulator, which is now buried under our term, a, and x - a.
 
 :r<acc> :w<cnn-cnn> :g<push rot pop + -rot ;>
 
-We will use :g<16 for> ... :g<next> to loop from 16 to 1.
+A :g<push> is needed to temporarily offload our new term to the return stack. Then, :g<rot> pries the accumulator up from under a and x - a, we add the term, and we send the accumulator back down.
 
-After the loop, all that's next is to discard x - a and a. Putting it all together gives
+As for the loop itself, we will use :g<16 for> ... :g<next> to loop from 16 to 1. After the loop, all that's next is to discard x - a and a. Putting it all together gives
 
 :r<tayl> :w<xa-n> :g<0,x-a,a 16 for>:b<,>
 :b<..>:g<over **n over **n *1/ i / sign acc next>:b<,>
@@ -127,7 +129,7 @@ Our final Taylor series will be used on the interval [1, 2]; so I think picking 
 
 To compute the Taylor series of ln(x) around a = 3/2, we first need to compute ln(3/2). We can use the the Taylor series of ln(x) around a = 1 for this. We know that ln(1) = 0, so we won't need to add anything to our result from :g<tayl>. This means that ln(3/2) is simply :g<1 3/2 tayl>.
 
-Since this value is used a lot, I'll compute it at compile time and embed it into the word. In :<clrfrth>, at compile time, a transition from yellow to green takes the top stack element and compiles it as a literal. In other words, it saves the top compile time stack element, and pushes it onto the stack at run time.
+Since this value is used a lot, I'll compute it at compile time. In :<clrfrth>, a transition from yellow to green at compile time takes the top stack element and compiles it as a literal. In other words, it saves the top compile time stack element, and pushes it onto the stack at runtime.
 
 Now, we can finally estimate ln(x) around a = 3/2! I'll call this function :g<ln'>.
 
@@ -137,15 +139,15 @@ Now, we can finally estimate ln(x) around a = 3/2! I'll call this function :g<ln
 
 It's all coming together
 ------------------------
-If you remember from above, for a number x in the form 2^k * m, ln(x) = k ln(2) + ln(m). We have all the parts, so now we just need to put them together.
+If you remember from above, ln(x) = k ln(2) + ln(m) when x is of the form 2^k * m. We now have all the parts, so all that's missing is the final assembly.
 
-We can obtain k from finding the most significant bit. Then, m is x/2^k. Since finding the highest set bit and raising 2 to the n are clunky and inefficient in :<clrfrth>, we'll implement them in [machine code](internals/machinecode.html).
+We can obtain k from finding the most significant set bit. Then, m is x/2^k. Since finding the highest set bit and raising 2 to the n are both clunky and inefficient in :<clrfrth>, we'll implement them in [machine code](internals/machinecode.html).
 
-To find the highest set bit, we can use [bsr](https://www.felixcloutier.com/x86/bsr), which has opcode :hex<0f bd>. We want to find the most significant bit of the top of the stack, which is in eax. This result should go back onto the top of the stack, so our modr/m byte will be 11 (both operands are registers) 000 (eax) 000 (eax), or :hex<c0>.
+To find the highest set bit, we can use [bsr](https://www.felixcloutier.com/x86/bsr), which has opcode :hex<0f bd>. We want to find the most significant bit of the top of the stack, which in :<clrfrth> is always held in eax. This result should go back onto the top of the stack, so our modr/m byte will be 11 (both operands are registers) 000 (eax) 000 (eax), or :hex<c0>.
 
 :y<macro>:b<*>:r<bsr> :w<n-n> :hex<c0bd0f> :g<3, ;> :y<forth>
 
-This word calculates floor(log2(x)) for an integer, but our number is in fixed point, so we need to divide by :g<1> first. I will call it :g<log2'>, since :g<floorlog2> is quite long.
+:g<bsr> calculates floor(log2(x)) for an integer. However, our input is in fixed point format, so we first need to divide by :g<1>. I will call this word :g<log2'>, since :g<floorlog2> is quite long.
 
 :r<log2'> :w<n-n> :g<1 / bsr ;>
 
@@ -159,9 +161,9 @@ Finally, we use bts (:hex<0f ab>). It takes the destination as the r/m operand a
 
 We calculate the decimal part of ln(x) with ln(m). m = x/2^k, so this word will need to take both x and k from the stack.
 
-:r<decimal> :w<nn-n> :g<2** *1 *1/ ln' ;>
+:r<decimal> :w<nn-n> :g<2** / ln' ;>
 
-The whole part is k ln 2, so this only needs k from the stack.
+The whole part (from a log2 perspective) is k ln 2, so this only needs k from the stack.
 
 :r<whole> :w<n-n> :y<2 *1 ln'> :g<+ ;>
 
@@ -201,8 +203,8 @@ If we remove the division and rounding, we get that our final fraction is 120642
 
 The multiplication by 999 really compounds the error from the ln(10). Our estimation for ln(10^999) is 1206006786, while the true answer is ~1206010516: a difference of ~3730 * 2^19.
 
-Also, since the numerator is so much higher than the denominator, even adding 1 to the ln(phi) approximation (= changing it by 2^-19) changes the final answer by ~0.015.
+Another chasm of lost precision occurs when dividing, because the numerator is so much greator than the denominator. Even adding 1 to the ln(phi) approximation (changing the denominator by 2^-19) massively affects the final answer by ~0.015.
 
-Of course, this code could be made more accurate by precomputing :g<ln3/2> and :g<ln2>, then using those values; but I wanted to do everything from scratch. After all, if you're precomputing any values at all, why not just skip straight to precomputing the final answer?
+Of course, this code could be made more accurate by using precomputed values for :g<ln3/2> and :g<ln2>, but I wanted to do everything from scratch. After all, if you're hardcoding any values at all, why not just skip straight to hardcoding the final answer?
 
 The full code can be found on block 908 of my [Project Euler solutions](pe.html).

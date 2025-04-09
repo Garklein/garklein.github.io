@@ -24,7 +24,7 @@ For a bit of background, Forths traditionally have no floating point. Instead, t
 
 In fixed point arithmetic, we treat each number as if it has an implicit denominator. For example, we might say that :g<1> represents 1/100, :g<2> represents 2/100, :g<500> represents 500/100 (aka 5), etc.
 
-With this representation, we get addition and subtraction for free - to add/subtract fractions with like denominators, you just add/subtract the numerators. Multiplication and division require a bit more thought.
+With this representation, we get addition and subtraction for free - to add/subtract fractions with like denominators, you just add/subtract the numerators. Multiplication and division by integers are also the same as normal. Multiplication and division of one fixed point number by another, however, require a bit more thought.
 
 Suppose we have two fixed point numbers x and y, and we want to compute their product. x represents x'/100 and y represents y'/100. The actual value of their product is x'y', which means that our desired fixed point representation is x'y'/100.
 

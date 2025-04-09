@@ -39,7 +39,7 @@ code{ font-size:large; text-transform:lowercase;}
 <td class=cf><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
 <td>&nbsp;&nbsp;</td>
 <td class=cf>842 list
-<br><code class=t9>- create project euler html</code><code class=te> br<br><br></code><code class=t1>html load</code><code class=d8> 840</code><code class=t1> load</code><code class=te>,<br></code><code class=t1>named</code><code class=t9> pe.html</code><code class=d8> 840 30</code><code class=t1> pe run&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<br><code class=t9>- create project euler html</code><code class=te> br<br><br></code><code class=t1>html load</code><code class=d8> 840</code><code class=t1> load</code><code class=te>,<br></code><code class=t1>named</code><code class=t9> pe.html</code><code class=d8> 840 40</code><code class=t1> pe run&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
 </tr>
 <tr>
 <td class=cf><br><code class=t3>l</code><code class=t9> sieve size</code><code class=t3><br>sieve</code><code class=t9> address in sieve</code><code class=te>,<br></code><code class=t9>in the sieve,</code><code class=df> 1</code><code class=t9> is not prime,</code><code class=df> 0</code><code class=t9> is prime.</code><code class=t3><br>2**</code><code class=t9> raise</code><code class=df> 2</code><code class=t9> to the n</code><code class=t3><br>addrmsk</code><code class=t9> helper, return the address and bitmask</code><code class=t3><br>notprime</code><code class=t9> mark as not prime</code><code class=t3><br>oob?</code><code class=t9> out of bounds of prime sieve</code><code class=t3><br>prime?</code><code class=t9> test if prime</code><code class=te>,<br>br<br><br></code><code class=t3>opt</code><code class=t9> optimize - muls of</code><code class=df> 2</code><code class=t9> are already marked</code><code class=t3><br>fillmuls</code><code class=t9> mark multiples as not prime</code><code class=te>,<br>,<br></code><code class=t3>nextprime</code><code class=t9> return next prime greater than n</code><code class=t3><br>ok?</code><code class=t9> in range</code><code class=t3><br>sift</code><code class=t9> run sieve&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
@@ -262,5 +262,65 @@ code{ font-size:large; text-transform:lowercase;}
 <td>&nbsp;&nbsp;</td>
 <td class=cf>916 list
 <br><code class=t9>- project euler</code><code class=df> 29</code><code class=t1> bignums load</code><code class=t3><br>@sneq?</code><code class=t4> over @ over @ or drop ;</code><code class=t3><br>gneq?</code><code class=t4> 2dup dup @</code><code class=d6> 1</code><code class=t4> +</code><code class=te>,<br>..</code><code class=t4>for @sneq? if pop drop 2drop ;</code><code class=te>,<br>..</code><code class=t4>then</code><code class=d6> 1 1</code><code class=t4> v+ next</code><code class=d6> 0</code><code class=t4> ? 2drop ;</code><code class=te>,<br></code><code class=d8>99</code><code class=t1> sq allot</code><code class=te>*</code><code class=t3>set</code><code class=t9> n-a</code><code class=d8> 0</code><code class=t1> +</code><code class=t4> + ;</code><code class=tc> l</code><code class=dc> 9183</code><code class=t3><br>clear</code><code class=d6> 0</code><code class=t1> l</code><code class=t4> ! ;</code><code class=t3><br>set@</code><code class=d6> -1</code><code class=t4> + set @ ;</code><code class=t3><br>setapp</code><code class=t9> g</code><code class=t1> l</code><code class=t4> @ set !</code><code class=d6> 1</code><code class=t1> l</code><code class=t4> +! ;</code><code class=t3><br>eq0?</code><code class=d6> 1</code><code class=t4> less drop ;</code><code class=t3><br>new?</code><code class=t1> l</code><code class=t4> @ eq0? if drop ;</code><code class=te>,<br>..</code><code class=t4>then for i set@ gneq? drop if *next</code><code class=d6> -1</code><code class=t4> ? ;</code><code class=te>,<br>..</code><code class=t4>then pop drop</code><code class=d6> 0</code><code class=t4> ? ;</code><code class=t3><br>insert</code><code class=t9> g</code><code class=t4> new? if setapp ; then drop ;</code><code class=t3><br>pow</code><code class=t9> nn-g</code><code class=d6> 1</code><code class=t4> n-g swap for over g* next nip ;</code><code class=t3><br>pe29</code><code class=t4> clear</code><code class=d6> 99</code><code class=t4> for i</code><code class=d6> 1</code><code class=t4> +</code><code class=d6> 99</code><code class=t4> for dup i</code><code class=d6> 1</code><code class=t4> +</code><code class=te>,<br>..</code><code class=t4>pow insert next drop next</code><code class=t1> l</code><code class=t4> @ ;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code class=t9>digit fifth powers</code><code class=t3><br>**5</code><code class=t9> raise to the power of</code><code class=df> 5</code><code class=t3><br>dsum</code><code class=t9> sum of the fifth powers of digits</code><code class=te> br<br><br></code><code class=t3>sumneq?</code><code class=t9> is a number not equal to the sum</code><code class=t3><br>acc</code><code class=t9> add number if equal to sum of fifth powers<br>of digits</code><code class=te> br<br><br></code><code class=df>1</code><code class=t9> is subtracted at the end because 1**5 isn't <br>a sum&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>918 list
+<br><code class=t9>- project euler</code><code class=df> 30</code><code class=t3><br>**5</code><code class=t9> n-n</code><code class=t4> dup sq sq * ;</code><code class=t3><br>dsum</code><code class=t9> n-n</code><code class=d6> -1</code><code class=t4> ?</code><code class=te>,<br>..</code><code class=t4>if</code><code class=d6> 10</code><code class=t4> /mod dsum swap **5 + ; then ;</code><code class=t3><br>sumneq?</code><code class=t4> dup dup dsum or drop ;</code><code class=t3><br>acc</code><code class=t9> cn-c</code><code class=t4> sumneq? if</code><code class=d6> 0</code><code class=t4> * then + ;</code><code class=t3><br>pe30</code><code class=d6> 0 354293</code><code class=t4> for i acc next</code><code class=d6> -1</code><code class=t4> + ;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code class=t9>coin sums</code><code class=te> br<br><br></code><code class=t3>coin</code><code class=t9> index 0-7 to coin value</code><code class=t3><br>neg?</code><code class=t9> below</code><code class=df> 0</code><code class=t3><br>eq0?</code><code class=t9> equal</code><code class=df> 0</code><code class=t3><br>usec</code><code class=t9> use the current coin in the current way</code><code class=t3><br>nextc</code><code class=t9> go to the next coin for the current way</code><code class=t3><br>comb</code><code class=t9> takes in number of cents and highest coin<br>index, computes the number of ways to make tha<br>t many cents using coins of the highest index <br>or lower&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>920 list
+<br><code class=t9>- project euler</code><code class=df> 31</code><code class=te>,<br></code><code class=t1>here</code><code class=d8> 1 2 5 10 20 50 100 200 8</code><code class=t1> n,</code><code class=t3><br>coin</code><code class=t9> n-n</code><code class=d8> 0</code><code class=t1> +</code><code class=t4> + 1@ ;</code><code class=t3><br>neg?</code><code class=d6> 0</code><code class=t4> less drop ;</code><code class=t3><br>eq0?</code><code class=d6> 1</code><code class=t4> less drop ;</code><code class=t3><br>usec</code><code class=t9> nn-nn</code><code class=t4> dup coin negate u+ ;</code><code class=t3><br>nextc</code><code class=t9> nn-nn</code><code class=d6> -1</code><code class=t4> + ;</code><code class=t3><br>comb</code><code class=t9> nn-n</code><code class=t4> swap neg? if 2drop</code><code class=d6> 0</code><code class=t4> ;</code><code class=te>,<br>..</code><code class=t4>then swap eq0? if 2drop</code><code class=d6> 1</code><code class=t4> ;</code><code class=te>,<br>..</code><code class=t4>then 2dup usec comb -rot nextc comb + ;</code><code class=t3><br>pe31</code><code class=d6> 200 7</code><code class=t4> comb ;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>922 list
+<br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>924 list
+<br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>926 list
+<br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>928 list
+<br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>930 list
+<br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>932 list
+<br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>934 list
+<br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+</tr>
+<tr>
+<td class=cf><br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
+<td>&nbsp;&nbsp;</td>
+<td class=cf>936 list
+<br><code>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<br></code><br></td>
 </tr>
 </table></body></html>

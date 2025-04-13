@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Garklein's stuff</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+tuigreet + EXWM + NixOS
+=======================
+
+As I'm now transitioning to Nix, I'm having some trouble with my EXWM config. I figured I would put my solutions here in case they can help anyone else.
+
+With tuigreet, I found that no X server was starting. This is because xstart isn't exposed by default on Nix, and you need to use services.xserver.displayManager.startx.enable to use it. Here is the configuration I ended up with:
+
+services.xserver = {
+  enable = true;
+  displayManager.startx.enable = true;
+  windowManager.exwm.enable = true;
+};
+services.greetd = {
+  enable = true;
+  settings = {
+    default_session = {
+      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --remember --remember-session -x ${config.services.displayManager.sessionData.desktops}/share/xsessions";
+      user = "greeter";
+    };
+  };
+};
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='index.html'>~</a>/<a href='nix.html'>nix.html</a></pre>
+</div></body>
+</html>

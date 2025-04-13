@@ -26,6 +26,7 @@ As I'm now transitioning to Nix, I'm having some trouble with my EXWM config. I 
 
 With tuigreet, I found that no X server was starting. This is because xstart isn't exposed by default on Nix, and you need to use services.xserver.displayManager.startx.enable to use it. Here is the configuration I ended up with:
 
+</pre><pre class='code'>
 services.xserver = {
   enable = true;
   displayManager.startx.enable = true;

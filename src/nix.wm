@@ -1,21 +1,35 @@
-tuigreet + EXWM + NixOS
-=======================
+NixOS, tuigreet, EXWM, and alpha-background
+===========================================
 
 As I'm now transitioning to Nix, I'm having some trouble with my EXWM config. I figured I would put my solutions here in case they can help anyone else.
 
-With tuigreet, I found that no X server was starting. This is because xstart isn't exposed by default on Nix, and you need to use services.xserver.displayManager.startx.enable to use it. Here is the configuration I ended up with:
+With tuigreet, I found that no X server was starting. tuigreet uses xstart, which isn't exposed by default on Nix. To use xstart, you need to set services.xserver.displayManager.startx.enable to true.
+
+As for EXWM, I couldn't get the alpha-background frame parameter to work. I thought it might be a compositor issue, but the alpha frame parameter was working fine. It turns out that the default Nix Emacs doesn't use GTK, and alpha-background needs GTK to work. Also, the Nix EXWM doesn't let you customize the Emacs it uses, so you have to manually set the window manager.
+
+Here is my working configuration:
+
 
 ```
+# set up exwm
 services.xserver = {
   enable = true;
   displayManager.startx.enable = true;
-  windowManager.exwm.enable = true;
+  windowManager.session = lib.singleton {
+    name = "exwm";
+    start = "${pkgs.emacs-gtk}/bin/emacs";
+  };
 };
-services.greetd = {
+
+# make greetd load up exwm
+services.greetd = let
+  tuigreet = "${pkgs.greetd.tuigreet}/bin/tuigreet";
+  xsessions = "${config.services.displayManager.sessionData.desktops}/share/xsessions";
+in {
   enable = true;
   settings = {
     default_session = {
-      command = "${pkgs.greetd.tuigreet}/bin/tuigreet --remember --remember-session -x ${config.services.displayManager.sessionData.desktops}/share/xsessions";
+      command = "${tuigreet} -x ${xsessions}";
       user = "greeter";
     };
   };

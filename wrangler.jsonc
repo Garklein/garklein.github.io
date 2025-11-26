@@ -1,5 +1,9 @@
 {
   "name": "site",
+  "compatibility_flags": [
+    "nodejs_compat",
+    "enable_nodejs_http_modules"
+  ],
   "compatibility_date": "2025-11-26",
     "assets": {
       "directory": "./docs"

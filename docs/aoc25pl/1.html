@@ -24,26 +24,21 @@ state(S0, S), [S] --&gt; [S0].
 number(0) --&gt; [].
 number(N) --&gt; number(Ns), [Dig], { number_chars(X, [Dig]), N #= Ns*10 + X }.
 
-instruction(r(N)) --&gt; "R", number(N).
-instruction(l(N)) --&gt; "L", number(N).
+instruction((right, N)) --&gt; "R", number(N).
+instruction((left,  N)) --&gt; "L", number(N_), { N #= -N_ }.
 
 lines([])     --&gt; [].
 lines([L|Ls]) --&gt; instruction(L), "\n", lines(Ls).
 
 input(I) :- phrase_from_file(lines(I), "i/1.in").
 
-countP1(Dial, P1, P1_) :- 0 #= Dial mod 100, P1_ #= P1 + 1.
-countP1(_, P1, P1).
+box(right, N, Box) :- Box #= N  div 100.
+box(left,  N, Box) :- N_ #= N - 1, Box #= N_ div 100.
 
-rBox(N, Box) :- Box #= N div 100.
-lBox(N, Box) :- N_ #= N - 1, Box #= N_ div 100.
-
-turn(r(N)) --&gt; state((Dial, P1, P2), (Dial_, P1_, P2_)),
-	     { Dial_ #= Dial + N, countP1(Dial, P1, P1_),
-	       rBox(Dial, StartBox), rBox(Dial_, EndBox), P2_ #= P2 + EndBox - StartBox }.
-turn(l(N)) --&gt; state((Dial, P1, P2), (Dial_, P1_, P2_)),
-	     { Dial_ #= Dial - N, countP1(Dial, P1, P1_),
-	       lBox(Dial, StartBox), lBox(Dial_, EndBox), P2_ #= P2 + StartBox - EndBox }.
+turn((Dir, N)) --&gt; state((Dial, P1, P2), (Dial_, P1_, P2_)),
+		 { Dial_ #= Dial + N,
+		   ( 0 #= Dial_ mod 100 -&gt; P1_ #= P1 + 1 ; P1_ #= P1),
+		   box(Dir, Dial, Box1), box(Dir, Dial_, Box2), P2_ #= P2 + abs(Box1 - Box2) }.
 
 execute([])     --&gt; state(N, N).
 execute([I|Is]) --&gt; turn(I), execute(Is).

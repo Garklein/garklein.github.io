@@ -12,7 +12,7 @@ lines([L|Ls]) --> instruction(L), "\n", lines(Ls).
 
 input(I) :- phrase_from_file(lines(I), "i/1.in").
 
-box(right, N, Box) :- Box #= N  div 100.
+box(right, N, Box) :- Box #= N div 100.
 box(left,  N, Box) :- N_ #= N - 1, Box #= N_ div 100.
 
 turn((Dir, N)) --> state((Dial, P1, P2), (Dial_, P1_, P2_)),

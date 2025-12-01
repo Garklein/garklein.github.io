@@ -29,7 +29,7 @@ col  colour len(1) . c
 st   output = "<!DOCTYPE html>"
      output = "<html>"
      output = "<head>"
-     output = "  <title>Garklein's stuff</title>"
+     output = "  <title>manzikert.ca</title>"
      output = "  <style>"
      output = "body     { display:flex; flex-direction:column; align-items:center;"
      output = "           font-size:1rem; margin:min(10vw,100px) auto; }"

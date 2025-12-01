@@ -1,14 +1,17 @@
-Garklein's website
-==================
+manzikert.ca
+============
 
-[Advent of Code 2025 in Prolog](aoc25pl/aoc25pl.html)
-[NixOS, tuigreet, EXWM, and alpha-background](nix.html)
-[Estimating ln(x) in colorForth (without floats)](cf/ln.html)
-[A study in scarlet and tsumebite: colorForth notes](cf/cf.html)
-[Advent of Code 2024 in K](aoc24k/aoc24k.html)
-[Making readable-mlatu 3500x faster](optimize.html)
-[Solution to CCC 23 S3](ccc23s3.html)
-[Hungarian Notation](hungarian.html)
+Within the library, which had been emptied of its books, its mushrooms, its "shelves," they found only a single chair, and sitting in that chair, Manzikert I, who wept and covered his face with his hands. Behind him, in the far wall: a gaping hole with stairs that led down into Cinsorium's extensive network of underground tunnels.
+
+
+dec/25 [Advent of Code 2025 in Prolog](aoc25pl/aoc25pl.html)
+apr/25 [NixOS, tuigreet, EXWM, and alpha-background](nix.html)
+apr/25 [Estimating ln(x) in colorForth (without floats)](cf/ln.html)
+       [A study in scarlet and tsumebite: colorForth notes](cf/cf.html)
+dec/24 [Advent of Code 2024 in K](aoc24k/aoc24k.html)
+mar/23 [Making readable-mlatu 3500x faster](optimize.html)
+feb/23 [Solution to CCC 23 S3](ccc23s3.html)
+dec/22 [Hungarian Notation](hungarian.html)
 
 [programming language fun](languages/languages.html)
 [.io games](io/io.html)

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Garklein's stuff</title>
+  <title>manzikert.ca</title>
   <style>
 body     { display:flex; flex-direction:column; align-items:center;
            font-size:1rem; margin:min(10vw,100px) auto; }
@@ -32,7 +32,7 @@ lines([L|Ls]) --&gt; instruction(L), "\n", lines(Ls).
 
 input(I) :- phrase_from_file(lines(I), "i/1.in").
 
-box(right, N, Box) :- Box #= N  div 100.
+box(right, N, Box) :- Box #= N div 100.
 box(left,  N, Box) :- N_ #= N - 1, Box #= N_ div 100.
 
 turn((Dir, N)) --&gt; state((Dial, P1, P2), (Dial_, P1_, P2_)),

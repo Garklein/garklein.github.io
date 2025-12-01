@@ -87,15 +87,18 @@ out  file arb . output nl =  :s(out)
 
      output = "<br>"
 
-     filename break("/.") . file ".wm" =
-     path = "/<a href='" file ".html'>" file ".html</a>"
-     back = ""
+     path = ""
+     filename "index.wm" = :s(fld)
 
+     filename break("/.") . file ".wm" =
+     path = "/<a href='" file "'>" file "</a>"
+
+     back = "./"
 fld  filename break("/") . folder "/" rpos(0) = :f(home)
-     path = "/<a href='" back folder ".html'>" folder "</a>" path
+     path = "/<a href='" back "'>" folder "</a>" path
      back = back "../" :(fld)
 
-home path   = "<a href='" back "index.html'>~</a>" path
+home path   = "<a href='/'>~</a>" path
      output = "<pre style='width:100%;text-align:center'><br>" path "</pre>"
      output = "</div></body>"
 

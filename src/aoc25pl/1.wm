@@ -1,0 +1,45 @@
+```
+:- use_module(library(pio)).
+:- use_module(library(dcgs)).
+:- use_module(library(clpz)).
+:- set_prolog_flag(double_quotes, chars).
+
+state(S0, S), [S] --> [S0].
+
+number(0) --> [].
+number(N) --> number(Ns), [Dig], { number_chars(X, [Dig]), N #= Ns*10 + X }.
+
+instruction(r(N)) --> "R", number(N).
+instruction(l(N)) --> "L", number(N).
+
+lines([])     --> [].
+lines([L|Ls]) --> instruction(L), "\n", lines(Ls).
+
+input(I) :- phrase_from_file(lines(I), "i/1.in").
+
+countP1(Dial, P1, P1_) :- 0 #= Dial mod 100, P1_ #= P1 + 1.
+countP1(_, P1, P1).
+
+rBox(N, Box) :- Box #= N div 100.
+lBox(N, Box) :- N_ #= N - 1, Box #= N_ div 100.
+
+turn(r(N)) --> state((Dial, P1, P2), (Dial_, P1_, P2_)),
+	     { Dial_ #= Dial + N, countP1(Dial, P1, P1_),
+	       rBox(Dial, StartBox), rBox(Dial_, EndBox), P2_ #= P2 + EndBox - StartBox }.
+turn(l(N)) --> state((Dial, P1, P2), (Dial_, P1_, P2_)),
+	     { Dial_ #= Dial - N, countP1(Dial, P1, P1_),
+	       lBox(Dial, StartBox), lBox(Dial_, EndBox), P2_ #= P2 + StartBox - EndBox }.
+
+execute([]) --> state(N, N).
+execute([I|Is]) --> turn(I), execute(Is).
+
+main(P1, P2) :-
+    input(I),
+    phrase(execute(I), [(50, 0, 0)], [(_, P1, P2)]).
+
+?- main(P1, P2).
+```
+
+Well, this was certainly harder than your average day 1. I use a DCG to parse the input, then use another to simulate turning the dial and keeping track of zeros.
+
+For part two, I imagine that each multiple of 100 is in its own "box". For example, -5 is in box -1, and 123 is in box 1. If you turn from -5 to 123, you cross from box -1 -> box 0 -> box 1, so you pass over two 0s. The only tricky thing is that you need to define boxes differently for turning left/right to get this to work.

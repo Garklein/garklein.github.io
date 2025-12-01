@@ -20,4 +20,3 @@ do
 done
 
 cd ..
-cp -r ~/sutra-6/findwasm-src docs

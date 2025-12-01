@@ -3,6 +3,18 @@ Advent of Code 2025 in Prolog
 
 It's [that time of year again](https://adventofcode.com/2025)!! This year, I'm learning [Prolog](https://www.scryer.pl/). I tried this a few years ago, and failed miserably; hopefully it will go better this year!
 
+For all of these, I have
+
+```
+:- use_module(library(pio)).
+:- use_module(library(dcgs)).
+:- use_module(library(clpz)).
+:- set_prolog_flag(double_quotes, chars).
+```
+
+in my .scryerrc file.
+
+
  day
 -----
  [1.pl]( 1.html)

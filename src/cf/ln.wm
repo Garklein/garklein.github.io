@@ -141,7 +141,7 @@ It's all coming together
 ------------------------
 If you remember from above, ln(x) = k ln(2) + ln(m) when x is of the form 2^k * m. We now have all the parts, so all that's missing is the final assembly.
 
-We can obtain k from finding the most significant set bit. Then, m is x/2^k. Since finding the highest set bit and raising 2 to the n are both clunky and inefficient in :<clrfrth>, we'll implement them in [machine code](internals/machinecode.html).
+We can obtain k from finding the most significant set bit. Then, m is x/2^k. Since finding the highest set bit and raising 2 to the n are both clunky and inefficient in :<clrfrth>, we'll implement them in [machine code](internals/machinecode).
 
 To find the highest set bit, we can use [bsr](https://www.felixcloutier.com/x86/bsr), which has opcode :hex<0f bd>. We want to find the most significant bit of the top of the stack, which in :<clrfrth> is always held in eax. This result should go back onto the top of the stack, so our modr/m byte will be 11 (both operands are registers) 000 (eax) 000 (eax), or :hex<c0>.
 
@@ -207,4 +207,4 @@ Another chasm of lost precision occurs when dividing, because the numerator is s
 
 Of course, this code could be made more accurate by using precomputed values for :g<ln3/2> and :g<ln2>, but I wanted to do everything from scratch. After all, if you're hardcoding any values at all, why not just skip straight to hardcoding the final answer?
 
-The full code can be found on block 908 of my [Project Euler solutions](pe.html).
+The full code can be found on block 908 of my [Project Euler solutions](pe).

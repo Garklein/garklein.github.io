@@ -13,7 +13,7 @@ The modr/m format, in bits, is:
 
  mode mode r r r r/m r/m r/m
 
-where the first two bits specify the mode, the next three specify a [register](mem.html), and the final three specify another register.
+where the first two bits specify the mode, the next three specify a [register](mem), and the final three specify another register.
 
 Depending on the mode, the second register (r/m) will either be used directly, or its contents will be used as a pointer.
 
@@ -36,7 +36,7 @@ For example, let's take the case of :g<@> when its argument is a literal. We're 
 
 8b is the mov from earlier. 05 = 00 000 101. Don't waste your time trying to figure out what register 5, ebp, is doing here, as I may or may not have done -- this is the special case! What this really means is "move the value at the 32-bit address in the next four bytes to eax".
 
-Since we comma in the address (:g<a,>) after this, when executed, the code fetches the value at the address and puts it on [top of the stack](mem.html).
+Since we comma in the address (:g<a,>) after this, when executed, the code fetches the value at the address and puts it on [top of the stack](mem).
 
 
 Special case 2: r/m = 4
@@ -57,7 +57,7 @@ Special case 2-and-a-half: mod = 0, b = 5
 -----------------------------------------
 In this case, the base will be a 32-bit address that follows.
 
-Let's take the other branch of :g<@>, when the address isn't known at compile time. In that case, we want to do eax = 4 * (*eax). We need to multiply the address by four because :g<@> uses [word addressing](addressing.html).
+Let's take the other branch of :g<@>, when the address isn't known at compile time. In that case, we want to do eax = 4 * (*eax). We need to multiply the address by four because :g<@> uses [word addressing](addressing).
 
 The code run is :g<85048b 3, 0 ,>. 8b = mov, 04 = SIB to eax. Now for the SIB byte: 85 = 10 000 101. The scale is 10, so it will be interpreted as 2^2 = 4. The register to get the index from is eax, and a 32-bit offset will follow. :g<0 ,> commas in 4 null bytes: the offset is 0. So, this will fetch from the address 4*eax + 0.
 
@@ -68,7 +68,7 @@ Special case 2-and-three-quarters: i = 4
 ----------------------------------------
 This indicates a base index of 0.
 
-For example, let's look at the implementation of :g<i>, which pushes the loop index onto the stack. The loop index is stored on the [return stack](mem.html), so after running a :c<?dup> to increase the stack size, we would like to execute eax = *esp.
+For example, let's look at the implementation of :g<i>, which pushes the loop index onto the stack. The loop index is stored on the [return stack](mem), so after running a :c<?dup> to increase the stack size, we would like to execute eax = *esp.
 
 Here's the code: :g<24048b 3,>. 8b we're familiar with. 04 = 00 000 100 says to use eax as the destination and the SIB byte as the source address. The SIB byte is 24 = 00 100 100. i = 4 indicates that there is no base index, and 100 means to use esp as the base, so this translates to the pointer 0*0 + esp.
 

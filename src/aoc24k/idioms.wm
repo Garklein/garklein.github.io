@@ -116,7 +116,7 @@ Say we have a grid, and we want to know the shortest distance from the start to 
 
 This can be used anywhere you need a floodfill/dijkstra's, though it is much less efficient than the traditional imperative way.
 
-A clean implementation of this in [day 18](18.html), and I also use it in days [12](12.html), [16](16.html) and [24](24.html).
+A clean implementation of this in [day 18](18), and I also use it in days [12](12), [16](16) and [24](24).
 
 
 Moving a Position

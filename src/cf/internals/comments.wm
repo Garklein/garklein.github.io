@@ -1,7 +1,7 @@
 Reading shadow block comments
 =============================
 
-Registers are often referred to by their [numbers](mem.html) in comments.
+Registers are often referred to by their [numbers](mem) in comments.
 
 Comments with pseudo-assembly have order dst src op (the same order as :g<!>).
 

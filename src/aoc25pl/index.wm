@@ -3,7 +3,7 @@ Advent of Code 2025 in Prolog
 
 It's [that time of year again](https://adventofcode.com/2025)!! This year, I'm learning [Prolog](https://www.scryer.pl/). I tried this a few years ago, and failed miserably; hopefully it will go better this year!
 
-I have a lot of common stuff in my [.scryerrc file](.scryerrc).
+I have a lot of common stuff in my [.scryerrc file](dotscryerrc).
 
  day
 -----

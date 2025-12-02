@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+:- set_prolog_flag(double_quotes, chars).
+
+:- use_module(library(pio)).
+:- use_module(library(dcgs)).
+:- use_module(library(clpz)).
+:- use_module(library(time)).
+:- use_module(library(lists)).
+
+
+% DCG state (https://www.metalevel.at/prolog/dcg)
+state(S0, S), [S] --&gt; [S0].
+
+
+% DCG number parsing (from @bakaq on GitHub)
+number_canonchars(N, Cs) :-
+    number_chars(N, Cs),
+    number_chars(N, Cs0),
+    Cs = Cs0.
+
+digits([D|Ds]) --&gt; [D], { member(D, "1234567890") }, digits_(Ds).
+
+digits_([]) --&gt; [].
+digits_([D|Ds]) --&gt; digits([D|Ds]).
+
+number(N) --&gt; digits(Chars), { number_canonchars(N, Chars) }.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='scryerrc'>scryerrc</a></pre>
+</div></body>
+</html>

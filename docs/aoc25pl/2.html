@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+range(X..Y) --&gt; number(X), "-", number(Y).
+
+lines([L])    --&gt; range(L).
+lines([L|Ls]) --&gt; range(L), ",", lines(Ls).
+
+union(X, Y, X \/ Y).
+input(I) :- phrase_from_file(lines([Range|Ranges]), "i/2.in"), foldl(union, Ranges, Range, I).
+
+encode(X, B, 2,  Z) :- Z #= X + X*B.
+encode(X, B, 3,  Z) :- Z #= X + X*B + X*B^2.
+encode(X, B, 4,  Z) :- Z #= X + X*B + X*B^2 + X*B^3.
+encode(X, B, 5,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4.
+encode(X, B, 6,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5.
+encode(X, B, 7,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5 + X*B^6.
+encode(X, B, 8,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5 + X*B^6 + X*B^7.
+encode(X, B, 9,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5 + X*B^6 + X*B^7 + X*B^8.
+encode(X, B, 10, Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5 + X*B^6 + X*B^7 + X*B^8 + X*B^9.
+
+num_digs(X, N) :- N in 1..20, 10^(N - 1) #=&lt; X, X #&lt; 10^N, label([N]).
+silly(X, N) :- num_digs(X, D_), D_ #= D * N, num_digs(Half, D), B #= 10^D, encode(Half, B, N, X), label([Half]).
+solve(I, P1, P2) :- X in I, N in 2..10, findall(X-N, silly(X, N), Solutions),
+		   findall(X, member(X-2, Solutions), P1s), list_to_set(P1s, P1s_set), sum_list(P1s_set, P1),
+		   findall(X, member(X-_, Solutions), P2s), list_to_set(P2s, P2s_set), sum_list(P2s_set, P2).
+
+main :- input(I), solve(I, P1, P2), write(P1), nl, write(P2), halt.
+:- initialization(main).
+</pre><pre>
+
+
+It's only day 2, and I'm already struggling so much...
+
+This took a lot of planning to get a solution that executes in a reasonable time. It runs in under 10 seconds, which would normally be extremely slow. However, since I'm number crunching in Prolog, I consider that execution time to be a miracle.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='2'>2</a></pre>
+</div></body>
+</html>

@@ -1,0 +1,27 @@
+```
+:- set_prolog_flag(double_quotes, chars).
+
+:- use_module(library(pio)).
+:- use_module(library(dcgs)).
+:- use_module(library(clpz)).
+:- use_module(library(time)).
+:- use_module(library(lists)).
+
+
+% DCG state (https://www.metalevel.at/prolog/dcg)
+state(S0, S), [S] --> [S0].
+
+
+% DCG number parsing (from @bakaq on GitHub)
+number_canonchars(N, Cs) :-
+    number_chars(N, Cs),
+    number_chars(N, Cs0),
+    Cs = Cs0.
+
+digits([D|Ds]) --> [D], { member(D, "1234567890") }, digits_(Ds).
+
+digits_([]) --> [].
+digits_([D|Ds]) --> digits([D|Ds]).
+
+number(N) --> digits(Chars), { number_canonchars(N, Chars) }.
+```

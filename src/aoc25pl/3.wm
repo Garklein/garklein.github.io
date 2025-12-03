@@ -1,0 +1,19 @@
+```
+line([])     --> [].
+line([N|Ns]) --> [D], { number_chars(N, [D]) }, line(Ns).
+
+lines([])     --> [].
+lines([L|Ls]) --> line(L), "\n", lines(Ls).
+
+input(I) :- phrase_from_file(lines(I), "i/3.in").
+jolt(0, _, 0).
+jolt(N, Xs, Jolt) :- N_ #= N - 1, length(OffLimits, N_), append(Useable, OffLimits, Xs),
+    list_max(Useable, Max), append(_, [Max|Rest], Xs), jolt(N_, Rest, Jolt_), Jolt #= Max * 10^N_ + Jolt_.
+
+part(I, N, Part) :- maplist(jolt(N), I, Jolts), sum_list(Jolts, Part).
+main :- input(I), part(I, 2, P1), part(I, 12, P2), write(P1), nl, write(P2), halt.
+:- initialization(main).
+```
+
+
+The easiest day so far! And I'm quite happy with how naturally my jolt function reads (find the max of the list that isn't off limits, then recurse on the rest which is everything after the max).

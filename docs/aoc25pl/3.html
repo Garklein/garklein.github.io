@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+line([])     --&gt; [].
+line([N|Ns]) --&gt; [D], { number_chars(N, [D]) }, line(Ns).
+
+lines([])     --&gt; [].
+lines([L|Ls]) --&gt; line(L), "\n", lines(Ls).
+
+input(I) :- phrase_from_file(lines(I), "i/3.in").
+jolt(0, _, 0).
+jolt(N, Xs, Jolt) :- N_ #= N - 1, length(OffLimits, N_), append(Useable, OffLimits, Xs),
+    list_max(Useable, Max), append(_, [Max|Rest], Xs), jolt(N_, Rest, Jolt_), Jolt #= Max * 10^N_ + Jolt_.
+
+part(I, N, Part) :- maplist(jolt(N), I, Jolts), sum_list(Jolts, Part).
+main :- input(I), part(I, 2, P1), part(I, 12, P2), write(P1), nl, write(P2), halt.
+:- initialization(main).
+</pre><pre>
+
+
+The easiest day so far! And I'm quite happy with how naturally my jolt function reads (find the max of the list that isn't off limits, then recurse on the rest which is everything after the max).
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='3'>3</a></pre>
+</div></body>
+</html>

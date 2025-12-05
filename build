@@ -4,7 +4,11 @@ cd "$(dirname "$0")"
 
 rm -rf docs/*
 cd src
-cp ~/.scryerrc aoc25pl/dotscryerrc.wm
+
+echo '```' > delim
+cat delim ~/.scryerrc delim > aoc25pl/dotscryerrc.wm
+rm delim
+
 for f in $(find *)
 do
     case $f in

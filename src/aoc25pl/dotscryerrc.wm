@@ -1,3 +1,4 @@
+```
 :- set_prolog_flag(double_quotes, chars).
 
 :- use_module(library(lambda)).
@@ -31,3 +32,4 @@ number(N) --> digits(Chars), { number_canonchars(N, Chars) }.
 sequence(Elt, Sep, [L|Ls]) --> call(Elt, L), sequence_(Elt, Sep, Ls).
 sequence_(_, _, []) --> [].
 sequence_(Elt, Sep, [L|Ls]) --> Sep, call(Elt, L), sequence_(Elt, Sep, Ls).
+```

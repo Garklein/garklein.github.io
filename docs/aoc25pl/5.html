@@ -20,10 +20,10 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 <body><div>
 <pre class='code'>
 range(X..Y) --&gt; number(X), "-", number(Y).
-file((Ranges, Freshes)) --&gt; sequence(range, "\n", Ranges), "\n\n", sequence(number, "\n", Freshes).
+file(Ranges, Freshes) --&gt; sequence(range, "\n", Ranges), "\n\n", sequence(number, "\n", Freshes).
 
 union(X, Y, X \/ Y).
-input(Range, Freshes) :- phrase_from_file(file(([R|Rs], Freshes)), "i/5.in"), foldl(union, Rs, R, Range).
+input(Range, Freshes) :- phrase_from_file(file([R|Rs], Freshes), "i/5.in"), foldl(union, Rs, R, Range).
 
 main :- input(Range, Freshes), Fresh in Range, countall(member(Fresh, Freshes), P1), fd_size(Fresh, P2),
        write(P1), nl, write(P2), halt.

@@ -1,0 +1,14 @@
+```
+range(X..Y) --> number(X), "-", number(Y).
+file((Ranges, Freshes)) --> sequence(range, "\n", Ranges), "\n\n", sequence(number, "\n", Freshes).
+
+union(X, Y, X \/ Y).
+input(Range, Freshes) :- phrase_from_file(file(([R|Rs], Freshes)), "i/5.in"), foldl(union, Rs, R, Range).
+
+main :- input(Range, Freshes), Fresh in Range, countall(member(Fresh, Freshes), P1), fd_size(Fresh, P2),
+       write(P1), nl, write(P2), halt.
+:- initialization(main).
+```
+
+
+As I am left reeling from yesterday, it's nice to have a very easy day with clpz!

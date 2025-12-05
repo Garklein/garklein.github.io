@@ -18,14 +18,16 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
   </style>
 </head>
 <body><div>
-<pre class='code'>
+<pre>
 :- set_prolog_flag(double_quotes, chars).
 
+:- use_module(library(lambda)).
 :- use_module(library(pio)).
 :- use_module(library(dcgs)).
 :- use_module(library(clpz)).
 :- use_module(library(time)).
 :- use_module(library(lists)).
+:- use_module(library(iso_ext)).
 
 
 % DCG state (https://www.metalevel.at/prolog/dcg)
@@ -44,6 +46,12 @@ digits_([]) --&gt; [].
 digits_([D|Ds]) --&gt; digits([D|Ds]).
 
 number(N) --&gt; digits(Chars), { number_canonchars(N, Chars) }.
+
+
+% parse a sequence of Elts separated by Sep
+sequence(Elt, Sep, [L|Ls]) --&gt; call(Elt, L), sequence_(Elt, Sep, Ls).
+sequence_(_, _, []) --&gt; [].
+sequence_(Elt, Sep, [L|Ls]) --&gt; Sep, call(Elt, L), sequence_(Elt, Sep, Ls).
 </pre>
 <br>
 <pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='dotscryerrc'>dotscryerrc</a></pre>

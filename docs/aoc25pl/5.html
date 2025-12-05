@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+range(X..Y) --&gt; number(X), "-", number(Y).
+file((Ranges, Freshes)) --&gt; sequence(range, "\n", Ranges), "\n\n", sequence(number, "\n", Freshes).
+
+union(X, Y, X \/ Y).
+input(Range, Freshes) :- phrase_from_file(file(([R|Rs], Freshes)), "i/5.in"), foldl(union, Rs, R, Range).
+
+main :- input(Range, Freshes), Fresh in Range, countall(member(Fresh, Freshes), P1), fd_size(Fresh, P2),
+       write(P1), nl, write(P2), halt.
+:- initialization(main).
+</pre><pre>
+
+
+As I am left reeling from yesterday, it's nice to have a very easy day with clpz!
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='5'>5</a></pre>
+</div></body>
+</html>

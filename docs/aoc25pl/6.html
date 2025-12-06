@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+space(' ') --&gt; " ".
+opCol([C|S]) --&gt; [C], { member(C, "+*") }, sequence(space, "", S).
+parse_line(Line, Parsed) :- phrase(sequence(seq, " ", Parsed), Line).
+parse_spaces_number(S, N) :- phrase((sequence(space, "", _), number(N), sequence(space, "", _)), S).
+
+input(Ops, Cols) :- phrase_from_file((sequence(seq, "\n", Lines), "\n", sequence(opCol, " ", OpCols)), "i/6.in"),
+		   maplist(nth0(0), OpCols, Ops), maplist(maplist(same_length, OpCols), LineNums),
+		   maplist(parse_line, Lines, LineNums), transpose(LineNums, Cols).
+
+do_op('+', Xs, Sum)  :- sum_list(Xs, Sum).
+do_op('*', Xs, Prod) :- foldl(\X^Y^Z^(Z #= X * Y), Xs, 1, Prod).
+part(Ops) --&gt; maplist(maplist(parse_spaces_number)), maplist(do_op, Ops), sum_list.
+
+main :- input(Ops, Cols), maplist(transpose, Cols, ColsT), part(Ops, Cols, P1), part(Ops, ColsT, P2),
+       write(P1), nl, write(P2), halt.
+:- initialization(main).
+</pre><pre>
+
+
+Another fairly easy day. I'm especially happy with the maplist(maplist(same_length, OpCols), LineNums), which lines up all the columns for me. Also, there is secret tacit programming in Prolog with --&gt; !! So excited to have figured that out.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='6'>6</a></pre>
+</div></body>
+</html>

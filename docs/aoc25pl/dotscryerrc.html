@@ -49,6 +49,7 @@ number(N) --&gt; digits(Chars), { number_canonchars(N, Chars) }.
 
 
 % parse a sequence of Elts separated by Sep
+sequence(Elt, Sep, []) --&gt; [].
 sequence(Elt, Sep, [L|Ls]) --&gt; call(Elt, L), sequence_(Elt, Sep, Ls).
 sequence_(_, _, []) --&gt; [].
 sequence_(Elt, Sep, [L|Ls]) --&gt; Sep, call(Elt, L), sequence_(Elt, Sep, Ls).

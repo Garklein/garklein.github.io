@@ -18,4 +18,4 @@ main :- input(Ops, Cols), maplist(transpose, Cols, ColsT), part(Ops, Cols, P1), 
 ```
 
 
-Another fairly easy day. I'm especially happy with the maplist(maplist(same_length, OpCols), LineNums), which lines up all the columns for me. Also, there is secret tacit programming in Prolog with --> !! So excited to have figured that out.
+Another fairly easy day. I'm especially happy with the maplist(maplist(same_length, OpCols), LineNums), which lines up all the columns for me. Also, there is secret tacit programming in Prolog with (-->)/2 !! So excited to have figured that out.

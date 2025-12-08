@@ -2,10 +2,7 @@
 instruction((right, N)) --> "R", number(N).
 instruction((left,  N)) --> "L", number(N_), { N #= -N_ }.
 
-lines([])     --> [].
-lines([L|Ls]) --> instruction(L), "\n", lines(Ls).
-
-input(I) :- phrase_from_file(lines(I), "i/1.in").
+input(I) :- phrase_from_file(sequence(instruction, "\n", I), "i/1.in").
 
 box(right, N, Box) :- Box #= N div 100.
 box(left,  N, Box) :- N_ #= N - 1, Box #= N_ div 100.

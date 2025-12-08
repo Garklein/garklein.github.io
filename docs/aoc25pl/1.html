@@ -22,10 +22,7 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 instruction((right, N)) --&gt; "R", number(N).
 instruction((left,  N)) --&gt; "L", number(N_), { N #= -N_ }.
 
-lines([])     --&gt; [].
-lines([L|Ls]) --&gt; instruction(L), "\n", lines(Ls).
-
-input(I) :- phrase_from_file(lines(I), "i/1.in").
+input(I) :- phrase_from_file(sequence(instruction, "\n", I), "i/1.in").
 
 box(right, N, Box) :- Box #= N div 100.
 box(left,  N, Box) :- N_ #= N - 1, Box #= N_ div 100.

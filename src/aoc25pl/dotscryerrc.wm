@@ -29,8 +29,8 @@ number(N) --> digits(Chars), { number_canonchars(N, Chars) }.
 
 
 % parse a sequence of Elts separated by Sep
-sequence(Elt, Sep, []) --> [].
+sequence(_,   _,   [])     --> [].
 sequence(Elt, Sep, [L|Ls]) --> call(Elt, L), sequence_(Elt, Sep, Ls).
-sequence_(_, _, []) --> [].
+sequence_(_,   _,   [])     --> [].
 sequence_(Elt, Sep, [L|Ls]) --> Sep, call(Elt, L), sequence_(Elt, Sep, Ls).
 ```

@@ -1,24 +1,16 @@
 ```
+:- use_module(library(tabling)).
+
 range(X..Y) --> number(X), "-", number(Y).
-
-lines([L])    --> range(L).
-lines([L|Ls]) --> range(L), ",", lines(Ls).
-
 union(X, Y, X \/ Y).
-input(I) :- phrase_from_file(lines([Range|Ranges]), "i/2.in"), foldl(union, Ranges, Range, I).
+input(I) :- phrase_from_file(sequence(range, ",", [Range|Ranges]), "i/2.in"), foldl(union, Ranges, Range, I).
 
-encode(X, B, 2,  Z) :- Z #= X + X*B.
-encode(X, B, 3,  Z) :- Z #= X + X*B + X*B^2.
-encode(X, B, 4,  Z) :- Z #= X + X*B + X*B^2 + X*B^3.
-encode(X, B, 5,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4.
-encode(X, B, 6,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5.
-encode(X, B, 7,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5 + X*B^6.
-encode(X, B, 8,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5 + X*B^6 + X*B^7.
-encode(X, B, 9,  Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5 + X*B^6 + X*B^7 + X*B^8.
-encode(X, B, 10, Z) :- Z #= X + X*B + X*B^2 + X*B^3 + X*B^4 + X*B^5 + X*B^6 + X*B^7 + X*B^8 + X*B^9.
+table encode/4.
+encode(X, B, P, Z) :- length(Ls, P), foldl([X,B]+\_^Z0^Z^(Z #= B*Z0 + X), Ls, 0, Z).
 
 num_digs(X, N) :- N in 1..20, 10^(N - 1) #=< X, X #< 10^N, label([N]).
 silly(X, N) :- num_digs(X, D_), D_ #= D * N, num_digs(Half, D), B #= 10^D, encode(Half, B, N, X), label([Half]).
+
 solve(I, P1, P2) :- X in I, N in 2..10, findall(X-N, silly(X, N), Solutions),
 		   findall(X, member(X-2, Solutions), P1s), list_to_set(P1s, P1s_set), sum_list(P1s_set, P1),
 		   findall(X, member(X-_, Solutions), P2s), list_to_set(P2s, P2s_set), sum_list(P2s_set, P2).
@@ -31,3 +23,5 @@ main :- input(I), solve(I, P1, P2), write(P1), nl, write(P2), halt.
 It's only day 2, and I'm already struggling so much...
 
 This took a lot of planning to get a solution that executes in a reasonable time. It runs in under 10 seconds, which would normally be extremely slow. However, since I'm number crunching in Prolog, I consider that execution time to be a miracle.
+
+Encode relates Z with K + KX + KX^2 + KX^3 + ... + KX^P.

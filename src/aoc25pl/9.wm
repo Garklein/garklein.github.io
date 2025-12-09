@@ -1,0 +1,26 @@
+```
+coord([X,Y]) --> number(X), ",", number(Y).
+file(Coords) --> sequence(coord,"\n",Coords).
+
+order([[X1_,Y1_],[X2_,Y2_]],[[X1,Y1],[X2,Y2]]) :-
+    X1 #= min(X1_,X2_), X2 #= max(X1_,X2_), Y1 #= min(Y1_,Y2_), Y2 #= max(Y1_,Y2_).
+area(C1,C2,area(A,[[X1,Y1],[X2,Y2]])) :- order([C1,C2],[[X1,Y1],[X2,Y2]]), A #= (X2-X1+1)*(Y2-Y1+1).
+all_pairs([],_)        --> [].
+all_pairs([X|Xs],Done) --> { maplist(area(X),Done,NewPairs) }, seq(NewPairs), all_pairs(Xs,[X|Done]).
+all_pairs(Cs,Ps) :- phrase(all_pairs(Cs,[]),Ps_), sort(Ps_,PsS_), reverse(PsS_,Ps).
+edges([P|Ps], OrdEdges) :- append(Ps,[P],Shift), transpose([[P|Ps],Shift],Edges), maplist(order,Edges,OrdEdges).
+input(Pairs,Edges) :- phrase_from_file(file(I),"i/9.in"), all_pairs(I,Pairs), edges(I,Edges).
+
+intersect_1d([A1,B1],[A2,_])  :- A1 #=< A2, A2 #< B1.
+intersect_1d([A1,_], [A2,B2]) :- A2 #=< A1, A1 #< B2.
+intersect_rect_edge([[RX1,RY1],[RX2,RY2]],[[LX,LY1],[LX,LY2]]) :- RX1 < LX, LX < RX2, intersect_1d([RY1,RY2],[LY1,LY2]).
+intersect_rect_edge([[RX1,RY1],[RX2,RY2]],[[LX1,LY],[LX2,LY]]) :- RY1 < LY, LY < RY2, intersect_1d([RX1,RX2],[LX1,LX2]).
+rect(Rect,Es) :- maplist(\E^(\+intersect_rect_edge(Rect,E)),Es).
+
+main :- input(Pairs,Edges), Pairs = [area(P1,_)|_], member(area(P2,Rect),Pairs), rect(Rect,Edges),
+       write(P1), nl, write(P2), halt.
+:- initialization(main).
+```
+
+
+Now they're starting to get difficult...

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+coord([X,Y]) --&gt; number(X), ",", number(Y).
+file(Coords) --&gt; sequence(coord,"\n",Coords).
+
+order([[X1_,Y1_],[X2_,Y2_]],[[X1,Y1],[X2,Y2]]) :-
+    X1 #= min(X1_,X2_), X2 #= max(X1_,X2_), Y1 #= min(Y1_,Y2_), Y2 #= max(Y1_,Y2_).
+area(C1,C2,area(A,[[X1,Y1],[X2,Y2]])) :- order([C1,C2],[[X1,Y1],[X2,Y2]]), A #= (X2-X1+1)*(Y2-Y1+1).
+all_pairs([],_)        --&gt; [].
+all_pairs([X|Xs],Done) --&gt; { maplist(area(X),Done,NewPairs) }, seq(NewPairs), all_pairs(Xs,[X|Done]).
+all_pairs(Cs,Ps) :- phrase(all_pairs(Cs,[]),Ps_), sort(Ps_,PsS_), reverse(PsS_,Ps).
+edges([P|Ps], OrdEdges) :- append(Ps,[P],Shift), transpose([[P|Ps],Shift],Edges), maplist(order,Edges,OrdEdges).
+input(Pairs,Edges) :- phrase_from_file(file(I),"i/9.in"), all_pairs(I,Pairs), edges(I,Edges).
+
+intersect_1d([A1,B1],[A2,_])  :- A1 #=&lt; A2, A2 #&lt; B1.
+intersect_1d([A1,_], [A2,B2]) :- A2 #=&lt; A1, A1 #&lt; B2.
+intersect_rect_edge([[RX1,RY1],[RX2,RY2]],[[LX,LY1],[LX,LY2]]) :- RX1 &lt; LX, LX &lt; RX2, intersect_1d([RY1,RY2],[LY1,LY2]).
+intersect_rect_edge([[RX1,RY1],[RX2,RY2]],[[LX1,LY],[LX2,LY]]) :- RY1 &lt; LY, LY &lt; RY2, intersect_1d([RX1,RX2],[LX1,LX2]).
+rect(Rect,Es) :- maplist(\E^(\+intersect_rect_edge(Rect,E)),Es).
+
+main :- input(Pairs,Edges), Pairs = [area(P1,_)|_], member(area(P2,Rect),Pairs), rect(Rect,Edges),
+       write(P1), nl, write(P2), halt.
+:- initialization(main).
+</pre><pre>
+
+
+Now they're starting to get difficult...
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='9'>9</a></pre>
+</div></body>
+</html>

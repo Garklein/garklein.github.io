@@ -1,0 +1,41 @@
+```
+:- use_module(library(clpb)).
+:- use_module(library(gensym)).
+:- use_module(library(simplex)).
+
+light(0) --> ".".
+light(1) --> "#".
+lights(Ls) --> "[", sequence(light,"",Ls), "]".
+button(Ls) --> "(", sequence(number,",",Ls), ")".
+joltage(J) --> "{", sequence(number,",",J), "}".
+
+group(0,_) --> [].
+group(N,Buttons) --> { N_ #= N-1, findall(Idx,(nth0(Idx,Buttons,B),member(N_,B)),Bs) }, group(N_,Buttons), [Bs].
+machine(machine(NButtons,ButtonGroups,Lights,Joltages)) -->
+    lights(Lights), " ", sequence(button," ",Buttons), " ", joltage(Joltages),
+    { length(Buttons,NButtons), length(Lights,L), phrase(group(L,Buttons),ButtonGroups) }.
+input(I) :- phrase_from_file(sequence(machine,"\n",I),"i/10.in").
+get_presses(NButtons,ButtonGroups,Presses,GroupedPresses) :- 
+    length(Presses,NButtons), maplist(maplist(Presses+\Idx^Press^nth0(Idx,Presses,Press)),ButtonGroups,GroupedPresses).
+
+minimize_presses(Ps,N) :- length(Ps,L), N in 0..L, label([N]), sat(card([N],Ps)).
+set_light(Presses,Light) :- foldl(\V^Xor0^Xor1^(Xor1 = V#Xor0),Presses,0,Xor), sat(Xor =:= Light).
+part1(machine(NButtons,ButtonGroups,Lights,_),P1) :- get_presses(NButtons,ButtonGroups,Presses,GroupedPresses),
+    maplist(set_light,GroupedPresses,Lights), minimize_presses(Presses,P1).
+
+make_whole(Var) --> constraint(integral(Var)).
+set_joltage(Var,Jolt) --> constraint(Var = Jolt).
+bruh(Presses,GroupedPresses,Joltages) -->
+    foldl(make_whole,Presses), foldl(set_joltage,GroupedPresses,Joltages), minimize(Presses), objective.
+part2(machine(NButtons,ButtonGroups,_,Joltages),P2) :- get_presses(NButtons,ButtonGroups,Presses,GroupedPresses),
+    maplist(gensym(b),Presses), gen_state(S0), bruh(Presses,GroupedPresses,Joltages,S0,P2).
+
+part(P) --> maplist(P), sum_list.
+main :- input(Ms), part(part1,Ms,P1), part(part2,Ms,P2), write(P1), nl, write(P2), halt.
+:- initialization(main).
+```
+
+
+Luckily Scryer has library(clpb) and library(gensym), otherwise today would have been much messier.
+
+Is this cheating? I don't think so, since the whole point of Prolog is to be magical. However, this day didn't feel very satisfying, either.

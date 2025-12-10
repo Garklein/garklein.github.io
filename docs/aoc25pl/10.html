@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+:- use_module(library(clpb)).
+:- use_module(library(gensym)).
+:- use_module(library(simplex)).
+
+light(0) --&gt; ".".
+light(1) --&gt; "#".
+lights(Ls) --&gt; "[", sequence(light,"",Ls), "]".
+button(Ls) --&gt; "(", sequence(number,",",Ls), ")".
+joltage(J) --&gt; "{", sequence(number,",",J), "}".
+
+group(0,_) --&gt; [].
+group(N,Buttons) --&gt; { N_ #= N-1, findall(Idx,(nth0(Idx,Buttons,B),member(N_,B)),Bs) }, group(N_,Buttons), [Bs].
+machine(machine(NButtons,ButtonGroups,Lights,Joltages)) --&gt;
+    lights(Lights), " ", sequence(button," ",Buttons), " ", joltage(Joltages),
+    { length(Buttons,NButtons), length(Lights,L), phrase(group(L,Buttons),ButtonGroups) }.
+input(I) :- phrase_from_file(sequence(machine,"\n",I),"i/10.in").
+get_presses(NButtons,ButtonGroups,Presses,GroupedPresses) :- 
+    length(Presses,NButtons), maplist(maplist(Presses+\Idx^Press^nth0(Idx,Presses,Press)),ButtonGroups,GroupedPresses).
+
+minimize_presses(Ps,N) :- length(Ps,L), N in 0..L, label([N]), sat(card([N],Ps)).
+set_light(Presses,Light) :- foldl(\V^Xor0^Xor1^(Xor1 = V#Xor0),Presses,0,Xor), sat(Xor =:= Light).
+part1(machine(NButtons,ButtonGroups,Lights,_),P1) :- get_presses(NButtons,ButtonGroups,Presses,GroupedPresses),
+    maplist(set_light,GroupedPresses,Lights), minimize_presses(Presses,P1).
+
+make_whole(Var) --&gt; constraint(integral(Var)).
+set_joltage(Var,Jolt) --&gt; constraint(Var = Jolt).
+bruh(Presses,GroupedPresses,Joltages) --&gt;
+    foldl(make_whole,Presses), foldl(set_joltage,GroupedPresses,Joltages), minimize(Presses), objective.
+part2(machine(NButtons,ButtonGroups,_,Joltages),P2) :- get_presses(NButtons,ButtonGroups,Presses,GroupedPresses),
+    maplist(gensym(b),Presses), gen_state(S0), bruh(Presses,GroupedPresses,Joltages,S0,P2).
+
+part(P) --&gt; maplist(P), sum_list.
+main :- input(Ms), part(part1,Ms,P1), part(part2,Ms,P2), write(P1), nl, write(P2), halt.
+:- initialization(main).
+</pre><pre>
+
+
+Luckily Scryer has library(clpb) and library(gensym), otherwise today would have been much messier.
+
+Is this cheating? I don't think so, since the whole point of Prolog is to be magical. However, this day didn't feel very satisfying, either.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='10'>10</a></pre>
+</div></body>
+</html>

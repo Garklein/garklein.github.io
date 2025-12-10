@@ -36,6 +36,6 @@ main :- input(Ms), part(part1,Ms,P1), part(part2,Ms,P2), write(P1), nl, write(P2
 ```
 
 
-Luckily Scryer has library(clpb) and library(gensym), otherwise today would have been much messier.
+Luckily Scryer has library(clpb) and library(simplex), otherwise today would have been much messier.
 
 Is this cheating? I don't think so, since the whole point of Prolog is to be magical. However, this day didn't feel very satisfying, either.

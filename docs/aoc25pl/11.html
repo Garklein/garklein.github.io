@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+:- use_module(library(tabling)).
+:- use_module(library(ugraphs)).
+
+line(L-Outs) --&gt; seq(L), ": ", sequence(seq," ",Outs).
+assert_nbs(G, V) :- neighbours(V, G, Ns), assertz((nbs(V,Ns))).
+input :- phrase_from_file(sequence(line,"\n",I),"i/11.in"), vertices(I, Vs), abolish(nbs/2), maplist(assert_nbs(I),Vs).
+
+:- table paths/3.
+paths(V0,V0,   1).
+paths(V, "out",0) :- V  \= "out".
+paths(V, V0,   N) :- V0 \= "out", V0 \= V, nbs(V0,Ns), maplist(paths(V),Ns,Ps), sum(Ps,#=,N).
+
+part2(P2) :- permutation(["fft","dac"],[A,B]), paths(B,A,N1), N1 #&gt; 0, paths(A,"svr",N0), paths("out",B,N2), P2 #= N0*N1*N2.
+
+% compute part 2 first, otherwise it prints weirdly (tries to backtrack or something?)
+run :- input, part2(P2), paths("out","you",P1), format("~d~n~d",[P1,P2]).
+</pre><pre>
+
+
+I was expecting something super difficult, was surprised to find that today was this easy.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='11'>11</a></pre>
+</div></body>
+</html>

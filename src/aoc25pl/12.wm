@@ -1,0 +1,9 @@
+```
+tree(tree(Area,Presents)) --> number(X), "x", number(Y), ": ", sequence(number," ",Presents), { Area #= X*Y }.
+input(Trees) :- phrase_from_file((seq(_),sequence(tree,"\n",Trees)),"i/12.in").
+solvable(tree(Area,Presents)) :- sum(Presents,#=,NPresents), NPresents*9 #=< Area.
+run :- input(Trees), countall((member(Tree,Trees),solvable(Tree)),N), format("~d",[N]).
+```
+
+
+I didn't initially like this problem, but in hindsight, it's pretty fun :D! Happy AoC, and here's to many more!

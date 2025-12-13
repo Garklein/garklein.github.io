@@ -1,0 +1,20 @@
+```
+:- use_module(library(reif)).
+
+row(R) --> seq(R), "\n", seq(_).
+source(Beams) --> row(R), { maplist(\Ch^B^nth0(B,".S",Ch),R,Beams) }.
+input(Beams,Splitters) :- phrase_from_file((source(Beams),"\n",sequence(row,"\n",Splitters)),"i/07.in").
+
+inc(Var,Inc) :- Var #>= 0, fd_inf(Var,Inf), Var #>= Inf+Inc.
+update_([],          [],            _,   _,  _)     --> [].
+update_([Beam|Beams],[Ch|Splitters],Left,Cur,Right) --> [Cur], update_(Beams,Splitters,Cur,Right,_),
+	{ if_(=(Ch,'^'), (inc(Left,Beam), inc(Right,Beam)), inc(Cur,Beam)) }.
+update(Splitters,(Beams0,NSplits0),(Beams1,NSplits1)) :-
+	phrase(update_(Beams0,Splitters,_,_,_),Beams_), Beams_ ins 0..sup, maplist(fd_inf,Beams_,Beams1),
+	countall((nth0(I,Splitters,'^'),nth0(I,Beams0,X),dif(X,0)),NewSplits), NSplits1 #= NSplits0 + NewSplits.
+
+run :- input(Beams,Rows), foldl(update,Rows,(Beams,0),(Timelines,P1)), sum(Timelines,#=,P2), format("~d~n~d",[P1,P2]).
+```
+
+
+I originally was using tabling, but it is actually quite slow in this case because there are a lot of different cases to table, which slows down lookup. Also, this approach is fun  : )

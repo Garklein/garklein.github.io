@@ -28,7 +28,7 @@ input :- phrase_from_file(sequence(line,"\n",G),"i/11.in"), assert_nbs(["out"-[]
 
 :- table paths/3.
 paths(V0,V0,1).
-paths(V, V0,N) :- V0 \= V, nbs(V0,Ns), maplist(paths(V),Ns,Ps), sum(Ps,#=,N).
+paths(V, V0,N) :- dif(V0,V), nbs(V0,Ns), maplist(paths(V),Ns,Ps), sum(Ps,#=,N).
 
 part2(P2) :- permutation(["fft","dac"],[A,B]), paths(B,A,N1), N1 #&gt; 0, paths(A,"svr",N0), paths("out",B,N2), P2 #= N0*N1*N2.
 

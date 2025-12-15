@@ -28,7 +28,7 @@ input(Beams,Splitters) :- phrase_from_file((source(Beams),"\n",sequence(row,"\n"
 inc(Var,Inc) :- Var #&gt;= 0, fd_inf(Var,Inf), Var #&gt;= Inf+Inc.
 update_([],          [],            _,   _,  _)     --&gt; [].
 update_([Beam|Beams],[Ch|Splitters],Left,Cur,Right) --&gt; [Cur], update_(Beams,Splitters,Cur,Right,_),
-	{ if_(=(Ch,'^'), (inc(Left,Beam), inc(Right,Beam)), inc(Cur,Beam)) }.
+	{ if_(Ch = (^), (inc(Left,Beam), inc(Right,Beam)), inc(Cur,Beam)) }.
 update(Splitters,(Beams0,NSplits0),(Beams1,NSplits1)) :-
 	phrase(update_(Beams0,Splitters,_,_,_),Beams_), Beams_ ins 0..sup, maplist(fd_inf,Beams_,Beams1),
 	countall((nth0(I,Splitters,'^'),nth0(I,Beams0,X),dif(X,0)),NewSplits), NSplits1 #= NSplits0 + NewSplits.

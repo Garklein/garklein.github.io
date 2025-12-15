@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+:- use_module(library(reif)).
+
+line(L) --&gt; seq(L_), "\n", { maplist(\Ch^B^nth0(B,".@",Ch), L_, L) }.
+input(I) :- phrase_from_file(sequence(line,"",I),"i/04.in"). % input needs trailing newline
+
+shift(W,I,E) :- append(W,[_],[0|I]), append(I,[0],[_|E]).
+shift_horiz(W,I,E) :- maplist(shift,W,I,E).
+shift_vert(N,I,S) :- transpose(I,I_), shift_horiz(N_,I_,S_), maplist(transpose,[N_,S_],[N,S]).
+group_neighbours(I,Ns) :-
+	shift_horiz(W,I,E), maplist(shift_vert,[NW,N,NE],[W,I,E],[SW,S,SE]),
+	transpose([I,NW,N,NE,W,E,SW,S,SE],Ts), maplist(transpose,Ts,Ns).
+
+step_cell([0|_], 0).
+step_cell([1|Ns],0) :- sum_list(Ns,Score), Score #&lt; 4.
+step_cell([1|Ns],1) :- sum_list(Ns,Score), Score #&gt;= 4.
+step --&gt; group_neighbours, maplist(maplist(step_cell)).
+
+inaccessible --&gt; maplist(sum_list), sum_list.
+remove(S0,[N|A_]) :- inaccessible(S0,N), step(S0,S1), if_(S0 = S1, A_ = [], remove(S1,A_)).
+
+run :- input(I), remove(I,Ns), append([[N0,N1],_,[N]],Ns), P1 #= N0 - N1, P2 #= N0 - N, format("~d~n~d",[P1,P2]).
+</pre><pre>
+
+
+It took me a long time to come up with a nice solution to this one, because I find 2d array manipulation to be difficult in Prolog.
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='04'>04</a></pre>
+</div></body>
+</html>

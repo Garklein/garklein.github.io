@@ -1,25 +1,18 @@
 ```
-instruction((right, N)) --> "R", number(N).
-instruction((left,  N)) --> "L", number(N_), { N #= -N_ }.
+instruction((right,N)) --> "R", number(N).
+instruction((left, N)) --> "L", number(N_), { N #= -N_ }.
+input(I) :- phrase_from_file(sequence(instruction,"\n",I), "i/01.in").
 
-input(I) :- phrase_from_file(sequence(instruction, "\n", I), "i/1.in").
+box(right,N,Box) :- Box #= N div 100.
+box(left, N,Box) :- N_ #= N - 1, Box #= N_ div 100.
+turn((Dir,N),(Dial0,P1_0,P2_0),(Dial1,P1_1,P2_1)) :- 
+	Dial1 #= Dial0 + N, ( 0 #= Dial1 mod 100 -> P1_1 #= P1_0 + 1 ; P1_1 = P1_0),
+	box(Dir, Dial0, Box1), box(Dir, Dial1, Box2), P2_1 #= P2_0 + abs(Box1 - Box2).
 
-box(right, N, Box) :- Box #= N div 100.
-box(left,  N, Box) :- N_ #= N - 1, Box #= N_ div 100.
-
-turn((Dir, N)) --> state((Dial, P1, P2), (Dial_, P1_, P2_)),
-		 { Dial_ #= Dial + N,
-		   ( 0 #= Dial_ mod 100 -> P1_ #= P1 + 1 ; P1_ #= P1),
-		   box(Dir, Dial, Box1), box(Dir, Dial_, Box2), P2_ #= P2 + abs(Box1 - Box2) }.
-
-execute([])     --> state(N, N).
-execute([I|Is]) --> turn(I), execute(Is).
-
-main :- input(I), phrase(execute(I), [(50, 0, 0)], [(_, P1, P2)]), write(P1), nl, write(P2), halt.
-:- initialization(main).
+main :- input(I), foldl(turn,I,(50,0,0),(_,P1,P2)), format("~d~n~d",[P1,P2]).
 ```
 
 
-Well, this was certainly harder than your average day 1. I use a DCG to parse the input, then use another to simulate turning the dial and keeping track of zeros.
+Well, this was certainly harder than your average day 1. I use a DCG to parse the input, then use a left fold to simulate turning the dial and keeping track of zeros.
 
 For part two, I imagine that each multiple of 100 is in its own "box". For example, -5 is in box -1, and 123 is in box 1. If you turn from -5 to 123, you cross from box -1 -> box 0 -> box 1, so you pass over two 0s. The only tricky thing is that you need to define boxes differently for turning left/right to get this to work.

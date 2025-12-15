@@ -11,10 +11,6 @@
 :- use_module(library(iso_ext)).
 
 
-% DCG state (https://www.metalevel.at/prolog/dcg)
-state(S0, S), [S] --> [S0].
-
-
 % DCG number parsing (from @bakaq on GitHub)
 number_canonchars(N, Cs) :-
     number_chars(N, Cs),

@@ -26,6 +26,7 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 :- use_module(library(pio)).
 :- use_module(library(dcgs)).
 :- use_module(library(clpz)).
+:- use_module(library(reif)).
 :- use_module(library(time)).
 :- use_module(library(lists)).
 :- use_module(library(iso_ext)).
@@ -50,6 +51,11 @@ sequence(_,   _,   [])     --&gt; [].
 sequence(Elt, Sep, [L|Ls]) --&gt; call(Elt, L), sequence_(Elt, Sep, Ls).
 sequence_(_,   _,   [])     --&gt; [].
 sequence_(Elt, Sep, [L|Ls]) --&gt; Sep, call(Elt, L), sequence_(Elt, Sep, Ls).
+
+
+sum(Ls,S) :- sum(Ls,#=,#S).
+
+make_test(day(Day),Solver,P1,P2) :- call(Solver,P1_,P2_), if_((P1,P2) = (P1_,P2_), format("Day ~d ok!",[Day]), format("Day ~d failed :(",[Day])), !.
 </pre>
 <br>
 <pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='dotscryerrc'>dotscryerrc</a></pre>

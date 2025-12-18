@@ -19,17 +19,19 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 </head>
 <body><div>
 <pre class='code'>
+clpb:monotonic.
+
 instruction((right,N)) --&gt; "R", number(N).
-instruction((left, N)) --&gt; "L", number(N_), { N #= -N_ }.
+instruction((left, N)) --&gt; "L", number(N_), { #N #= - #N_ }.
 input(I) :- phrase_from_file(sequence(instruction,"\n",I), "i/01.in").
 
-box(right,N,Box) :- Box #= N div 100.
-box(left, N,Box) :- N_ #= N - 1, Box #= N_ div 100.
+box(right,N,Box) :- #Box #= #N div 100.
+box(left, N,Box) :- #N_ #= #N - 1, #Box #= #N_ div 100.
 turn((Dir,N),(Dial0,P1_0,P2_0),(Dial1,P1_1,P2_1)) :- 
-	Dial1 #= Dial0 + N, ( 0 #= Dial1 mod 100 -&gt; P1_1 #= P1_0 + 1 ; P1_1 = P1_0),
-	box(Dir, Dial0, Box1), box(Dir, Dial1, Box2), P2_1 #= P2_0 + abs(Box1 - Box2).
+	#Dial1 #= #Dial0 + #N, if_(clpz_t(#Dial1 mod 100 #= 0), #P1_1 #= #P1_0 + 1, #P1_1 #= #P1_0),
+	box(Dir, Dial0, Box1), box(Dir, Dial1, Box2), #P2_1 #= #P2_0 + abs(#Box1 - #Box2).
 
-main :- input(I), foldl(turn,I,(50,0,0),(_,P1,P2)), format("~d~n~d",[P1,P2]).
+solve(P1,P2) :- input(I), foldl(turn,I,(50,0,0),(_,P1,P2)).
 </pre><pre>
 
 

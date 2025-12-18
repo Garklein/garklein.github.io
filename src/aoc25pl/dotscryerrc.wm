@@ -6,6 +6,7 @@
 :- use_module(library(pio)).
 :- use_module(library(dcgs)).
 :- use_module(library(clpz)).
+:- use_module(library(reif)).
 :- use_module(library(time)).
 :- use_module(library(lists)).
 :- use_module(library(iso_ext)).
@@ -30,4 +31,9 @@ sequence(_,   _,   [])     --> [].
 sequence(Elt, Sep, [L|Ls]) --> call(Elt, L), sequence_(Elt, Sep, Ls).
 sequence_(_,   _,   [])     --> [].
 sequence_(Elt, Sep, [L|Ls]) --> Sep, call(Elt, L), sequence_(Elt, Sep, Ls).
+
+
+sum(Ls,S) :- sum(Ls,#=,#S).
+
+make_test(day(Day),Solver,P1,P2) :- call(Solver,P1_,P2_), if_((P1,P2) = (P1_,P2_), format("Day ~d ok!",[Day]), format("Day ~d failed :(",[Day])), !.
 ```

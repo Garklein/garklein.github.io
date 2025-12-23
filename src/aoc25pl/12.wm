@@ -1,8 +1,11 @@
 ```
-tree(tree(Area,Presents)) --> number(X), "x", number(Y), ": ", sequence(number," ",Presents), { Area #= X*Y }.
-input(Trees) :- phrase_from_file((seq(_),sequence(tree,"\n",Trees)),"i/12.in").
-solvable(tree(Area,Presents)) :- sum(Presents,#=,NPresents), NPresents*9 #=< Area.
-run :- input(Trees), countall((member(Tree,Trees),solvable(Tree)),N), format("~d",[N]).
+clpz:monotonic.
+
+tree(tree(A,Prs))       --> number(X), "x", number(Y), ": ", sequence(number," ",Prs), { #A #= X*Y }.
+input(Trees)            :- phrase_from_file((...,sequence(tree,"\n",Trees)),"i/12.in").
+solvable(tree(A,Prs),T) :- sum(Prs,NPrs), clpz_t(#NPrs*9 #=< #A,T).
+solve(P1,":D")          :- input(Trees), tfilter(solvable,Trees,STrees), length(STrees,P1).
+test                    :- make_test(day(12),solve,492,":D").
 ```
 
 

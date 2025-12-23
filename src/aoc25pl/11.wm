@@ -1,19 +1,22 @@
 ```
+clpz:monotonic.
 :- use_module(library(tabling)).
 :- use_module(library(ugraphs)).
 
-line(L-Outs) --> seq(L), ": ", sequence(seq," ",Outs).
+line(L-Outs)  --> seq(L), ": ", sequence(seq," ",Outs).
 assert_nbs(G) :- vertices(G,Vs), abolish(nbs/2), maplist(G+\V^(neighbours(V,G,Ns), assertz(nbs(V,Ns))),Vs).
 input :- phrase_from_file(sequence(line,"\n",G),"i/11.in"), assert_nbs(["out"-[]|G]).
 
 :- table paths/3.
 paths(V0,V0,1).
-paths(V, V0,N) :- dif(V0,V), nbs(V0,Ns), maplist(paths(V),Ns,Ps), sum(Ps,#=,N).
+paths(V, V0,N) :- dif(V0,V), nbs(V0,Ns), maplist(paths(V),Ns,Ps), sum(Ps,N).
 
-part2(P2) :- permutation(["fft","dac"],[A,B]), paths(B,A,N1), N1 #> 0, paths(A,"svr",N0), paths("out",B,N2), P2 #= N0*N1*N2.
+part2(P2) :-
+	permutation(["fft","dac"],[A,B]), paths(B,A,N1), #N1 #> 0, paths(A,"svr",N0), paths("out",B,N2), #P2 #= #N0 * #N1 * #N2.
 
-% compute part 2 first, otherwise it prints weirdly (tries to backtrack or something?)
-run :- input, part2(P2), paths("out","you",P1), format("~d~n~d",[P1,P2]).
+% do part 2 first, otherwise some weird backtracking stuff happens and it succeeds twice.
+solve(P1,P2) :- input, part2(P2), paths("out","you",P1).
+test         :- make_test(day(11),solve,788,316291887968000).
 ```
 
 

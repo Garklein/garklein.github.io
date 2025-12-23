@@ -1,22 +1,24 @@
 ```
+clpz:monotonic.
+:- use_module(library(pairs)).
 :- use_module(library(tabling)).
 
 range(X..Y) --> number(X), "-", number(Y).
-union(X, Y, X \/ Y).
-input(I) :- phrase_from_file(sequence(range, ",", [Range|Ranges]), "i/2.in"), foldl(union, Ranges, Range, I).
+union(X,Y,X\/Y).
+input(I) :- phrase_from_file(sequence(range,",",[Range|Ranges]),"i/02.in"), foldl(union,Ranges,Range,I).
 
 table encode/4.
-encode(X, B, P, Z) :- length(Ls, P), foldl([X,B]+\_^Z0^Z^(Z #= B*Z0 + X), Ls, 0, Z).
+encode(K,X,P,Z) :- length(Ls,P), foldl([K,X]+\_^Z0^Z^(#Z #= #X * #Z0 + #K),Ls,0,Z).
 
-num_digs(X, N) :- N in 1..20, 10^(N - 1) #=< X, X #< 10^N, label([N]).
-silly(X, N) :- num_digs(X, D_), D_ #= D * N, num_digs(Half, D), B #= 10^D, encode(Half, B, N, X), label([Half]).
+num_digs(X,N)  :- N in 1..20, 10^(#N-1) #=< #X, #X #< 10 ^ #N, label([N]).
+silly(X,N,Rep) :- num_digs(X,D_), #D_ #= #D * #N, num_digs(Rep,D), #B #= 10 ^ #D, encode(Rep,B,N,X).
 
-solve(I, P1, P2) :- X in I, N in 2..10, findall(X-N, silly(X, N), Solutions),
-		   findall(X, member(X-2, Solutions), P1s), list_to_set(P1s, P1s_set), sum_list(P1s_set, P1),
-		   findall(X, member(X-_, Solutions), P2s), list_to_set(P2s, P2s_set), sum_list(P2s_set, P2).
-
-main :- input(I), solve(I, P1, P2), write(P1), nl, write(P2), halt.
-:- initialization(main).
+sillies(I,Sillies) :- X in I, N in 2..10, findall(N-X,(silly(X,N,Rep),label([Rep])),Sillies).
+part(Pred)         --> tfilter(Pred), pairs_values, list_to_set, sum.
+p1pred(N-_,T)      :- =(N,2,T).
+p2pred(_,  true).
+solve(P1,P2) :- input(I), sillies(I,Sillies), part(p1pred,Sillies,P1), part(p2pred,Sillies,P2).
+test         :- make_test(day(2),solve,23560874270,44143124633).
 ```
 
 

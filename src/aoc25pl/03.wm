@@ -1,15 +1,18 @@
 ```
-digit(N) --> [D], { number_chars(N, [D]) }.
-line(L) --> sequence(digit, "", L).
-input(I) :- phrase_from_file(sequence(line, "\n", I), "i/3.in").
+clpz:monotonic.
 
-jolt(0, _, 0).
-jolt(N, Xs, Jolt) :- N_ #= N - 1, length(OffLimits, N_), append(Useable, OffLimits, Xs),
-    list_max(Useable, Max), append(_, [Max|Rest], Xs), jolt(N_, Rest, Jolt_), Jolt #= Max * 10^N_ + Jolt_.
+digit(N) --> [D], { number_chars(N,[D]) }.
+line(L)  --> sequence(digit,"",L).
+input(I) :- phrase_from_file(sequence(line,"\n",I),"i/03.in").
 
-part(N) --> maplist(jolt(N)), sum_list.
-main :- input(I), part(2, I, P1), part(12, I, P2), write(P1), nl, write(P2), halt.
-:- initialization(main).
+max(X,Y,Z) :- #Z #= max(#X,#Y).
+jolt(0,_,0).
+jolt(N,Xs,Jolt) :- #N_ #= #N - 1, length(OffLimits,N_), append(Useable,OffLimits,Xs),
+	foldl(max,Useable,0,Max), append(_,[Max|Rest],Xs), jolt(N_,Rest,Jolt_), #Jolt #= #Max * 10 ^ #N_ + #Jolt_.
+
+part(N)      --> maplist(jolt(N)), sum.
+solve(P1,P2) :- input(I), part(2,I,P1), part(12,I,P2).
+test         :- make_test(day(3),solve,17158,170449335646486).
 ```
 
 

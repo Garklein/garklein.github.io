@@ -1,5 +1,5 @@
 ```
-clpb:monotonic.
+clpz:monotonic.
 
 instruction((right,N)) --> "R", number(N).
 instruction((left, N)) --> "L", number(N_), { #N #= - #N_ }.
@@ -12,6 +12,7 @@ turn((Dir,N),(Dial0,P1_0,P2_0),(Dial1,P1_1,P2_1)) :-
 	box(Dir, Dial0, Box1), box(Dir, Dial1, Box2), #P2_1 #= #P2_0 + abs(#Box1 - #Box2).
 
 solve(P1,P2) :- input(I), foldl(turn,I,(50,0,0),(_,P1,P2)).
+test         :- make_test(day(1),solve,1158,6860).
 ```
 
 

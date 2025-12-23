@@ -1,23 +1,38 @@
 ```
-coord([X,Y]) --> number(X), ",", number(Y).
-file(Coords) --> sequence(coord,"\n",Coords).
+clpz:monotonic.
+:- use_module(library(clpb)).
 
-order([[X1_,Y1_],[X2_,Y2_]],[[X1,Y1],[X2,Y2]]) :-
-    X1 #= min(X1_,X2_), X2 #= max(X1_,X2_), Y1 #= min(Y1_,Y2_), Y2 #= max(Y1_,Y2_).
-area(C1,C2,area(A,[[X1,Y1],[X2,Y2]])) :- order([C1,C2],[[X1,Y1],[X2,Y2]]), A #= (X2-X1+1)*(Y2-Y1+1).
+point(p(X,Y)) --> number(X), ",", number(Y).
+file(Points)  --> sequence(point,"\n",Points).
+
+order(p(X1_,Y1_),p(X2_,Y2_),p(X1,Y1)-p(X2,Y2)) :-
+	#X1 #= min(#X1_,#X2_), #X2 #= max(#X1_,#X2_), #Y1 #= min(#Y1_,#Y2_), #Y2 #= max(#Y1_,#Y2_).
+area(C1,C2,area(A,p(X1,Y1)-p(X2,Y2))) :- order(C1,C2,p(X1,Y1)-p(X2,Y2)), #A #= (#X2 - #X1 + 1)*(#Y2 - #Y1 + 1).
+
+merge_line(L1-L2,R1_-R2_,R1-R2)        :- order(L1,R1_,R1-_), order(L2,R2_,_-R2).
+chunk([E|Edges],chunk(Rect,[E|Edges])) :- foldl(merge_line,Edges,E,Rect).
+chunk(Chunk) --> { L in 1..15, labeling([max(L)],[L]), length(Edges,L) }, Edges, { chunk(Edges,Chunk) }.
+
 all_pairs([],_)        --> [].
-all_pairs([X|Xs],Done) --> { maplist(area(X),Done,NewPairs) }, seq(NewPairs), all_pairs(Xs,[X|Done]).
-all_pairs(Cs,Ps) :- phrase(all_pairs(Cs,[]),Ps_), sort(Ps_,PsS_), reverse(PsS_,Ps).
-edges([P|Ps], OrdEdges) :- append(Ps,[P],Shift), transpose([[P|Ps],Shift],Edges), maplist(order,Edges,OrdEdges).
-input(Pairs,Edges) :- phrase_from_file(file(I),"i/9.in"), all_pairs(I,Pairs), edges(I,Edges).
+all_pairs([X|Xs],Done) --> { maplist(area(X),Done,NewPairs) }, NewPairs, all_pairs(Xs,[X|Done]).
+all_pairs(Cs,Ps)       :- phrase(all_pairs(Cs,[]),Ps_), sort(Ps_,PsS_), reverse(PsS_,Ps).
+chunks([P|Ps],Chunks)  :- append(Ps,[P],Shift), maplist(order,[P|Ps],Shift,OEdges), phrase(sequence(chunk,[],Chunks),OEdges).
+input(Ps,Chunks)       :- phrase_from_file(file(I),"i/09.in"), all_pairs(I,Ps), chunks(I,Chunks).
 
-intersect_rect_edge([[RX1,RY1],[RX2,RY2]],[[LX1,LY1],[LX2,LY2]]) :- LX1 #< RX2, LY1 #< RY2, RX1 #< LX2, RY1 #< LY2.
-rect(Rect,Es) :- maplist(\E^(\+intersect_rect_edge(Rect,E)),Es).
+not_intersect_rects(p(RX1,RY1)-p(RX2,RY2),p(LX1,LY1)-p(LX2,LY2)) :-
+	#LX1 #>= #RX2 ; #LY1 #>= #RY2 ; #RX1 #>= #LX2 ; #RY1 #>= #LY2.
+not_intersect_rect_chunk_(Rect,chunk(ChunkRect,_    )) :- not_intersect_rects(Rect,ChunkRect).
+not_intersect_rect_chunk_(Rect,chunk(_        ,Edges)) :- maplist(not_intersect_rects(Rect),Edges).
+not_intersect_rect_chunk(Rect,Chunk) :- once(not_intersect_rect_chunk_(Rect,Chunk)).
+rect(Rect,Chunks) :- maplist(not_intersect_rect_chunk(Rect),Chunks).
 
-main :- input(Pairs,Edges), Pairs = [area(P1,_)|_], member(area(P2,Rect),Pairs), rect(Rect,Edges),
-       write(P1), nl, write(P2), halt.
-:- initialization(main).
+part1([area(P1,_)|_],P1).
+part2(Ps,Edges,P2) :- member(area(P2,Rect),Ps), rect(Rect,Edges).
+solve(P1,P2)       :- input(Ps,Edges), part1(Ps,P1), part2(Ps,Edges,P2).
+test               :- make_test(day(9),solve,4738108384,1513792010).
 ```
 
 
 Now they're starting to get difficult...
+
+This was the only day where I actually had to change my algorithm when making it monotonic. I initially was using (\+)/2 to implement not_intersect_rects, but that's no good, so it had to go. However, all the monotonic alternatives are much slower, so I had to create the chunking system.

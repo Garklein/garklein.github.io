@@ -1,38 +1,41 @@
 ```
+clpz:monotonic.
 :- use_module(library(clpb)).
 :- use_module(library(gensym)).
 :- use_module(library(simplex)).
 
-light(0) --> ".".
-light(1) --> "#".
-lights(Ls) --> "[", sequence(light,"",Ls), "]".
-button(Ls) --> "(", sequence(number,",",Ls), ")".
-joltage(J) --> "{", sequence(number,",",J), "}".
+light(0)     --> ".".
+light(1)     --> "#".
+lights(Ls)   --> "[", sequence(light, "", Ls), "]".
+button(Ls)   --> "(", sequence(number,",",Ls), ")".
+joltages(Js) --> "{", sequence(number,",",Js), "}".
 
-group(0,_) --> [].
-group(N,Buttons) --> { N_ #= N-1, findall(Idx,(nth0(Idx,Buttons,B),member(N_,B)),Bs) }, group(N_,Buttons), [Bs].
+where(_,[])     --> [].
+where(I,Is_)    --> [B], { if_(B = 1, Is_ = [I|Is], Is_ = Is), #I_ #= #I + 1 }, where(I_,Is).
+where(Bools,Is) :- phrase(where(0,Is),Bools).
 machine(machine(NButtons,ButtonGroups,Lights,Joltages)) -->
-    lights(Lights), " ", sequence(button," ",Buttons), " ", joltage(Joltages),
-    { length(Buttons,NButtons), length(Lights,L), phrase(group(L,Buttons),ButtonGroups) }.
+    lights(Lights), " ", sequence(button," ",Buttons), " ", joltages(Joltages),
+		{ length(Buttons,NButtons), maplist(same_length(Lights),Bs), maplist(where,Bs,Buttons),
+			transpose(Bs,Bs_), maplist(where,Bs_,ButtonGroups) }.
 input(I) :- phrase_from_file(sequence(machine,"\n",I),"i/10.in").
 get_presses(NButtons,ButtonGroups,Presses,GroupedPresses) :- 
     length(Presses,NButtons), maplist(maplist(Presses+\Idx^Press^nth0(Idx,Presses,Press)),ButtonGroups,GroupedPresses).
 
-minimize_presses(Ps,N) :- length(Ps,L), N in 0..L, label([N]), sat(card([N],Ps)).
+minimize_presses(Ps,N)   :- length(Ps,L), N in 0..L, label([N]), sat(card([N],Ps)).
 set_light(Presses,Light) :- foldl(\V^Xor0^Xor1^(Xor1 = V#Xor0),Presses,0,Xor), sat(Xor =:= Light).
 part1(machine(NButtons,ButtonGroups,Lights,_),P1) :- get_presses(NButtons,ButtonGroups,Presses,GroupedPresses),
     maplist(set_light,GroupedPresses,Lights), minimize_presses(Presses,P1).
 
-make_whole(Var) --> constraint(integral(Var)).
+make_whole(Var)       --> constraint(integral(Var)).
 set_joltage(Var,Jolt) --> constraint(Var = Jolt).
-bruh(Presses,GroupedPresses,Joltages) -->
+least_presses(Presses,GroupedPresses,Joltages) -->
     foldl(make_whole,Presses), foldl(set_joltage,GroupedPresses,Joltages), minimize(Presses), objective.
 part2(machine(NButtons,ButtonGroups,_,Joltages),P2) :- get_presses(NButtons,ButtonGroups,Presses,GroupedPresses),
-    maplist(gensym(b),Presses), gen_state(S0), bruh(Presses,GroupedPresses,Joltages,S0,P2).
+    maplist(gensym(b),Presses), gen_state(S0), least_presses(Presses,GroupedPresses,Joltages,S0,P2).
 
-part(P) --> maplist(P), sum_list.
-main :- input(Ms), part(part1,Ms,P1), part(part2,Ms,P2), write(P1), nl, write(P2), halt.
-:- initialization(main).
+part(P)      --> maplist(P), sum_list. % should use sum/3, but it doesn't work for some reason
+solve(P1,P2) :- input(Ms), part(part1,Ms,P1), part(part2,Ms,P2).
+test         :- make_test(day(10),solve,449,17848).
 ```
 
 

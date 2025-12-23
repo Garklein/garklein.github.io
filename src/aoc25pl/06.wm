@@ -1,20 +1,21 @@
 ```
-space(' ') --> " ".
-opCol([C|S]) --> [C], { member(C, "+*") }, sequence(space, "", S).
-parse_line(Line, Parsed) :- phrase(sequence(seq, " ", Parsed), Line).
-parse_spaces_number(S, N) :- phrase((sequence(space, "", _), number(N), sequence(space, "", _)), S).
+clpz:monotonic.
 
-input(Ops, Cols) :- phrase_from_file((sequence(seq, "\n", Lines), "\n", sequence(opCol, " ", OpCols)), "i/6.in"),
-		   maplist(nth0(0), OpCols, Ops), maplist(maplist(same_length, OpCols), LineNums),
-		   maplist(parse_line, Lines, LineNums), transpose(LineNums, Cols).
+space(' ')   --> " ".
+opCol([C|S]) --> [C], { member(C,"+*") }, sequence(space,"",S).
+parse_line(Line,Parsed)  :- phrase(sequence(seq," ",Parsed),Line).
+parse_spaces_number(S,N) :- phrase((sequence(space,"", _),number(N),sequence(space,"",_)),S).
 
-do_op('+', Xs, Sum)  :- sum_list(Xs, Sum).
-do_op('*', Xs, Prod) :- foldl(\X^Y^Z^(Z #= X * Y), Xs, 1, Prod).
-part(Ops) --> maplist(maplist(parse_spaces_number)), maplist(do_op, Ops), sum_list.
+input(Ops,Cols) :- phrase_from_file((sequence(seq,"\n",Lines),"\n",sequence(opCol," ",OpCols)),"i/06.in"),
+	maplist(nth0(0),OpCols,Ops), maplist(maplist(same_length,OpCols),LinesOfNums),
+	maplist(parse_line,Lines,LinesOfNums), transpose(LinesOfNums,Cols).
 
-main :- input(Ops, Cols), maplist(transpose, Cols, ColsT), part(Ops, Cols, P1), part(Ops, ColsT, P2),
-       write(P1), nl, write(P2), halt.
-:- initialization(main).
+do_op('+')         --> sum.
+do_op('*',Xs,Prod) :- foldl(\X^Y^Z^(#Z #= #X * #Y),Xs,1,Prod).
+
+part(Ops)    --> maplist(maplist(parse_spaces_number)), maplist(do_op,Ops), sum.
+solve(P1,P2) :- input(Ops,Cols), maplist(transpose,Cols,ColsT), part(Ops,Cols,P1), part(Ops,ColsT,P2).
+test         :- make_test(day(6),solve,6891729672676,9770311947567).
 ```
 
 

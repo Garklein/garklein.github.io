@@ -1,21 +1,26 @@
 Advent of Code 2025 in Prolog
 =============================
 
-It's [that time of year again](https://adventofcode.com/2025)!! This year, I'm learning [Prolog](https://www.scryer.pl/). I tried this a few years ago, and failed miserably; hopefully it will go better this year!
+It's [that time of year again](https://adventofcode.com/2025)!! This year, I'm learning [pure, monotonic](https://old.reddit.com/r/prolog/comments/10nuwz8/what_exactly_is_the_pure_monotonic_core_of_prolog/j7p5rih/), and [modern](https://www.youtube.com/watch?v=6G-3DqyJ_l8) [Prolog](https://www.scryer.pl/). I tried this a few years ago, and failed miserably; hopefully it will go better this year!
+
+To the best of my knowledge, all the code here is pure and monotonic, apart from:
+- a findall/3 in day 2
+- an assertz/1 in day 11, which asserts the input as a fact, so that traversing the input can be tabled.
 
 I have a lot of common stuff in my [.scryerrc file](dotscryerrc).
 
- day
------
- [01.pl](01)
- [02.pl](02)
- [03.pl](03)
- [04.pl](04)
- [05.pl](05)
- [06.pl](06)
- [07.pl](07)
- [08.pl](08)
- [09.pl](09)
- [10.pl](10)
- [11.pl](11)
- [12.pl](12)
+  day       ms   loc
+-----   ------   ---
+[01.pl](01)    5,201   **************
+[02.pl](02)    2,064   ********************
+[03.pl](03)      830   **************
+[04.pl](04)   18,888   **********************
+[05.pl](05)      791   **********
+[06.pl](06)    1,254   *****************
+[07.pl](07)    2,502   *****************
+[08.pl](08)    5,518   ***************************************
+[09.pl](09)   15,038   *******************************
+[10.pl](10)   11,279   *************************************
+[11.pl](11)    6,897   ******************
+[12.pl](12)    3,417   *******
+avg      6,139   ********************

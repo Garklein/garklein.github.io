@@ -22,24 +22,29 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 Advent of Code 2025 in Prolog
 =============================
 
-It's <a href='https://adventofcode.com/2025'>that time of year again</a>!! This year, I'm learning <a href='https://www.scryer.pl/'>Prolog</a>. I tried this a few years ago, and failed miserably; hopefully it will go better this year!
+It's <a href='https://adventofcode.com/2025'>that time of year again</a>!! This year, I'm learning <a href='https://old.reddit.com/r/prolog/comments/10nuwz8/what_exactly_is_the_pure_monotonic_core_of_prolog/j7p5rih/'>pure, monotonic</a>, and <a href='https://www.youtube.com/watch?v=6G-3DqyJ_l8'>modern</a> <a href='https://www.scryer.pl/'>Prolog</a>. I tried this a few years ago, and failed miserably; hopefully it will go better this year!
+
+To the best of my knowledge, all the code here is pure and monotonic, apart from:
+- a findall/3 in day 2
+- an assertz/1 in day 11, which asserts the input as a fact, so that traversing the input can be tabled.
 
 I have a lot of common stuff in my <a href='dotscryerrc'>.scryerrc file</a>.
 
- day
------
- <a href='01'>01.pl</a>
- <a href='02'>02.pl</a>
- <a href='03'>03.pl</a>
- <a href='04'>04.pl</a>
- <a href='05'>05.pl</a>
- <a href='06'>06.pl</a>
- <a href='07'>07.pl</a>
- <a href='08'>08.pl</a>
- <a href='09'>09.pl</a>
- <a href='10'>10.pl</a>
- <a href='11'>11.pl</a>
- <a href='12'>12.pl</a>
+  day       ms   loc
+-----   ------   ---
+<a href='01'>01.pl</a>    5,201   **************
+<a href='02'>02.pl</a>    2,064   ********************
+<a href='03'>03.pl</a>      830   **************
+<a href='04'>04.pl</a>   18,888   **********************
+<a href='05'>05.pl</a>      791   **********
+<a href='06'>06.pl</a>    1,254   *****************
+<a href='07'>07.pl</a>    2,502   *****************
+<a href='08'>08.pl</a>    5,518   ***************************************
+<a href='09'>09.pl</a>   15,038   *******************************
+<a href='10'>10.pl</a>   11,279   *************************************
+<a href='11'>11.pl</a>    6,897   ******************
+<a href='12'>12.pl</a>    3,417   *******
+avg      6,139   ********************
 </pre>
 <br>
 <pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href=''>aoc25pl</a></pre>

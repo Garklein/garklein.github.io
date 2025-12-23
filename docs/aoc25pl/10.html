@@ -41,7 +41,7 @@ input(I) :- phrase_from_file(sequence(machine,"\n",I),"i/10.in").
 get_presses(NButtons,ButtonGroups,Presses,GroupedPresses) :- 
     length(Presses,NButtons), maplist(maplist(Presses+\Idx^Press^nth0(Idx,Presses,Press)),ButtonGroups,GroupedPresses).
 
-minimize_presses(Ps,N)   :- length(Ps,L), N in 0..L, label([N]), sat(card([N],Ps)).
+minimize_presses(Ps,N)   :- length(Ps,L), N in 0..L, indomain(N), sat(card([N],Ps)).
 set_light(Presses,Light) :- foldl(\V^Xor0^Xor1^(Xor1 = V#Xor0),Presses,0,Xor), sat(Xor =:= Light).
 part1(machine(NButtons,ButtonGroups,Lights,_),P1) :- get_presses(NButtons,ButtonGroups,Presses,GroupedPresses),
     maplist(set_light,GroupedPresses,Lights), minimize_presses(Presses,P1).

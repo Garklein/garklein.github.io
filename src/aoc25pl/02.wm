@@ -10,10 +10,10 @@ input(I) :- phrase_from_file(sequence(range,",",[Range|Ranges]),"i/02.in"), fold
 table encode/4.
 encode(K,X,P,Z) :- length(Ls,P), foldl([K,X]+\_^Z0^Z^(#Z #= #X * #Z0 + #K),Ls,0,Z).
 
-num_digs(X,N)  :- N in 1..20, 10^(#N-1) #=< #X, #X #< 10 ^ #N, label([N]).
+num_digs(X,N)  :- N in 1..20, 10^(#N-1) #=< #X, #X #< 10 ^ #N, indomain(N).
 silly(X,N,Rep) :- num_digs(X,D_), #D_ #= #D * #N, num_digs(Rep,D), #B #= 10 ^ #D, encode(Rep,B,N,X).
 
-sillies(I,Sillies) :- X in I, N in 2..10, findall(N-X,(silly(X,N,Rep),label([Rep])),Sillies).
+sillies(I,Sillies) :- X in I, N in 2..10, findall(N-X,(silly(X,N,Rep),indomain(Rep)),Sillies).
 part(Pred)         --> tfilter(Pred), pairs_values, list_to_set, sum.
 p1pred(N-_,T)      :- =(N,2,T).
 p2pred(_,  true).

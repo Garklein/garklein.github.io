@@ -29,6 +29,7 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 :- use_module(library(reif)).
 :- use_module(library(time)).
 :- use_module(library(lists)).
+:- use_module(library(charsio)).
 :- use_module(library(iso_ext)).
 
 
@@ -38,7 +39,7 @@ number_canonchars(N, Cs) :-
     number_chars(N, Cs0),
     Cs = Cs0.
 
-digits([D|Ds]) --&gt; [D], { member(D, "1234567890") }, digits_(Ds).
+digits([D|Ds]) --&gt; [D], { char_type(D, decimal_digit) }, digits_(Ds).
 
 digits_([]) --&gt; [].
 digits_([D|Ds]) --&gt; digits([D|Ds]).
@@ -53,9 +54,11 @@ sequence_(_,   _,   [])     --&gt; [].
 sequence_(Elt, Sep, [L|Ls]) --&gt; Sep, call(Elt, L), sequence_(Elt, Sep, Ls).
 
 
+% can be used tacit
 sum(Ls,S) :- sum(Ls,#=,#S).
 
-make_test(day(Day),Solver,P1,P2) :- call(Solver,P1_,P2_), if_((P1,P2) = (P1_,P2_), format("Day ~d ok!",[Day]), format("Day ~d failed :(",[Day])), !.
+make_test(day(Day),Solver,P1,P2) :-
+	call(Solver,P1_,P2_), if_(P1-P2 = P1_-P2_, Msg = "ok!", Msg = "failed :("), format("% Day ~d ~s~n",[Day,Msg]).
 </pre>
 <br>
 <pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='dotscryerrc'>dotscryerrc</a></pre>

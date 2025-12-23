@@ -19,21 +19,23 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 </head>
 <body><div>
 <pre class='code'>
-:- use_module(library(reif)).
+clpz:monotonic.
 
-row(R) --&gt; seq(R), "\n", seq(_).
+row(R)        --&gt; seq(R), "\n", seq(_).
 source(Beams) --&gt; row(R), { maplist(\Ch^B^nth0(B,".S",Ch),R,Beams) }.
 input(Beams,Splitters) :- phrase_from_file((source(Beams),"\n",sequence(row,"\n",Splitters)),"i/07.in").
 
-inc(Var,Inc) :- Var #&gt;= 0, fd_inf(Var,Inf), Var #&gt;= Inf+Inc.
+inc(Var,Inc) :- #Var #&gt;= 0, fd_inf(Var,Inf), #Var #&gt;= #Inf + #Inc.
 update_([],          [],            _,   _,  _)     --&gt; [].
 update_([Beam|Beams],[Ch|Splitters],Left,Cur,Right) --&gt; [Cur], update_(Beams,Splitters,Cur,Right,_),
 	{ if_(Ch = (^), (inc(Left,Beam), inc(Right,Beam)), inc(Cur,Beam)) }.
+split_t([Ch,N],T) :- ','(Ch = (^),clpz_t(#N #&gt; 0),T).
 update(Splitters,(Beams0,NSplits0),(Beams1,NSplits1)) :-
 	phrase(update_(Beams0,Splitters,_,_,_),Beams_), Beams_ ins 0..sup, maplist(fd_inf,Beams_,Beams1),
-	countall((nth0(I,Splitters,'^'),nth0(I,Beams0,X),dif(X,0)),NewSplits), NSplits1 #= NSplits0 + NewSplits.
+	transpose([Splitters,Beams0],Ps), tfilter(split_t,Ps,Ss), length(Ss,NNewSplits), #NSplits1 #= #NSplits0 + #NNewSplits.
 
-run :- input(Beams,Rows), foldl(update,Rows,(Beams,0),(Timelines,P1)), sum(Timelines,#=,P2), format("~d~n~d",[P1,P2]).
+solve(P1,P2) :- input(Beams,Rows), foldl(update,Rows,(Beams,0),(Timelines,P1)), sum(Timelines,P2).
+test         :- make_test(day(7),solve,1667,62943905501815).
 </pre><pre>
 
 

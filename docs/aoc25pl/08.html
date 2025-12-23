@@ -23,21 +23,21 @@ clpz:monotonic.
 :- use_module(library(assoc)).
 :- use_module(library(pairs)).
 
-coord((X,Y,Z)) --&gt; number(X), ",", number(Y), ",", number(Z).
-file(Coords)   --&gt; sequence(coord,"\n",Coords).
+point(p(X,Y,Z)) --&gt; number(X), ",", number(Y), ",", number(Z).
+file(Points)   --&gt; sequence(point,"\n",Points).
 
-dist((X1,Y1,Z1)-(X2,Y2,Z2),D) :- #D #= (#X2 - #X1)^2 + (#Y2 - #Y1)^2 + (#Z2 - #Z1)^2.
+dist(p(X1,Y1,Z1)-p(X2,Y2,Z2),D) :- #D #= (#X2 - #X1)^2 + (#Y2 - #Y1)^2 + (#Z2 - #Z1)^2.
 all_pairs([],    _)    --&gt; [].
 all_pairs([X|Xs],Done) --&gt; { maplist(X+\Y^Z^(Z = X-Y),Done,NewPairs) }, NewPairs, all_pairs(Xs,[X|Done]).
 all_pairs(Xs,Ps)       :- phrase(all_pairs(Xs,[]),Ps).
 sort_by(Key)  --&gt; map_list_to_pairs(Key), sort, pairs_values.
-input(Ps,DSU) :- phrase_from_file(file(Coords),"i/08.in"), all_pairs(Coords,Ps_), sort_by(dist,Ps_,Ps), make_dsu(Coords,DSU).
+input(Ps,DSU) :- phrase_from_file(file(Points),"i/08.in"), all_pairs(Points,Ps_), sort_by(dist,Ps_,Ps), make_dsu(Points,DSU).
 
 make_dsu(Xs,dsu(N,A))       :- maplist(\X^P^(P = X-cl([X])),Xs,Ps), list_to_assoc(Ps,A), length(Xs,N).
 get(K,V,dsu(N,A),dsu(N,A))  :- get_assoc(K,A,V).
 put(K,V,dsu(N,A0),dsu(N,A)) :- put_assoc(K,A0,V,A).
-get_size(N,dsu(N,A0),dsu(N,A0)).
-put_size(N,dsu(_,A0),dsu(N,A0)).
+get_size(N,dsu(N,A),dsu(N,A)).
+put_size(N,dsu(_,A),dsu(N,A)).
 
 cluster(K,K,Cl)  --&gt; get(K,cl(Cl)).
 cluster(K,ID,Cl) --&gt; get(K,ptr(K_)), cluster(K_,ID,Cl), put(K,ptr(ID)).
@@ -52,11 +52,11 @@ clusters(dsu(_,A),Cls) :- assoc_to_values(A,Vs), phrase(clusters(Vs),Cls).
 part1(Ps_,DSU,P1) :- length(Ps,1000), append(Ps,_,Ps_), foldl(unite,Ps,DSU,DSU_), clusters(DSU_,Cls),
 	maplist(length,Cls,Lens), sort(Lens,LensS), append(_,[X,Y,Z],LensS), #P1 #= #X * #Y * #Z.
 
-check([(X1,_,_)-(X2,_,_)|_],dsu(1,_),P2) :- #P2 #= #X1 * #X2.
+check([p(X1,_,_)-p(X2,_,_)|_],dsu(1,_),P2) :- #P2 #= #X1 * #X2.
 check([_|Ps])  --&gt; part2(Ps).
 part2([Cs|Ps]) --&gt; unite(Cs), check([Cs|Ps]).
 
-solve(P1,P2) :- time(input(Ps,DSU)), time(part1(Ps,DSU,P1)), time(part2(Ps,DSU,P2)).
+solve(P1,P2) :- input(Ps,DSU), part1(Ps,DSU,P1), part2(Ps,DSU,P2).
 test         :- make_test(day(8),solve,163548,772452514).
 </pre><pre>
 

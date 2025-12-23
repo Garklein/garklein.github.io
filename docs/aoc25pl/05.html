@@ -19,15 +19,16 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
 </head>
 <body><div>
 <pre class='code'>
-range(X..Y) --&gt; number(X), "-", number(Y).
-file(Ranges, Freshes) --&gt; sequence(range, "\n", Ranges), "\n\n", sequence(number, "\n", Freshes).
+clpz:monotonic.
 
-union(X, Y, X \/ Y).
-input(Range, Freshes) :- phrase_from_file(file([R|Rs], Freshes), "i/5.in"), foldl(union, Rs, R, Range).
+range(X..Y)      --&gt; number(X), "-", number(Y).
+file(Ranges,IDs) --&gt; sequence(range,"\n",Ranges), "\n\n", sequence(number,"\n",IDs).
 
-main :- input(Range, Freshes), Fresh in Range, countall(member(Fresh, Freshes), P1), fd_size(Fresh, P2),
-       write(P1), nl, write(P2), halt.
-:- initialization(main).
+union(X,Y,X\/Y).
+input(Range,IDs) :- phrase_from_file(file([R|Rs],[I|Is]),"i/05.in"), foldl(union,Rs,R,Range), foldl(union,Is,I,IDs).
+
+solve(P1,P2) :- input(Range,IDs), Fresh in Range, fd_size(Fresh,P2), Fresh in IDs, fd_size(Fresh,P1).
+test         :- make_test(day(5),solve,529,344260049617193).
 </pre><pre>
 
 

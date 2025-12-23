@@ -1,7 +1,7 @@
 ```
 clpz:monotonic.
 
-tree(tree(A,Prs))       --> number(X), "x", number(Y), ": ", sequence(number," ",Prs), { #A #= X*Y }.
+tree(tree(A,Prs))       --> number(X), "x", number(Y), ": ", sequence(number," ",Prs), { #A #= #X * #Y }.
 input(Trees)            :- phrase_from_file((...,sequence(tree,"\n",Trees)),"i/12.in").
 solvable(tree(A,Prs),T) :- sum(Prs,NPrs), clpz_t(#NPrs*9 #=< #A,T).
 solve(P1,":D")          :- input(Trees), tfilter(solvable,Trees,STrees), length(STrees,P1).

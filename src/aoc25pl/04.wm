@@ -24,4 +24,4 @@ test         :- make_test(day(4),solve,1372,7922).
 ```
 
 
-It took me a long time to come up with a nice solution to this one, because I find 2d array manipulation to be difficult in Prolog.
+It took me a long time to come up with a nice solution to this one, because I find 2D array manipulation to be difficult in Prolog. And we can generalize today to [Game of Life](gol)!

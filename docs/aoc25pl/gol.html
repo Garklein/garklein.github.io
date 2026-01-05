@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+Conway's Game of Life in Prolog
+===============================
+
+
+</pre><pre class='code'>
+:- use_module(library(clpb)).
+
+shift(W,I,E) :- append(W,[_],[0|I]), append(I,[0],[_|E]).
+shift_horiz(W,I,E) :- maplist(shift,W,I,E).
+shift_vert(N,I,S) :- transpose(I,I_), shift_horiz(N_,I_,S_), maplist(transpose,[N_,S_],[N,S]).
+group_neighbours(I,Ns) :-
+	shift_horiz(W,I,E), maplist(shift_vert,[NW,N,NE],[W,I,E],[SW,S,SE]),
+	transpose([I,NW,N,NE,W,E,SW,S,SE],Ts), maplist(transpose,Ts,Ns).
+
+step_cell([0|Ns], 0) :- sat(card([0,1,2, 4,5,6,7,8],Ns)).
+step_cell([0|Ns], 1) :- sat(card([      3         ],Ns)).
+step_cell([1|Ns], 0) :- sat(card([0,1,   4,5,6,7,8],Ns)).
+step_cell([1|Ns], 1) :- sat(card([    2,3         ],Ns)).
+step(B0,B1) :- maplist(same_length,[B0|B0],[B1|B1]),
+	group_neighbours(B0,Ns), maplist(maplist(step_cell),Ns,B1).
+</pre><pre>
+
+
+Since we're in Prolog, this Game of Life doesn't just go forwards, but backwards too!
+
+
+</pre><pre class='code'>
+:- use_module(library(format)).
+
+glider([[0,0,0,0,0]
+       ,[0,0,0,1,0]
+       ,[0,1,1,0,0]
+       ,[0,0,1,1,0]
+       ,[0,0,0,0,0]]).
+
+display(B,Label) :- format("~s~n",[Label]), maplist(portray_clause,B), nl.
+
+?- glider(G_), step(G_,G), display(G,"Glider:"), dif(B,G_), step(B,G),
+   display(B,"Non-glider which leads to the glider:").
+Glider:
+[0,0,0,0,0].
+[0,0,1,0,0].
+[0,1,0,0,0].
+[0,1,1,1,0].
+[0,0,0,0,0].
+
+Non-glider which leads to the glider:
+[0,0,0,0,0].
+[0,0,0,1,0].
+[0,1,1,0,0].
+[0,1,1,0,1].
+[0,0,0,0,0].
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc25pl</a>/<a href='gol'>gol</a></pre>
+</div></body>
+</html>

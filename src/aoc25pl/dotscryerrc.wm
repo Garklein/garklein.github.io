@@ -1,6 +1,4 @@
 ```
-:- set_prolog_flag(double_quotes, chars).
-
 :- use_module(library(lambda)).
 :- use_module(library(dif)).
 :- use_module(library(pio)).

@@ -6,6 +6,7 @@ Within the library, which had been emptied of its books, its mushrooms, its "she
 
 dec/25 [Advent of Code 2025 in Prolog](aoc25pl)
        [Conway's Game of Life in Prolog](aoc25pl/gol)
+       [Day 1 in λ-calculus](aoc25pl/01lc)
 apr/25 [NixOS, tuigreet, EXWM, and alpha-background](nix)
 apr/25 [Estimating ln(x) in colorForth (without floats)](cf/ln)
        [A study in scarlet and tsumebite: colorForth notes](cf)

@@ -1,0 +1,273 @@
+[Advent of Code 2025 Day 1](https://adventofcode.com/2025/day/1) in Pure λ-Calculus
+============================================
+
+Do you like pain? Then join me on this fun journey!
+
+My friend wrote a λ-calculus interpreter so of course I had to write a program in it. It has some peculiarities. Application isn't juxtaposition, instead the prefix operator "." is used, and the order of arguments is swapped. For example,  .x f  means  f x.
+
+There are also a lot of functions he already defined in the prelude. All data types are Scott-encoded.
+
+Some definitions I'm particularly proud of are division, mod, and list indexing. Division and mod are nice because subtraction returns a Maybe, so I can easily check when a subtraction would go below zero.
+
+List indexing is just all around very elegant. To get the nth element, we want to take the tail of the list n times, then the head of that. I use induction with the index, where the base case is head, and the step composes a single tail with the smaller induction result. To make this return a Maybe, we simply swap normal composition for Kleisli composition!
+
+
+```
+.\rhs .\div \lhs  .0    ..div .succ bluebird  .lhs .rhs sub  fix \div # floor
+.\rhs .\mod \lhs  .lhs  .mod                  .lhs .rhs sub  fix \mod
+...head ..tail .opt:monad kleisli ind cardinal \idx # List a -> Nat -> Opt a
+```
+
+
+Ideally, I would parse the whole file, then do a big fold over it. However, this proved to be way too slow, so I had to move the fold to some bash, and have this program only compute a single step :(
+
+Now for the full thing, here we go!
+
+
+```
+# natural number aliases
+.zero        \0
+..0 succ     \1
+..1 succ     \2
+..2 succ     \3
+..3 succ     \4
+..4 succ     \5
+..5 succ     \6
+..6 succ     \7
+..7 succ     \8
+..8 succ     \9
+..9 succ     \10
+..10 .10 mul \100
+
+# subtraction, division, mod
+..\sub \rhs \lhs
+ ...lhs .rhs .pred .sub psi
+  .none
+  .lhs iszero
+ ..lhs some
+ .rhs iszero
+fix \sub # Nat -> Nat -> Opt Nat
+.\rhs .\div \lhs  .0    ..div .succ bluebird  .lhs .rhs sub  fix \div # floor
+.\rhs .\mod \lhs  .lhs  .mod                  .lhs .rhs sub  fix \mod
+
+
+# integers and integer operations
+# type Int = (Nat, Nat)
+..0 .1   pair \1z
+..0 .0   pair \0z
+..1 .0   pair \-1z
+..0 .100 pair \100z
+
+.\rhs \lhs
+ ..lhs .rhs .snd .add psi
+ ..lhs .rhs .fst .add psi
+pair \addz
+.\rhs \lhs
+ .\+rhs \-rhs .\+lhs \-lhs
+  ...-lhs .+rhs mul ..+lhs .-rhs mul add
+  ...+lhs .+rhs mul ..-lhs .-rhs mul add
+  pair
+lhs rhs \mulz
+..zero     .pair     cardinal  \n->z
+..cardinal .bluebird cardinal  \negz
+..negz     .addz     bluebird  \subz
+
+# reduce int until one component is zero
+..\redz' \+ \-
+ ..- .+ .pred .redz' psi
+ ..- .+ pair
+ .- .+ .iszero .or psi
+fix \redz'
+..redz' thrush \redz
+
+# integer equality and ordering
+..\rhs \lhs 
+ .\+rhs \-rhs .\+lhs \-lhs
+  ..+lhs .+rhs .nat:eq equal
+	..-lhs .-rhs .nat:eq equal
+  and
+ .lhs redz
+ .rhs redz
+eq \z:eq
+
+..\rhs \lhs
+ .\+rhs \-rhs .\+lhs \-lhs
+  .gt
+  ..lt .et .gt .-lhs .-rhs .nat:ord compare
+  .lt
+  .+lhs .+rhs .nat:ord compare
+ .lhs redz
+ .rhs redz
+.z:eq ord \z:ord
+
+# integer mod, abs, sign, division
+.\rhs .\modz \lhs
+ .\+lhs \-lhs
+  ...-lhs .rhs pair modz
+  ..+lhs .rhs mod
+  .-lhs iszero
+ .lhs redz
+fix \modz # Nat -> Int -> Nat
+
+..redz ...nat:ord max thrush bluebird   \abs # Int -> Nat
+.\z .-1z .0z .1z .z .0z .z:ord compare  \sign
+
+.\rhs \lhs
+ ..lhs .rhs .sign .mulz psi                             \quotsign
+ ..rhs abs                                              \rhsn
+ ..\+ \- ...- .rhsn add pred .+ .nat:ord max .lhs redz  \lhsn
+ ...lhsn .rhsn div n->z .quotsign mulz
+\divz # floor
+
+
+# list indexing
+...head ..tail .opt:monad kleisli ind cardinal \idx # List a -> Nat -> Opt a
+
+# define ascii characters, which are represented as 8-tuples
+..false .true  .false .false .true  .true  .false .false arr8 \'L'u8
+..false .true  .false .true  .false .false .true  .false arr8 \'R'u8
+..false .false .true  .false .false .false .false .false arr8 \spcu8
+..false .false .true  .true  .true  .true  .true  .true  arr8 \'?'u8
+..false .false .true  .true  .false .false .false .false arr8 \'0'u8
+..false .false .true  .true  .false .false .false .true  arr8 \'1'u8
+..false .false .true  .true  .false .false .true  .false arr8 \'2'u8
+..false .false .true  .true  .false .false .true  .true  arr8 \'3'u8
+..false .false .true  .true  .false .true  .false .false arr8 \'4'u8
+..false .false .true  .true  .false .true  .false .true  arr8 \'5'u8
+..false .false .true  .true  .false .true  .true  .false arr8 \'6'u8
+..false .false .true  .true  .false .true  .true  .true  arr8 \'7'u8
+..false .false .true  .true  .true  .false .false .false arr8 \'8'u8
+..false .false .true  .true  .true  .false .false .true  arr8 \'9'u8
+
+# convert 0-9 to characters
+...........nil
+.'9'u8 cons .'8'u8 cons .'7'u8 cons .'6'u8 cons .'5'u8 cons
+.'4'u8 cons .'3'u8 cons .'2'u8 cons .'1'u8 cons .'0'u8 cons  \diglist
+...diglist idx .unwrap bluebird                              \n->c
+
+# writes a pair, with a character in between
+.\putfst \ch \putsnd \p
+ .\n1 \n2
+  ...n2 putsnd
+   ..ch putc
+   .io:appl seqr
+  ..n1 putfst
+  .io:appl seqr
+p \putpair
+
+# writes natural numbers and integers
+..\putn' \n 
+ ....n .10 mod n->c putc   \digit
+ .. .n .10 div      putn'  \rest
+ ..digit .rest .io:appl seqr
+ ..unit .io:appl pure
+ .n iszero
+fix \putn'
+.\n ..n putn' ..'0'u8 putc .n iszero  \putn
+..putn .'-'u8 .putn putpair           \putz
+
+# list of the first ten numbers
+...........nil
+.9 cons .8 cons .7 cons .6 cons .5 cons
+.4 cons .3 cons .2 cons .1 cons .0 cons \!10
+
+# parse a digit
+.\i ...i n->c chrp .i .parser:ftor fmapk       \digp'
+.\p \acc ..p digp' .acc .parser:altn alt       \digpacc
+..!10 ..parser:altn empty .digpacc list.foldr  \digp
+
+# parse a natural number
+.\acc \dig ..acc .10 mul .dig add \accdigs
+...digp .parser:altn many1
+ ..0 .accdigs list.foldl
+ .parser:ftor fmap \natp
+
+# parse an integer
+..natp                                 .n->z  .parser:ftor fmap  \+zp
+...+zp ..'-'u8 chrp .parser:appl seqr  .negz  .parser:ftor fmap  \-zp
+..-zp .+zp .parser:altn alt                                      \zp
+
+# parse a dial instruction
+...'L'u8 chrp .-1z .parser:ftor fmapk  \'L'p
+...'R'u8 chrp .1z  .parser:ftor fmapk  \'R'p
+..'L'p .'R'p .parser:altn alt          \dirp
+..zp .dirp .mulz .parser:appl lifta2   \instrp
+
+# parse  fstp SPACE sndp  as a pair
+.\fstp \sndp
+ ..sndp ..spcu8 chrp .parser:appl seqr
+ .fstp
+ .pair
+.parser:appl lifta2 \pairp
+
+# state = (dial, (p1, p2))
+...putn .spcu8 .putn putpair .spcu8 .putn putpair  \putst
+...natp .natp pairp .natp pairp                    \stp
+..instrp .stp pairp                                \inputp
+
+# I imagine that each dial pos is in a certain box. For example, 35 (below 100)
+# is in box 0, and 105 (above 100) is in box 1. Then, if we turn from 35
+# to 105, I subtract the boxes to see that we've passed a single zero (100).
+# However, the boxes are different for right and left rotations.
+.           .100z divz                                     \rbox
+...1z subz ..100z divz bluebird                            \lbox
+.\rotation .lbox .rbox ..rotation .0z .z:ord compare isgt  \box
+
+# rotate the dial
+# for efficiency, smaller numbers are the first args to add
+.\input .\st \rotation .\dial \parts .\p1 \p2
+  ..dial n->z             \dialz
+  ..dialz .rotation addz  \dialz'
+  ..dialz' .100 modz      \dial'
+  ..p1 ..0 .1 .dial' iszero add                           \p1'
+  ..p2 ...dialz' .dialz ..rotation box .subz psi abs add  \p2'
+  ..p2' .p1' pair .dial' pair
+ parts st input
+\rotate
+
+
+# read from stdin until newline
+..\getnl
+  .\optchr
+    ..nil .io:appl pure
+    .\chr
+      ..getnl ..chr cons .io:ftor fmap
+      ..nil .io:appl pure
+      .chr .'\n'u8 .u8:eq equal
+    optchr
+  .getc
+  .io:monad bind
+fix \getnl
+
+
+# read a line of input, turn the dial, and update accumulators
+ ..\str
+   ...'\n'u8 putc ..'?'u8 putc .io:appl seql
+   ...fst .rotate bluebird .putst bluebird
+   .str .eofp .inputp .parser:appl seql
+  .getnl
+  .io:monad bind
+mainz
+```
+
+
+Here is the bash script I used:
+
+
+```
+#!/bin/bash
+
+echo "i: dial p1 p2"
+state="50 0 0"
+i=0
+while read line; do
+    input="$state $line
+"
+    state=`echo "$input" | bin/pnlc prelude.pnlc examples/day1/day1.pnlc`
+    ((i++))
+    echo "$i: $state"
+done < examples/day1/1.in # newline needed at end of input
+```
+
+
+Even this is quite slow - maybe encoding everything in unary isn't the most efficient... I sent it off to a friend with a beefy computer, and after over 2 and a half hours, it finally spat out the correct answer!

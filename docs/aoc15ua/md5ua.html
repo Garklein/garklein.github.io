@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+Debugging MD5    (January 27th, 2026)
+=============
+
+I just finished implementing <a href='https://github.com/Garklein/md5ua'>MD5 in Uiua</a> for AoC '15 Day 4.
+
+
+Implementation gotchas
+----------------------
+- The left rotation is a true rotation, not just a left shift.
+- When you convert the string to ints, you need to make the ints little-endian. In other words, a string C0C1C2C3C4C5C6C7, where each Ci is 8-bit, becomes the two 32-bit ints C3C2C1C0 C7C6C5C4.
+- When you append the 64-bit length, you are effectively appending two ints. However, the ints aren't little-endian; but you do append them in the opposite order. So if the length is (big-endian) 0x0000000000000320, you append 0x00000320 0x00000000 to finish the padding. Also, this length represents the number of bits, not the number of bytes.
+
+
+Uiua notes
+----------
+Initially, I always reversed ⋯'s result. This is slow, and by removing it and always working with bits reversed, I was able to speed it up by about 33%. Since MD5 uses little-endian everywhere, this change was a major headache because I need to deal with both the algorithm having bytes reversed and Uiua having bits reversed.
+
+Another thing that helped with speed was minimizing uses of ⋯. When I was adding all the intermediate results up, I initially had them in an array and did a fold. The folding operation would ∩°⋯, +, then ⋯. However, you don't need to ⋯ between intermediate results, and removing that helped make it faster.
+
+
+Algorithm resources
+-------------------
+- <a href='https://www.rfc-editor.org/rfc/rfc1321'>The original MD5 spec</a>
+- <a href='https://en.wikipedia.org/wiki/MD5#Algorithm'>Wikipedia article on the MD5 algorithm</a>
+
+Resources that help debug
+-------------------------
+- <a href='https://rosettacode.org/wiki/MD5/Implementation_Debug'>Rosetta Code MD5/Implementation Debug</a>
+- <a href='https://www.craigcode.dev/blog/debugging-md5-implementation'>Debugging a MD5 Implementation by Craig Buchanan</a>
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc15ua</a>/<a href='md5ua'>md5ua</a></pre>
+</div></body>
+</html>

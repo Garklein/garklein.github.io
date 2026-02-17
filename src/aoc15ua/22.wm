@@ -1,0 +1,9 @@
+```
+M  ← 53
+D  ← 73
+Sh ← 113
+P  ← 173
+R  ← 229
+/+ [P Sh R P M M M M M]
+/+ [P Sh R P D R P D M]
+```

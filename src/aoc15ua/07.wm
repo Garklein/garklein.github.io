@@ -1,0 +1,22 @@
+```
+# export UIUA_RECURSION_LIMIT=10000
+# ulimit -s 20000
+
+# Val ? Var Map
+E′ ← |2 memo(
+  ◇⍣(
+    ⋯₁₆⊓⋕◌
+  | E′⊸get
+  | ¬E′°$"NOT _"
+  | ↧∩⌟E′°$"_ AND _"
+  | ↥∩⌟E′°$"_ OR _"
+  | ⬚0↻¯⊓⋕E′°˜$"_ LSHIFT _"
+  | ⬚0↻⊓⋕E′°˜$"_ RSHIFT _"
+  )
+)
+E ← (°⋯E′"a")
+
+˜map&rl(∩□°$"_ -> _")&fo"i/07.in"
+insert "part" 1 # so that the memo doesn't carry over between parts
+⟜(E insert"part"2insert"b"°⋕)⊸E
+```

@@ -1,0 +1,8 @@
+```
+# export UIUA_RECURSION_LIMIT=10000
+
+# subarrays ? target array
+S ← |2 memo⍣(¤[]◌°0|[]◌°1<0|[]°[]◌|⊂⊃(S⊙◌|⍚⊂⊙S⤙˜-)⊙°⊂)
+P ← /↧≡◇/×S÷⊙⊸/+ # part ? target nums
+∩⌟P 3 4&rl⋕&fo"i/24.in"
+```

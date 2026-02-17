@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre class='code'>
+~ [❤️ 🔪 🛡️]       # Entity
+T ← ⌈÷↥1˜-⊓🔪⊃🛡️❤️ # NTurns ? Attacker Defender
+W ← ≥⊃˜T T        # Win ? Boss You
+
+Ns ← ⊜⍣⋕0⊸≠@          # parse each word as a number
+PS ← □↘₁⊜(↙₋₃Ns)⊸≠@\n # parse shop section
+
+°□₃⊜PS=₀⊸⦷"\n\n"&fras"i/21shop.in" # Weapons Armour Rings ?
+♭₂⊞(++)⊓(∘|⊂0|♭₂˙⊞+⊂0)             # Builds ? Weapons Armor Rings 
+⧋⊃⍜⊢⋅100⊢                          # PlayerEnts Costs ? Builds
+&rl(⊣Ns)&fo"i/21.in"               # BossEnt ?
+∩°□°⊟⇌⊕□≡⌞W                        # WinCosts LossCosts ? BossEnt PlayerEnts Costs
+⊓/↧/↥
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc15ua</a>/<a href='21'>21</a></pre>
+</div></body>
+</html>

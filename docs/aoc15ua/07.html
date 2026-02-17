@@ -19,15 +19,29 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
   </style>
 </head>
 <body><div>
-<pre>
-My Advent of Code Solutions
-===========================
+<pre class='code'>
+# export UIUA_RECURSION_LIMIT=10000
+# ulimit -s 20000
 
-<a href='aoc15ua'>Advent of Code 2015 in Uiua</a>
-<a href='aoc25pl'>Advent of Code 2025 in Prolog</a>
-<a href='aoc24k'>Advent of Code 2024 in K</a>
+# Val ? Var Map
+E′ ← |2 memo(
+  ◇⍣(
+    ⋯₁₆⊓⋕◌
+  | E′⊸get
+  | ¬E′°$"NOT _"
+  | ↧∩⌟E′°$"_ AND _"
+  | ↥∩⌟E′°$"_ OR _"
+  | ⬚0↻¯⊓⋕E′°˜$"_ LSHIFT _"
+  | ⬚0↻⊓⋕E′°˜$"_ RSHIFT _"
+  )
+)
+E ← (°⋯E′"a")
+
+˜map&rl(∩□°$"_ -&gt; _")&fo"i/07.in"
+insert "part" 1 # so that the memo doesn't carry over between parts
+⟜(E insert"part"2insert"b"°⋕)⊸E
 </pre>
 <br>
-<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='aoc'>aoc</a></pre>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc15ua</a>/<a href='07'>07</a></pre>
 </div></body>
 </html>

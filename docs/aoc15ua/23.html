@@ -19,15 +19,22 @@ pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
   </style>
 </head>
 <body><div>
-<pre>
-My Advent of Code Solutions
-===========================
-
-<a href='aoc15ua'>Advent of Code 2015 in Uiua</a>
-<a href='aoc25pl'>Advent of Code 2025 in Prolog</a>
-<a href='aoc24k'>Advent of Code 2024 in K</a>
+<pre class='code'>
+I ← &rl□&fo"i/23.in"
+E ← (
+  ˜⊏I⊸get@c
+  ◇⍣(
+    ⍜⊙get⨬(÷₂|×₃|+₁)⨂"hti"°⊟₂⊜⊢⊸≠@ 
+  | ⍜⊙(get@c)+-₁⋕°$"jmp _"
+  | ⍜⊙(get@c)+×⊓(-₁⋕|=₁⊸get⊢)°˜$"jio _, _"
+  | ⍜⊙(get@c)+×⊓(-₁⋕|¬◿₂⊸get⊢)°˜$"jie _, _"
+  )
+  ⍜(get@c)+₁
+)
+P ← get@b⍢(E|&lt;⧻I get@c)
+∩P⟜(insert@a1)map"abc" 0_0_0
 </pre>
 <br>
-<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='aoc'>aoc</a></pre>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>aoc15ua</a>/<a href='23'>23</a></pre>
 </div></body>
 </html>

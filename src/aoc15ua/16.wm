@@ -1,0 +1,10 @@
+```
+A  ← {"children" "cats" "samoyeds" "pomeranians" "akitas" "vizslas" "goldfish" "trees" "cars" "perfumes"}
+D₁ ← ↯⧻A W
+D₂ ← ⍜⊏◌1_3_6_7 D₁ ∞_¯∞_¯∞_∞
+P! ← ⍜⊏◌⊙^°⊟⍉⊟₃∩₃(⊂⊓(⊢⊚⌕⊙A□)⋕)◌°$"_: _: _, _: _, _: _"
+P₁ ← ≡⌟≍
+P₂ ← ≡⌟(/↧≡⨬(=|<|=|>|=|=|>|<|=|=)°⊏)
+&rl⊃P!D₁P!D₂&fo"i/16.in"≡⋕&rl⊣&fo"i/16tape.in" # P2Aunts P1Aunts Tape ?
+∩(+₁⊢⊚)P₁⊙⤙P₂
+```

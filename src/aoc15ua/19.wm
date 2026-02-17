@@ -1,0 +1,8 @@
+```
+Ss′ ← ⍚⌟₂⍜(↘⊙↙)◌⟜(+⊙⧻)⊚◡⌕                      # News ? Old String New
+Ss  ← Ss′⊙⊃(⋅∘|∘)                              # News ? Old New String
+≡(⊂∩□°$"_ => _")⊃↘₋₁(°□⊣)⊜□⊸≠@\n&fras"i/19.in" # Replacements Molecule ?
+P₁ ← ⧻◴/◇⊂⍚⌟(◇Ss°⊟)                            # P1 ? Replacements Molecule
+P₂ ← -₁-∩/+⊃(×₂∊"RY"|=1±)                      # P2 ? Molecule
+⊙P₂⊸P₁
+```

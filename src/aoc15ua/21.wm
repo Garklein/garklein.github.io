@@ -1,0 +1,15 @@
+```
+~ [❤️ 🔪 🛡️]       # Entity
+T ← ⌈÷↥1˜-⊓🔪⊃🛡️❤️ # NTurns ? Attacker Defender
+W ← ≥⊃˜T T        # Win ? Boss You
+
+Ns ← ⊜⍣⋕0⊸≠@          # parse each word as a number
+PS ← □↘₁⊜(↙₋₃Ns)⊸≠@\n # parse shop section
+
+°□₃⊜PS=₀⊸⦷"\n\n"&fras"i/21shop.in" # Weapons Armour Rings ?
+♭₂⊞(++)⊓(∘|⊂0|♭₂˙⊞+⊂0)             # Builds ? Weapons Armor Rings 
+⧋⊃⍜⊢⋅100⊢                          # PlayerEnts Costs ? Builds
+&rl(⊣Ns)&fo"i/21.in"               # BossEnt ?
+∩°□°⊟⇌⊕□≡⌞W                        # WinCosts LossCosts ? BossEnt PlayerEnts Costs
+⊓/↧/↥
+```

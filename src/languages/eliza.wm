@@ -22,6 +22,7 @@ No, only me.
 ```
 def respond(s) = puts ">> #{s}"
 
+IMPORTANT = /(father|mother|son|sister|brother|daughter)/i
 def eliza(s)
 	case s.delete('.?,')
 	when /bye/i
@@ -35,7 +36,7 @@ def eliza(s)
 		respond "Does anyone else in your family like #{$1}?"
 	when /I feel .+/i
 		respond "Do you often feel that way?"
-	when /(father|mother|son|sister|brother|daughter)/i
+	when IMPORTANT
 		respond "Please tell me more about #{$1}."
 	else
 		respond "Please go on."

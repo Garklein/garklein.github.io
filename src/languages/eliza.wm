@@ -1,0 +1,49 @@
+Extremely toy ELIZA in Ruby    (February 25th, 2026)
+===========================
+
+The Art of Prolog contains a very simplified toy Prolog implementation of ELIZA (section 14.3, p. 275). Here is a Ruby port. I found it interesting how you can nearly converse with something so simple.
+
+
+Example transcript:
+
+>> I am Eliza. How can I help you?
+I am unhappy.
+>> How long have you been unhappy?
+Six months. Can you help me?
+>> What makes you think I help you?
+You remind me of my father and brother.
+>> Please tell me more about father.
+I like teasing father.
+>> Does anyone else in your family like teasing father?
+No, only me.
+>> Please go on.
+
+
+```
+def respond(s) = puts ">> #{s}"
+
+def eliza(s)
+	case s.delete('.?,')
+	when /bye/i
+		respond "Goodbye. I hope I have helped you."
+		exit 0
+	when /I am (.+)/i
+		respond "How long have you been #{$1}?"
+	when /(.+) you (.+) me/i
+		respond "What makes you think I #{$2} you?"
+	when /I like (.+)/i
+		respond "Does anyone else in your family like #{$1}?"
+	when /I feel .+/i
+		respond "Do you often feel that way?"
+	when /(father|mother|son|sister|brother|daughter)/i
+		respond "Please tell me more about #{$1}."
+	else
+		respond "Please go on."
+	end
+end
+
+respond "I am Eliza. How can I help you?"
+while true do
+	eliza gets()
+end
+```

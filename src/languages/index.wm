@@ -1,6 +1,9 @@
 programming language fun
 ========================
 
+feb/26 [toy ELIZA in ruby](eliza)
+
+older (before 2025):
 [simplebf.c](bf)
 [how I see language families](families)
 [about adding new K primitives](strength)

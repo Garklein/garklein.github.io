@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+Extremely toy ELIZA in Ruby    (February 25th, 2026)
+===========================
+
+The Art of Prolog contains a very simplified toy Prolog implementation of ELIZA (section 14.3, p. 275). Here is a Ruby port. I found it interesting how you can nearly converse with something so simple.
+
+
+Example transcript:
+
+&gt;&gt; I am Eliza. How can I help you?
+I am unhappy.
+&gt;&gt; How long have you been unhappy?
+Six months. Can you help me?
+&gt;&gt; What makes you think I help you?
+You remind me of my father and brother.
+&gt;&gt; Please tell me more about father.
+I like teasing father.
+&gt;&gt; Does anyone else in your family like teasing father?
+No, only me.
+&gt;&gt; Please go on.
+
+
+</pre><pre class='code'>
+def respond(s) = puts "&gt;&gt; #{s}"
+
+def eliza(s)
+	case s.delete('.?,')
+	when /bye/i
+		respond "Goodbye. I hope I have helped you."
+		exit 0
+	when /I am (.+)/i
+		respond "How long have you been #{$1}?"
+	when /(.+) you (.+) me/i
+		respond "What makes you think I #{$2} you?"
+	when /I like (.+)/i
+		respond "Does anyone else in your family like #{$1}?"
+	when /I feel .+/i
+		respond "Do you often feel that way?"
+	when /(father|mother|son|sister|brother|daughter)/i
+		respond "Please tell me more about #{$1}."
+	else
+		respond "Please go on."
+	end
+end
+
+respond "I am Eliza. How can I help you?"
+while true do
+	eliza gets()
+end
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='./'>languages</a>/<a href='eliza'>eliza</a></pre>
+</div></body>
+</html>

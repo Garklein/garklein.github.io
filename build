@@ -2,7 +2,7 @@
 
 cd "$(dirname "$0")"
 
-rm -rf docs/*
+rm -rf public/*
 cd src
 
 echo '```' > delim
@@ -13,14 +13,14 @@ for f in $(find *)
 do
     case $f in
 	*.wm )
-	    mkdir -p ../docs/$(dirname $f)
-	    echo $f | cat - $f | snobol4 wm.sno > ../docs/${f%.wm}.html
+	    mkdir -p ../public/$(dirname $f)
+	    echo $f | cat - $f | snobol4 wm.sno > ../public/${f%.wm}.html
 	    ;;
 	*.html | *.jpg )
-	    cp $f ../docs/$f
+	    cp $f ../public/$f
 	    ;;
 	*.sno )
-	    cp $f ../docs/${f%.sno}.txt
+	    cp $f ../public/${f%.sno}.txt
 	    ;;
     esac
 done

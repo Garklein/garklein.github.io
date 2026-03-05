@@ -1,4 +1,9 @@
 ```
-+÷₂×⟜+₁⊸+∩-₁∩⋕◌°$"_ row _, column _."&fras"i/25.in"
-⍥(◿₃₃₅₅₄₃₉₃×₂₅₂₅₃₃)⊙20151125
+~ "git: https://github.com/Omnikar/uiua-math" ~ PowMod
+
+P ← +÷₂×⟜+₁⊸+∩-₁∩⋕◌°$"_ row _, column _."&fras"i/25.in" # pow
+B ← 252533                                              # base
+M ← 33554393                                            # mod
+
+◿M×₂₀₁₅₁₁₂₅ PowMod P B M
 ```

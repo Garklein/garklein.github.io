@@ -1,4 +1,4 @@
-Prolog black magic: N queens
+Prolog black magic: N queens    (June 1st, 2026)
 ============================
 
 As I was reading through Sterling and Shapiro's The Art of Prolog, I came across a curious exercise (p. 262, 14.1.v). A few lines of code were provided, with the question of explaining how it solves the N queens problem. In case you've never heard of the N queens problem, it consists of finding a way to place N queens on an NxN chessboard so that none of them attack each other. (Two queens are attacking each other if they are in the same line horizontally, vertically, or diagonally).

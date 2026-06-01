@@ -1,0 +1,147 @@
+Prolog black magic: N queens
+============================
+
+As I was reading through Sterling and Shapiro's The Art of Prolog, I came across a curious exercise (p. 262, 14.1.v). A few lines of code were provided, with the question of explaining how it solves the N queens problem. In case you've never heard of the N queens problem, it consists of finding a way to place N queens on an NxN chessboard so that none of them attack each other. (Two queens are attacking each other if they are in the same line horizontally, vertically, or diagonally).
+
+
+The solution for 1 queen is obvious:
+
++-+
+|Q|
++-+
+
+
+For two queens, let's place the first queen in the top left corner.
+
++-+-+
+|Q| |
++-+-+
+| | |
++-+-+
+
+Unfortunately, this queen is attacking every other square on the board. If we chose any other corner for the first queen, we would run into the same issue; this means that there is no solution for N=2.
+
+
+For 3 queens, observe that if a queen is taking up the middle square, it attacks every other position on the board:
+
++-+-+-+
+| | | |
++-+-+-+
+| |Q| |
++-+-+-+
+| | | |
++-+-+-+
+
+So in a solution for 3 queens, we are forbidden from placing one in the centre: all three of them must be in the eight outer squares. After a bit of fiddling around, you'll come to the conclusion that it's impossible. More concretely, for any outer square you place the first queen on, the remaining unattacked squares form a line. Once you place a second queen, you're stuck.
+
+
+So far, we're 1 for 3 on solutions... but there *is* a solution for N=4:
+
++-+-+-+-+
+| | |Q| |
++-+-+-+-+
+|Q| | | |
++-+-+-+-+
+| | | |Q|
++-+-+-+-+
+| |Q| | |
+---------
+
+In fact, there are two solutions! The second is obtained by mirroring the first. And from this point onwards, there will always be multiple solutions.
+
+
+Let's take a look at the Prolog code [slightly modified by me]:
+
+
+```
+:- use_module(library(clpz)).
+:- use_module(library(lists)).
+
+n_queens(N,Qs) :- length(Qs,N), queens(N,Qs,_,_).
+
+queens(0,_, _,  _).
+queens(N,Qs,Ups,[_|Downs]) :- N #> 0, N_ #= N-1, queens(N_,Qs,[_|Ups],Downs), queen(N_,Qs,Ups,Downs).
+
+queen(N,[N|_], [N|_],  [N|_]).
+queen(N,[_|Qs],[_|Ups],[_|Downs]) :- queen(N,Qs,Ups,Downs).
+
+?- n_queens(4,Qs).
+   Qs = [2,0,3,1]
+;  Qs = [1,3,0,2]
+;  false.
+```
+
+
+It gives us a list where each element represents a row, and the number represents the (0-indexed) column where the queen goes. The first solution given is the one above, the second is the mirrored one, and Prolog correctly tells us that there are no more solutions.
+
+With just a tad more we can get Prolog to display the solutions nicely. (Yes, this will absolutely break with >10 queens!).
+
+
+```
+:- use_module(library(format)).
+:- use_module(library(between)).
+place_line(N,Q,L)   :- N_ #= N-1, numlist(0,N_,L_), number_chars(Q,[QC|_]), maplist(Q+\I^C^if_(I=Q,C=QC,C=(-)),L_,L).
+pretty_queens(N,Qs) :- n_queens(N,Qs), maplist(place_line(N),Qs,Ls), nl, maplist(portray_clause,Ls), nl.
+
+?- pretty_queens(4,Qs).
+
+"--2-".
+"0---".
+"---3".
+"-1--".
+
+   Qs = [2,0,3,1]
+;  
+"-1--".
+"---3".
+"0---".
+"--2-".
+
+Qs = [1,3,0,2]
+;  false.
+```
+
+
+
+How does this bit of code possibly solve the problem? Let's forget about diagonals now, for simplicity. So we want to place N queens in an NxN grid in a way that no two queens are in the same row or column. In other words, we want a permutation of the numbers from 0 to N-1. For example, with N=4, we have the numbers {0,1,2,3}. One permutation is [0,1,2,3], another is [3,2,1,0], and yet another is [2,0,3,1]. Since they're permutations, it's guaranteed that no two queens are in the same row (since each array element represents a row, and we can only have one queen in each array element), and no two queens are in the same column (since the columns are the numbers 0-3 and each one only shows up once).
+
+If we number the rows, it looks like this.
++-+-+-+-+
+|0|0|0|0|
++-+-+-+-+
+|1|1|1|1|
++-+-+-+-+
+|2|2|2|2|
++-+-+-+-+
+|3|3|3|3|
++-+-+-+-+
+
+Now, let's add diagonals back in. There are two diagonal directions: southwest-northeast, and northwest-southeast. There are 7 possible diagonals in either diagonal direction, and no two queens can be on the same diagonal in any of them. Let's number the diagonals.
+
+SW-NE diagonals:     NW-SE diagonals:
+   +-+-+-+-+            +-+-+-+-+
+   |0|1|2|3|            |3|4|5|6|
+   +-+-+-+-+            +-+-+-+-+
+   |1|2|3|4|            |2|3|4|5|
+   +-+-+-+-+            +-+-+-+-+
+   |2|3|4|5|            |1|2|3|4|
+   +-+-+-+-+            +-+-+-+-+
+   |3|4|5|6|            |0|1|2|3|
+   ---------            ---------
+
+A starting point, a first idea is to have three arrays. One array is the one that will be returned: it has 4 elements, one for each row. The other two arrays each have 7 elements and represent both diagaonals. The objective is to place all 4 queens so that they have distinct elements in all three arrays. For example, for the solutions [2,0,3,1], we would have in the three arrays:
+
+rows array:  [2,0,3,1]
+SW-NE array: [_,0,2,_,1,3,_]
+NW-SE array: [_,1,0,3,_,2,_]
+
+which we get from comparing the prettified board for [2,0,3,1] to the number labels for rows and diagonals.
+
+The only thing left is to figure out an elegant way to implement this, one that isn't a complete pain. Whenever the row board index increases (when you go downwards), the SW-NE diagonal also increases; while the NW-SE diagonal decreases. On both diagonal boards, moving right always increases the index. We will have our Prolog code systematically try all possibilities until it finds a valid one. Whenever we move down a row, we increase the index in the SW-NE diagonal array and decrease the index in the NW-SE diagonal array; and whenever we move to the right within a row, we increase the indices in both diagonal arrays.
+
+Now, if you read the Prolog code above, it does exactly that, in a very cool way! Qs is the row array, Ups is the SW-NE array, and Downs is the NW-SE array. The Queen predicate chooses the row (whenever the row increases, the Ups array grows while the Downs array shrinks), while the Queens predicate chooses within (whenever the column increases, both the Ups and Downs move in the same direction).
+
+
+It is valuable to compare this to a [pure CLP(Z) N queens solution](https://www.scryer.pl/clpz#clpz-n-queens). While the one here is shorter, it is much more confusing; it is immediately clear that the CLP(Z) version solves N queens, while it isn't obvious that this one does.
+
+The textbook from which I took this problem notes that at the time of publication (1994), it was the fastest N queens solution known (and that it was written by Thomas Fruewirth).

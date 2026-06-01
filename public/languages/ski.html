@@ -26,7 +26,7 @@ first, in js:
 
 </pre><pre class='code'>
 R=s=&gt;eval(`[${[...s].map(x=&gt;x=="("?"[":x==")"?"]":`"${x}"`)}]`)
-A=([t,x,y],n)=&gt;t=="I"?n:t=="K"&&x?x:t=="S"&&y?A(A(x,n),A(y,n)):[t,x,y,n].filter(x=&gt;x)
+A=([t,x,y,...z],n)=&gt;t=="I"?n:t=="K"&&x?x:t=="S"&&y?A(A(x,n),A(y,n)):t=="B"&&y?A(x,A(y,n)):[t,x,y,...z,n].filter(x=&gt;x)
 E=t=&gt;t.map?t.map(E).reduce(A):[t]
 P=t=&gt;t.map(x=&gt;x[1]?`(${P(x)})`:x[0]).join``
 //while(s=require("readline-sync").question("&gt; "))console.log(P(E(R(s))))

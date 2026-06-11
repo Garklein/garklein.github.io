@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; width:fit-content; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+Installing OpenBSD 7.9 without ethernet    (June 11th, 2026)
+=======================================
+
+Because of licensing reasons, some wireless internet firmware doesn't ship with OpenBSD[0]. The usual way it's installed is over ethernet. However, if your computer doesn't have an ethernet port (such as my laptop), you need to install it from a USB stick.
+
+When I was preparing to install OpenBSD, I found vague guides on doing this, but no clear instructions. It turns out that the guides basically covered everything, but I was scared I would get stuck and leave my machine permanently without wifi. So, this guide doesn't say much, but mostly provides the reassurances I wish I had.
+
+First, you need to figure out the required firmware. To be honest, I don't really remember how I did this; but I'm sure you can figure out how to do it by googling. Mine was iwm. Download the required firmware from http://firmware.openbsd.org/firmware/ and put it on a USB.
+
+As for the OpenBSD image, make sure you have one with all the filesets. These will be needed to install the firmware.
+
+Before you go ahead and install (wiping your old OS, potentially your only source of salvation if anything goes wrong), it's good to make sure you can actually mount the USB. I originally installed my firmware to a misformatted USB that OpenBSD was unable to mount, so I'm very glad I checked.
+
+Boot into the OpenBSD USB, and press s to go into a shell. The minimal kernel in the installer image doesn't create devices automatically, so it has to be done manually[1]. Figure out the name of the USB where you've copied the firmware by unplugging it and plugging it back in. You should get a message with its name, mine was sd2.
+
+</pre><pre class='code'>
+sysctl hw.disknames       # list devices
+cd /dev
+sh MAKEDEV sd2            # create device
+disklabel sd2             # see partitions
+mkdir /mnt/usb
+mount /dev/sd2i /mnt/usb  # the data partition is probably called i
+</pre><pre>
+
+Make sure you can see the firmware and that everything looks good in the USB (which is mounted to /mnt/usb).  You will not be able to install the firmware right now as you don't yet have the tools; they are provided by filesets you will install during the OpenBSD installation process.
+
+Now you're good to install. Follow the installation process all the way to the end, making sure you get all the filesets. You will probably get some messages about not being able to connect to the internet; don't worry, this is expected! If you don't know what to do, just follow the defaults: they're meant to be sensible.
+
+Once the install is finished, all that's left is to install the wifi driver! Mount the USB (the device will now be auto-detected!), and run
+
+</pre><pre class='code'>
+fw_update -v iwm.tgz
+</pre><pre>
+
+To connect to a network, create /etc/hostname.iwm0 (or whatever the name of your interface is):
+
+</pre><pre class='code'>
+join 'your-wifi-ssid' wpakey 'your-wifi-password'
+inet autoconf
+inet6 autoconf
+</pre><pre>
+
+To start networking,
+
+</pre><pre class='code'>
+doas sh /etc/netstart
+</pre><pre>
+
+For more info, see hostname.if(5) and netstart(8). 
+
+
+[0] https://www.openbsd.org/faq/faq4.html#WifiOnly
+[1] https://unix.stackexchange.com/questions/744819/openbsd-usb-install-how-to-mount-usb-and-find-file-sets
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='openbsd-without-ethernet'>openbsd-without-ethernet</a></pre>
+</div></body>
+</html>

@@ -1,4 +1,4 @@
 #!/bin/sh
 
 ./build
-doas -- sh -c 'rm -rf /var/www/httpd; cp -r public /var/www/httpd'
+doas -- sh -c 'rm -rf /var/www/htdocs; cp -r public /var/www/htdocs'

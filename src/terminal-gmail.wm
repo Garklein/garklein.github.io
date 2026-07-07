@@ -72,6 +72,8 @@ This tells smtpd that whenever it sees an outgoing email from your Gmail address
 
 Now, check your configuration, restart smtpd, and try and send an email!
 
+** NOTE this exposes your IP address in the headers of any emails you send out, since Gmail keeps track of where the email originated.
+
 ```
 smtpd -n
 rcctl restart smtpd

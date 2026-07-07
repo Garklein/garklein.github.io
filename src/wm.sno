@@ -75,9 +75,10 @@ cfr  file ":&lt;clrfrth&gt;" = cf :s(cfr)
      file = tag(file, "`t", "<textarea id='" , "'></textarea>")
      file = tag(file, "`d", "<div id='",       "'></div>")
 
-link file "[" break("[]") . name "](" break(")") . link ")" = "<a href='" link "'>" name "</a>"    :s(link)
-code file "```"     nl arb . c "```"     = "</pre><pre class='code'>" nl unlink(c) "</pre><pre>"   :s(code)
-scpt file "`sc&lt;" nl arb . c "&gt;`sc" = "<script>"                 nl unesc(c) "</script>"      :s(scpt)
+lnk1 file "[" break("[]") . link '](")'                     = "<a href='" link "'>" link "</a>"   :s(lnk1)
+lnk2 file "[" break("[]") . name "](" break(")") . link ")" = "<a href='" link "'>" name "</a>"   :s(lnk2)
+code file "```"     nl arb . c "```"     = "</pre><pre class='code'>" nl unlink(c) "</pre><pre>"  :s(code)
+scpt file "`sc&lt;" nl arb . c "&gt;`sc" = "<script>"                 nl unesc(c) "</script>"     :s(scpt)
 
      file = "<pre>" nl file
      file = file "</pre>"

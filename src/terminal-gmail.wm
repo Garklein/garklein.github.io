@@ -1,0 +1,114 @@
+Gmail in the terminal with OpenSMTPD, mail(1), and getmail6
+===========================================================
+
+(July 7th, 2026)
+
+If you use Gmail, you may have noticed that there is now a big honkin "Summarize this email" button at the top of every email. By poking around, you can turn this off (settings > uncheck "Smart features"), but the fact that it was just there one day was enough to push me into reading email in my terminal.
+
+Note that this whole post is paraphrasings of the links in my sources. If the instructions look suspiciously similar, it's because I just lifted them [I have no shame]! Original research, schmoriginal schmresearch or something.
+
+We'll need a few things to do this: some way to fetch mail from Gmail, some way to read and compose mail, and some way to give our outgoing mail to Gmail. I chose to use [getmail6](https://getmail6.org/documentation.html), OpenBSD's [mail(1)](https://man.openbsd.org/mail), and [OpenSMTPD](https://www.opensmtpd.org), respectively.
+
+
+Gmail setup
+-----------
+
+First of all, we'll need an app password to be able to interact with Gmail with an external program. You can get one at [https://myaccount.google.com/apppasswords]("), though note that you will first need to have 2-Step Verification enabled on your Google account.
+
+
+Retrieving mail
+---------------
+
+Install getmail6, then edit ~/.getmail/getmailrc (replacing EMAIL with your address, APP_PASSWORD with your app password, and USER with your username on your computer):
+
+```
+[retriever]
+type = SimpleIMAPSSLRetriever
+server = imap.gmail.com
+mailboxes = ("[Gmail]/All Mail",)
+username = EMAIL@gmail.com
+password = APP_PASSWORD
+
+[destination]
+type = Mboxrd
+path = /var/mail/USER
+
+[options]
+read_all = false
+delivered_to = false
+received = false
+delete = false
+message_log = /home/USER/.getmail/log
+```
+
+read_all means only fetch *new* emails; delivered_to, received, and delete don't mark emails as delivered/received/deleted on Gmails's servers (so if we delete emails locally, Gmail won't delete them too). We're using a mbox destination because that's the only format mail(1) accepts. You could use ~ in the message_log path, but I chose to use the full path because it helps later if you have multiple Gmail accounts (see below).
+
+Additionally, please please please do not expose your app password in plaintext like the example here. Instead, specify a [password command](https://getmail6.org/configuration.html#password_command).
+
+You should now be able to:
+
+```
+getmail  # fetch mail
+mail     # view mail
+```
+
+Sending mail
+------------
+
+In /etc/mail/secrets, insert the following line, which defines a secret called gmailinfo that contains your address and password.
+
+```
+gmailinfo EMAIL@gmail.com:APP_PASSWORD
+```
+
+Then, add these lines to your smtpd.conf:
+
+```
+action "relay_gmail" relay host smtp+tls://gmailinfo@smtp.gmail.com:587 auth <secrets>
+match from mail-from "EMAIL@gmail.com" for any action "relay_gmail"
+```
+
+This tells smtpd that whenever it sees an outgoing email from your Gmail address, it should relay it to Gmail.
+
+Now, check your configuration, restart smtpd, and try and send an email!
+
+```
+smtpd -n
+rcctl restart smtpd
+mail someone@example.com
+```
+
+Multiple Gmail addresses
+------------------------
+
+If you're anything like me, you need to keep track of your vast network of pseudonyms -- err, might have a work Gmail in addition to your personal address. These tools I'm using are very unix-y, so the cleanest solution I've found is to make separate users on your computer for each account.
+
+Fortunately, getmail6 provides a script called getmails that fetches mail for multiple accounts. The only caveat is that the config files for each account must be in your ~/.config/getmail/ folder. What I did is add myself to a new group (which I called mail), made this the group owner of my various getmailrc files, gave the files the necessary permissions, and symlinked everything into ~/.config/getmail/.
+
+For example, suppose you want to add the Gmail account workaddress@gmail.com. Make a new user called workaddress, then do all the above mail retrieving setup as the workaddress user. Inside /home/workaddress/.getmail/, set the group owner of the getmailrc, log, and the oldmail files to the mail group (I'm assuming you've already fetched mail at least once, which would generate the log and oldmail files). You will also need to chmod appropriately: I like to give g+rw to log and oldmail, g+r to getmailrc, and to clear all permissions from others.
+
+Now, symlink workaddress's getmailrc and oldmail files (but not the log) into your ~/.config/getmail/. It's recommended to change the name of the getmailrc file to be the name of the email address, so you would symlink /home/workaddress/.getmail/getmailrc to ~/.config/getmail/workaddress@gmail.com. The oldmail file should keep its name. Also make the mail group the group owner of /var/mail/workaddress, and give it g+rw permissions. Repeat this group assigning, chowning, and symlinking for your personal account's files in ~/.getmail/, then
+
+```
+getmails                  # fetch mail for both accounts
+mail                      # read and write personal mail
+doas -u workaddress mail  # read and write work mail
+```
+
+I like to add
+
+```
+permit nopass USER as workaddress cmd mail
+```
+
+to my doas.conf to allow me to read mail for my other Gmail accounts without entering a password.
+
+
+Sources
+-------
+
+[https://www.bowaggoner.com/bomail/getmail.html](")
+[https://tales.mbivert.com/on-openbsd-sendmail-and-gmail/](")
+[https://getmail6.org/documentation.html](")
+[getmails(1)](https://www.bowaggoner.com/bomail/getmail.html)
+[smtpd.conf(5)](https://man.openbsd.org/smtpd.conf)

@@ -1,0 +1,52 @@
+ed(1): escaping brackets
+========================
+
+(July 30th, 2026)
+
+I recently saw [this video](https://www.youtube.com/watch?v=MDjAA9S07FI), which discusses various ways of escaping parentheses in vim, in cases when we want to choose which ones to escape. But what about in ed(1)?
+
+We can use a global interactive command (G) to do this. This finds each line matching a pattern, and pauses on it for us to enter a command. Just like in the video, we will use the pattern
+
+```
+/[]()[]/
+```
+
+to match every instance of ], (, ), or [. Also like the video, we will use the replacement \\&, which first inserts a literal escape character, then whatever was matched.
+
+Now for the ed(1) specific part. If we type an s on its own, it means to repeat the last substitution. However we can change the flags! For example, if we do sg, it will escape all brackets; and we can do something like
+
+```
+s1\
+s3
+```
+
+to replace just the first and third brackets. In a global interactive command, we can also just hit enter instead of a command to leave the line the same. Here's a complete example of bracket escaping:
+
+```
+*,p
+All of these should be escaped: ()[]
+But I only want to escape these two: []   (so not the ones surrounding this text)
+And NONE of these shall be escaped: ()[]
+Here's some text with no brackets for demonstration purposes.
+Lastly, I want to escape (for obscure reasons) just this single closing square bracket: ]
+Have a good day! :)
+*G/[]()[]
+All of these should be escaped: ()[]
+s//\\&/g
+But I only want to escape these two: []   (so not the ones surrounding this text)
+s1\
+s2
+And NONE of these shall be escaped: ()[]
+
+Lastly, I want to escape (for obscure reasons) just this single closing square bracket: ]
+s3
+Have a good day! :)
+
+*,p
+All of these should be escaped: \(\)\[\]
+But I only want to escape these two: \[\]   (so not the ones surrounding this text)
+And NONE of these shall be escaped: ()[]
+Here's some text with no brackets for demonstration purposes.
+Lastly, I want to escape (for obscure reasons) just this single closing square bracket: \]
+Have a good day! :)
+```

@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='UTF-8'>
+  <title>manzikert.ca</title>
+  <style>
+body     { display:flex; flex-direction:column; align-items:center;
+           font-size:1rem; margin:min(10vw,100px) auto; }
+pre      { max-width:min(80ch,80vw); margin:auto; white-space:pre-wrap; }
+.code    { max-width:80vw; width:fit-content; word-break:break-all; }
+.white   { color:#444444; }
+.red     { color:#ff0000; }
+.green   { color:#00aa00; }
+.hgreen  { color:#008800; }
+.blue    { color:#0000ff; }
+.yellow  { color:#ddaa00; }
+.magenta { color:#ff00ff; }
+.cyan    { color:#00cccc; }
+  </style>
+</head>
+<body><div>
+<pre>
+ed(1): escaping brackets
+========================
+
+(July 30th, 2026)
+
+I recently saw <a href='https://www.youtube.com/watch?v=MDjAA9S07FI'>this video</a>, which discusses various ways of escaping parentheses in vim, in cases when we want to choose which ones to escape. But what about in ed(1)?
+
+We can use a global interactive command (G) to do this. This finds each line matching a pattern, and pauses on it for us to enter a command. Just like in the video, we will use the pattern
+
+</pre><pre class='code'>
+/[]()[]/
+</pre><pre>
+
+to match every instance of ], (, ), or [. Also like the video, we will use the replacement \\&, which first inserts a literal escape character, then whatever was matched.
+
+Now for the ed(1) specific part. If we type an s on its own, it means to repeat the last substitution. However we can change the flags! For example, if we do sg, it will escape all brackets; and we can do something like
+
+</pre><pre class='code'>
+s1\
+s3
+</pre><pre>
+
+to replace just the first and third brackets. In a global interactive command, we can also just hit enter instead of a command to leave the line the same. Here's a complete example of bracket escaping:
+
+</pre><pre class='code'>
+*,p
+All of these should be escaped: ()[]
+But I only want to escape these two: []   (so not the ones surrounding this text)
+And NONE of these shall be escaped: ()[]
+Here's some text with no brackets for demonstration purposes.
+Lastly, I want to escape (for obscure reasons) just this single closing square bracket: ]
+Have a good day! :)
+*G/[]()[]
+All of these should be escaped: ()[]
+s//\\&/g
+But I only want to escape these two: []   (so not the ones surrounding this text)
+s1\
+s2
+And NONE of these shall be escaped: ()[]
+
+Lastly, I want to escape (for obscure reasons) just this single closing square bracket: ]
+s3
+Have a good day! :)
+
+*,p
+All of these should be escaped: \(\)\[\]
+But I only want to escape these two: \[\]   (so not the ones surrounding this text)
+And NONE of these shall be escaped: ()[]
+Here's some text with no brackets for demonstration purposes.
+Lastly, I want to escape (for obscure reasons) just this single closing square bracket: \]
+Have a good day! :)
+</pre>
+<br>
+<pre style='width:100%;text-align:center'><br><a href='/'>~</a>/<a href='ed-brackets'>ed-brackets</a></pre>
+</div></body>
+</html>

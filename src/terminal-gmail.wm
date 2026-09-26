@@ -1,7 +1,7 @@
 Gmail in the terminal with OpenSMTPD, mail(1), and getmail6
 ===========================================================
 
-(July 7th, 2026)
+(July 7th, 2026, updated September 25th, 2026)
 
 If you use Gmail, you may have noticed that there is now a big honkin "Summarize this email" button at the top of every email. By poking around, you can turn this off (settings > uncheck "Smart features"), but the fact that it was just there one day was enough to push me into reading email in my terminal.
 
@@ -85,25 +85,37 @@ Multiple Gmail addresses
 
 If you're anything like me, you need to keep track of your vast network of pseudonyms -- err, might have a work Gmail in addition to your personal address. These tools I'm using are very unix-y, so the cleanest solution I've found is to make separate users on your computer for each account.
 
-Fortunately, getmail6 provides a script called getmails that fetches mail for multiple accounts. The only caveat is that the config files for each account must be in your ~/.config/getmail/ folder. What I did is add myself to a new group (which I called mail), made this the group owner of my various getmailrc files, gave the files the necessary permissions, and symlinked everything into ~/.config/getmail/.
+getmail6 provides a script called getmails that fetches mail for multiple accounts, but I found that this didn't meet my needs. For example, it keeps track of previously retrieved mail differently if you get mail as a single user vs use the getmails script.
 
-For example, suppose you want to add the Gmail account workaddress@gmail.com. Make a new user called workaddress, then do all the above mail retrieving setup as the workaddress user. Inside /home/workaddress/.getmail/, set the group owner of the getmailrc, log, and the oldmail files to the mail group (I'm assuming you've already fetched mail at least once, which would generate the log and oldmail files). You will also need to chmod appropriately: I like to give g+rw to log and oldmail, g+r to getmailrc, and to clear all permissions from others.
-
-Now, symlink workaddress's getmailrc and oldmail files (but not the log) into your ~/.config/getmail/. It's recommended to change the name of the getmailrc file to be the name of the email address, so you would symlink /home/workaddress/.getmail/getmailrc to ~/.config/getmail/workaddress@gmail.com. The oldmail file should keep its name. Also make the mail group the group owner of /var/mail/workaddress, and give it g+rw permissions. Repeat this group assigning, chowning, and symlinking for your personal account's files in ~/.getmail/, then
+My best solution is just to make a new user for each email address, set them up all up the same as above, and then make a script to fetch all the mails:
 
 ```
-getmails                  # fetch mail for both accounts
-mail                      # read and write personal mail
-doas -u workaddress mail  # read and write work mail
+bog$ cat ~/bin/mails
+#!/bin/sh
+
+getmail
+doas -u user1 getmail
+doas -u user2 getmail
+doas -u user3 getmail
+```
+
+It can be used like this:
+
+```
+getmail             # fetch mail for primary account
+mails               # fetch mail for all accounts
+mail                # read and write primary mail
+doas -u user1 mail  # read and write other account mail
 ```
 
 I like to add
 
 ```
-permit nopass USER as workaddress cmd mail
+permit nopass USER as user1 cmd mail
+permit nopass USER as user1 cmd getmail
 ```
 
-to my doas.conf to allow me to read mail for my other Gmail accounts without entering a password.
+to my doas.conf to allow me to fetch and read mail for my other Gmail accounts without entering a password.
 
 
 Sources

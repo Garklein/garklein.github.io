@@ -1,0 +1,88 @@
+Understanding the Master Theorem
+================================
+
+(September 23rd, 2026)
+
+When I first saw this in class last year, it confused me a lot because of the arbitrary cases. But I hope to convey an intuitive explanation.
+
+The Master Theorem is a trick to quickly calculate the time complexity for recursive functions. The (simplified) version we learn goes like this:
+
+Suppose T(n), the time complexity  of an algorithm, is of the form T(n) = aT(n/b) + O(n^d). Then T(n) =
+  n^log(a)       if n^log(a) > n^d
+  n^d            if n^log(a) < n^d
+  n^d * log(n)   if n^log(a) = n^d
+
+But why is this the case?
+
+First of all, notice that the cases are actually not as scary as they first appear. They are just the bigger of  n^log(a)  and  n^d  if the two numbers are distinct, and n^d * log(n) if the answers given by the other two cases are the same.
+
+Let's consider the simpler relation T(n) = aT(n/b), and find the base case when n = 1. So we want to see how many times we can divide n by b until we reach 1. This is just log_b(n). Now each of those log_b(n) times we multiply by "a", giving us a time complexity of O(a^log_b(n)). The reader can verify that a^log_b(n) = n^log_b(a).
+
+Putting this all together with T(n) = aT(n/b) + O(n^d), the recursive part ("aT(n/b)") has time complexity O(n^log(a)), and the O(n^d) part has time complexity, well, O(n^d). So we compare these two numbers to figure out the time complexity, take the bigger one, and we're done!
+
+
+... hold your horses. The theorem gives another case when they're equal. Why is this?
+
+You may have noticed that what I said above isn't *entirely* accurate. The O(n^d) part isn't just called a constant number of times, it's actually called once per iteration of the algorithm, for a total of log_b(n) times. Also, each time the algorithm is recursed into, the argument gets smaller, and we multiply by "a" on the outside. So it really goes:
+
+O(n^d)  +  a * O((n/b)^d)  +  a^2 * O((n/b^2)^d)  +  ...
+
+where the first corresponds with T(n), the second with a * T(n/b), the third with a^2 * T(n/b^2), etc. So this sum is
+
+log_b(n) - 1
+    \--       i   d   -id
+     >       a * n * b
+    /--
+   i = 0
+
+       log_b(n) - 1      i
+    d      \--      ( a )
+ = n   *    >       (---)
+           /--      (b^d)
+          i = 0
+
+Recalling the formula
+
+   k            (k+1)
+  \--   i      x      - 1
+   >   x   =   -----------
+  /--             x - 1
+ i = 0
+
+we get that the sum is equal to
+
+             log_b(n)
+ d     (a/b^d)        - 1
+n  *   ------------------
+            a/b^d - 1
+
+since the denominator doesn't rely on n and we ignore constant factors when analyzing time complexity, we can completely disregard it.
+
+     (  log_b(n)      )
+ d   ( a              )
+n  * ( ---------- - 1 )
+     (  dlog_b(n)     )
+     ( b              )
+
+          log_b(n)     d
+    d    a          - n
+=  n  *  --------------
+                d
+               n
+
+   log_b(n)    d
+= a         - n
+
+So we find that the O(n^d) part actually leads to a total time complexity of max { a^log_b(n), n^d }. Which, since we already have the aT(n/d) part giving a time complexity of a^log_b(n), is the same as our naive assumption.
+
+BUT WAIT!! The summation formula we used only works for x != 1. Otherwise, we'd be dividing by zero.
+In the case that x = 1, we get that the sum is simply equal to k (in this case, log_b(n)). So if the whole sum is equal to log_b(n), then we get that the time complexity is n^d * log_b(n) when a/b^d = 1; in other words, when a = b^d, or when log_b(a) = d. Thus giving us the final piece of the formula.
+
+So here's how I like to think about it:
+
+T(n) = aT(n/b) + O(n^d)
+
+the time complexity is:
+
+  max { a^log(n), n^d }    if those two values are distinct (recall a^log_b(n) = n^log_b(a))
+  n^d * log(n)             if the previous values were the same
